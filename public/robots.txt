@@ -1,0 +1,29 @@
+# Robots.txt for Agentic SaaS Talks
+# https://agentic-saas-talks.com
+
+# Allow all search engines to crawl
+User-agent: *
+Allow: /
+
+# Specific rules for major search engines
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 0
+
+User-agent: Slurp
+Allow: /
+Crawl-delay: 0
+
+# Disallow common non-content paths (if they exist in the future)
+User-agent: *
+Disallow: /api/
+Disallow: /_next/static/
+Disallow: /admin/
+Disallow: /private/
+
+# Sitemap location
+Sitemap: https://agentic-saas-talks.com/sitemap.xml

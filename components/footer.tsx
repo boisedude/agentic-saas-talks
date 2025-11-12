@@ -1,0 +1,94 @@
+import { Video, ExternalLink } from "lucide-react"
+import Link from "next/link"
+import { memo } from "react"
+
+export const Footer = memo(() => {
+  const currentYear = new Date().getFullYear()
+
+  return (
+    <footer className="border-t border-border/40 bg-background/95" role="contentinfo">
+      <div className="container mx-auto px-4 py-12">
+        <div className="grid gap-8 md:grid-cols-3">
+          <div>
+            <div className="mb-4 text-lg font-semibold">Agentic SaaS Talks</div>
+            <p className="text-sm text-muted-foreground">
+              Exploring the future of AI applications, agentic architectures, and the evolution of
+              SaaS platforms.
+            </p>
+          </div>
+
+          <div>
+            <h3 className="mb-4 text-lg font-semibold">Quick Links</h3>
+            <ul className="space-y-2 text-sm">
+              <li>
+                <Link
+                  href="/"
+                  className="text-muted-foreground transition-colors hover:text-foreground"
+                >
+                  Home
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/episodes"
+                  className="text-muted-foreground transition-colors hover:text-foreground"
+                >
+                  All Episodes
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/hosts"
+                  className="text-muted-foreground transition-colors hover:text-foreground"
+                >
+                  About the Hosts
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="mb-4 text-lg font-semibold">Follow Us</h3>
+            <ul className="space-y-2 text-sm">
+              <li>
+                <a
+                  href="https://www.youtube.com/@omnistrate"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 text-muted-foreground transition-colors hover:text-foreground"
+                >
+                  <Video className="h-4 w-4" />
+                  YouTube Channel
+                  <ExternalLink className="h-3 w-3" />
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div className="mt-8 border-t border-border/40 pt-8">
+          <div className="text-center">
+            <div className="mb-3 text-sm font-semibold text-muted-foreground">Sponsored By</div>
+            <a
+              href="https://www.omnistrate.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-lg font-bold text-foreground transition-colors hover:text-blue-500"
+            >
+              Omnistrate
+              <ExternalLink className="h-4 w-4" />
+            </a>
+            <p className="mt-2 text-sm text-muted-foreground">
+              Build, Deploy and Scale your Agentic Applications with Omnistrate
+            </p>
+          </div>
+        </div>
+
+        <div className="mt-8 border-t border-border/40 pt-8 text-center text-sm text-muted-foreground">
+          <p>&copy; {currentYear} Agentic SaaS Talks. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+  )
+})
+Footer.displayName = "Footer"
