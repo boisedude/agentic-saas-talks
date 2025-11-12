@@ -13,6 +13,14 @@ export const metadata: Metadata = {
     template: "%s | Agentic SaaS Talks",
   },
   description: "Join our webcast series exploring the future of AI applications, agentic architectures, and the evolution of SaaS platforms. Deep dives into AI, SaaS, and intelligent systems with industry experts from AWS, Omnistrate, and leading AI companies.",
+  icons: {
+    icon: [
+      { url: '/logo.jpg', sizes: '160x160', type: 'image/jpeg' },
+    ],
+    apple: [
+      { url: '/logo.jpg', sizes: '160x160', type: 'image/jpeg' },
+    ],
+  },
   keywords: [
     "Agentic SaaS",
     "AI Applications",
