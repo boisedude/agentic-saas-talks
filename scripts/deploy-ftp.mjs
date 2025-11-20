@@ -10,7 +10,9 @@ async function deploy() {
       host: '191.101.13.61',
       user: 'u951885034',
       password: '..C00per..',
-      secure: false
+      secure: false,
+      secureOptions: null,
+      passvTimeout: 10000
     });
 
     console.log('Connected to Hostinger FTP');

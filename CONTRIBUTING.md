@@ -28,9 +28,9 @@ Thank you for your interest in contributing to the Agentic SaaS Talks website! T
 
 ### Initial Setup
 
-1. **Clone the repository** (if applicable):
+1. **Clone the repository**:
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/boisedude/agentic-saas-talks.git
    cd agentic-saas-talks
    ```
 
@@ -320,16 +320,25 @@ Before deploying to production:
    # Visit http://localhost:3000
    ```
 
-3. **Deploy to Hostinger**:
+3. **Deploy to Hostinger** (using lftp):
    ```bash
-   ./deploy.sh
+   # Install lftp if needed: sudo apt-get install lftp
+   lftp 191.101.13.61 -e "set ssl:verify-certificate no; set ftp:ssl-allow no; user u951885034 'YOUR_FTP_PASSWORD'; cd /domains/agentic-saas-talks.com/public_html; mirror --reverse --delete --verbose /path/to/agentic-saas-talks/out/ ./; quit"
    ```
+
+   **Or using FileZilla:**
+   - Host: `191.101.13.61`
+   - Username: `u951885034`
+   - Password: (get from project owner)
+   - Remote path: `/domains/agentic-saas-talks.com/public_html/`
+   - Upload all files from `/out` directory
 
 4. **Verify deployment**:
    - Visit https://agentic-saas-talks.com
    - Check all pages load correctly
-   - Test navigation
+   - Test navigation and timestamp links
    - Verify new content appears
+   - Test on mobile
 
 See [DEPLOYMENT.md](DEPLOYMENT.md) for detailed deployment instructions.
 
@@ -383,5 +392,7 @@ Thank you for contributing to Agentic SaaS Talks!
 
 ---
 
-**Last Updated:** November 12, 2025
-**Maintained By:** Omnistrate Team
+**Last Updated:** November 20, 2025
+**Maintained By:** Michael Cooper
+**Repository:** https://github.com/boisedude/agentic-saas-talks
+**Live Site:** https://agentic-saas-talks.com

@@ -121,20 +121,31 @@ export default function HomePage() {
               Exploring the future of AI applications, agentic architectures, and the evolution of SaaS platforms
             </p>
             <div className="flex flex-wrap items-center justify-center gap-4 text-muted-foreground">
-              <div className="flex items-center gap-2">
+              <a
+                href="https://youtube.com/playlist?list=PLT2Zisspnj0fsEqkag0AtmPnw3mRfF3j_"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 hover:text-primary transition-colors"
+              >
                 <Video className="h-5 w-5" />
-                <span>YouTube & LinkedIn</span>
-              </div>
+                <span>YouTube Playlist</span>
+              </a>
               <Separator orientation="vertical" className="h-6" />
-              <div className="flex items-center gap-2">
+              <a
+                href="/episodes"
+                className="flex items-center gap-2 hover:text-primary transition-colors"
+              >
                 <Calendar className="h-5 w-5" />
                 <span>Regular Episodes</span>
-              </div>
+              </a>
               <Separator orientation="vertical" className="h-6" />
-              <div className="flex items-center gap-2">
+              <a
+                href="/episodes"
+                className="flex items-center gap-2 hover:text-primary transition-colors"
+              >
                 <Users className="h-5 w-5" />
-                <span>17 Episodes</span>
-              </div>
+                <span>{episodes.length} Episodes</span>
+              </a>
             </div>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
               <Button size="lg" asChild>
