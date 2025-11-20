@@ -134,7 +134,7 @@ export default function HostsPage() {
                         <Button
                           size="icon"
                           variant="ghost"
-                          className="shrink-0"
+                          className="shrink-0 h-11 w-11 sm:h-10 sm:w-10"
                           asChild
                         >
                           <a

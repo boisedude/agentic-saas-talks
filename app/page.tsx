@@ -103,7 +103,7 @@ export default function HomePage() {
       <section className="relative overflow-hidden py-20">
         <div className="absolute inset-0 bg-gradient-to-b from-blue-500/10 via-slate-500/5 to-background" />
 
-        <div className="container relative mx-auto px-4">
+        <div className="container relative mx-auto px-3 sm:px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -159,7 +159,7 @@ export default function HomePage() {
 
       {/* Featured Episode Section */}
       <section className="py-20">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-3 sm:px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -234,7 +234,7 @@ export default function HomePage() {
                       </Badge>
                     ))}
                   </div>
-                  <CardTitle className="text-2xl leading-tight">
+                  <CardTitle className="text-xl sm:text-lg md:text-2xl leading-tight">
                     {latestEpisode.title}
                   </CardTitle>
                   <CardDescription className="mt-4 text-base">
@@ -280,7 +280,7 @@ export default function HomePage() {
       <section className="relative py-20">
         <div className="absolute inset-0 bg-gradient-to-b from-background via-slate-500/5 to-background" />
 
-        <div className="container relative mx-auto px-4">
+        <div className="container relative mx-auto px-3 sm:px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -351,7 +351,7 @@ export default function HomePage() {
 
       {/* About Section */}
       <section className="py-20">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-3 sm:px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -390,7 +390,7 @@ export default function HomePage() {
       <section className="relative py-20">
         <div className="absolute inset-0 bg-gradient-to-b from-background via-blue-500/5 to-background" />
 
-        <div className="container relative mx-auto px-4">
+        <div className="container relative mx-auto px-3 sm:px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}

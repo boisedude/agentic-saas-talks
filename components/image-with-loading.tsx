@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useCallback } from "react"
+import Image from "next/image"
 
 interface ImageWithLoadingProps {
   src: string
@@ -35,13 +36,14 @@ export function ImageWithLoading({
   }
 
   return (
-    <img
+    <Image
       src={src}
       alt={alt}
       className={className}
-      loading={loading}
+      fill
+      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 400px"
+      priority={loading === "eager"}
       onError={handleError}
-      decoding="async"
     />
   )
 }

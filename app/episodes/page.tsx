@@ -1,6 +1,7 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo, useState, useEffect, Suspense } from "react"
+import { useSearchParams, useRouter } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
 import { Video, Calendar, Clock, ExternalLink, PlayCircle, Users, Linkedin, ChevronDown, Filter } from "lucide-react"
 import { Card } from "@/components/ui/card"
@@ -84,10 +85,38 @@ const generateVideoSchema = (episode: Episode) => {
   }
 }
 
-export default function EpisodesPage() {
+function EpisodesPageContent() {
   const prefersReducedMotion = useReducedMotion()
-  const [selectedTag, setSelectedTag] = useState<string | null>(null)
-  const [isFilterExpanded, setIsFilterExpanded] = useState(false)
+  const searchParams = useSearchParams()
+  const router = useRouter()
+
+  // Initialize selected tag from URL params
+  const initialTag = searchParams.get('tag')
+  const [selectedTag, setSelectedTag] = useState<string | null>(initialTag)
+  const [isFilterExpanded, setIsFilterExpanded] = useState(!!initialTag)
+
+  // Update URL when tag changes
+  const handleTagChange = (tag: string | null) => {
+    setSelectedTag(tag)
+    const params = new URLSearchParams(searchParams.toString())
+    if (tag) {
+      params.set('tag', tag)
+    } else {
+      params.delete('tag')
+    }
+    router.push(`/episodes${params.toString() ? `?${params.toString()}` : ''}`, { scroll: false })
+  }
+
+  // Sync with URL changes (e.g., browser back/forward)
+  useEffect(() => {
+    const tagFromUrl = searchParams.get('tag')
+    if (tagFromUrl !== selectedTag) {
+      setSelectedTag(tagFromUrl)
+      if (tagFromUrl) {
+        setIsFilterExpanded(true)
+      }
+    }
+  }, [searchParams, selectedTag])
 
   // Extract all unique tags from episodes
   const allTags = useMemo(() => {
@@ -159,7 +188,7 @@ export default function EpisodesPage() {
       <section className="relative overflow-hidden py-20">
         <div className="absolute inset-0 bg-gradient-to-b from-blue-500/10 via-slate-500/5 to-background" />
 
-        <div className="container relative mx-auto px-4">
+        <div className="container relative mx-auto px-3 sm:px-4">
           <Breadcrumb
             items={[
               { label: "Home", href: "/" },
@@ -191,8 +220,8 @@ export default function EpisodesPage() {
       </section>
 
       {/* Episodes Section */}
-      <section className="py-20">
-        <div className="container mx-auto px-4">
+      <section className="py-12 sm:py-20">
+        <div className="container mx-auto px-3 sm:px-4">
           {/* Tag Filter */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -246,7 +275,7 @@ export default function EpisodesPage() {
                       <Button
                         variant={selectedTag === null ? "default" : "outline"}
                         size="sm"
-                        onClick={() => setSelectedTag(null)}
+                        onClick={() => handleTagChange(null)}
                       >
                         All Episodes ({episodes.length})
                       </Button>
@@ -255,7 +284,7 @@ export default function EpisodesPage() {
                           key={tag}
                           variant={selectedTag === tag ? "default" : "outline"}
                           size="sm"
-                          onClick={() => setSelectedTag(tag)}
+                          onClick={() => handleTagChange(tag)}
                         >
                           {tag} ({tagCounts[tag]})
                         </Button>
@@ -269,7 +298,7 @@ export default function EpisodesPage() {
                         <Button
                           variant="ghost"
                           size="sm"
-                          onClick={() => setSelectedTag(null)}
+                          onClick={() => handleTagChange(null)}
                           className="h-auto p-1 text-primary hover:text-primary/80"
                         >
                           Clear filter
@@ -295,7 +324,7 @@ export default function EpisodesPage() {
                 <Button
                   variant="ghost"
                   size="sm"
-                  onClick={() => setSelectedTag(null)}
+                  onClick={() => handleTagChange(null)}
                   className="h-auto p-1 text-primary hover:text-primary/80"
                 >
                   Clear filter
@@ -317,7 +346,7 @@ export default function EpisodesPage() {
               <p className="text-muted-foreground mb-4">
                 No episodes match the selected filter.
               </p>
-              <Button variant="outline" onClick={() => setSelectedTag(null)}>
+              <Button variant="outline" onClick={() => handleTagChange(null)}>
                 Clear filter
               </Button>
             </motion.div>
@@ -361,7 +390,7 @@ export default function EpisodesPage() {
                     </div>
 
                     {/* Episode Details - Right Column */}
-                    <div className="p-6 md:py-4 md:pr-6 md:pl-0 flex flex-col">
+                    <div className="p-4 sm:p-6 md:py-4 md:pr-6 md:pl-0 flex flex-col">
                       {/* Episode Title and Badges */}
                       <div className="mb-3">
                         <div className="mb-2 flex flex-wrap gap-2">
@@ -373,7 +402,7 @@ export default function EpisodesPage() {
                           )}
                           <Badge variant="secondary">{episode.duration}</Badge>
                         </div>
-                        <h3 className="text-xl font-bold leading-tight mb-3 md:text-2xl">
+                        <h3 className="text-xl sm:text-lg md:text-2xl font-bold leading-tight mb-3">
                           Episode {episode.id}: {episode.title}
                         </h3>
                       </div>
@@ -393,7 +422,7 @@ export default function EpisodesPage() {
                         </div>
                       </div>
 
-                      <p className="mb-4 text-muted-foreground leading-relaxed text-sm">
+                      <p className="mb-4 text-muted-foreground leading-relaxed text-sm sm:text-sm">
                         {episode.description}
                       </p>
 
@@ -420,7 +449,7 @@ export default function EpisodesPage() {
                                   <Button
                                     size="icon"
                                     variant="ghost"
-                                    className="shrink-0 h-8 w-8"
+                                    className="shrink-0 h-10 w-10 sm:h-8 sm:w-8"
                                     asChild
                                   >
                                     <a
@@ -429,7 +458,7 @@ export default function EpisodesPage() {
                                       rel="noopener noreferrer"
                                       aria-label={`View ${guest.name}'s LinkedIn profile`}
                                     >
-                                      <Linkedin className="h-4 w-4 text-blue-500" />
+                                      <Linkedin className="h-5 w-5 sm:h-4 sm:w-4 text-blue-500" />
                                     </a>
                                   </Button>
                                 </div>
@@ -453,7 +482,7 @@ export default function EpisodesPage() {
                                 href={getTimestampUrl(episode.videoUrl, timestamp.time)}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="group flex items-start gap-2 text-xs transition-all duration-200 hover:text-primary rounded-md p-1.5 -mx-1.5 hover:bg-slate-500/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500"
+                                className="group flex items-start gap-2 text-xs sm:text-sm transition-all duration-200 hover:text-primary rounded-md p-2 sm:p-1.5 -mx-2 sm:-mx-1.5 hover:bg-slate-500/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 min-h-[44px] sm:min-h-0"
                                 aria-label={`Jump to ${timestamp.time}: ${timestamp.title}`}
                               >
                                 <code className="shrink-0 rounded bg-slate-500/20 px-1.5 py-0.5 font-mono text-xs text-slate-400 group-hover:bg-slate-500/30 transition-colors">
@@ -529,5 +558,13 @@ export default function EpisodesPage() {
       </section>
       </div>
     </>
+  )
+}
+
+export default function EpisodesPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading episodes...</div>}>
+      <EpisodesPageContent />
+    </Suspense>
   )
 }
