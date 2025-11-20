@@ -2,10 +2,10 @@
 
 Complete deployment documentation for the Agentic SaaS Talks website.
 
-**Current Version:** 1.3.0
+**Current Version:** 1.4.0
 **Status:** Live in Production
 **URL:** https://agentic-saas-talks.com
-**Last Updated:** November 10, 2025
+**Last Updated:** November 20, 2025
 
 ---
 
@@ -63,7 +63,7 @@ lftp --version
 The deployment uses these pre-configured credentials:
 - **Host:** 191.101.13.61
 - **Username:** u951885034
-- **Password:** ..C00per..
+- **Password:** (contact project owner for password)
 - **Remote Directory:** /domains/agentic-saas-talks.com/public_html
 
 ---
@@ -189,11 +189,7 @@ You should see:
 **Using lftp (command line):**
 
 ```bash
-lftp -u u951885034,..C00per.. 191.101.13.61 <<EOF
-cd /domains/agentic-saas-talks.com/public_html
-mirror --reverse --delete --verbose /mnt/d/Projects/agentic-saas-talks/out/ ./
-quit
-EOF
+lftp 191.101.13.61 -e "set ssl:verify-certificate no; set ftp:ssl-allow no; user u951885034 'YOUR_FTP_PASSWORD'; cd /domains/agentic-saas-talks.com/public_html; mirror --reverse --delete --verbose /path/to/agentic-saas-talks/out/ ./; quit"
 ```
 
 **Using FileZilla (GUI):**
@@ -201,7 +197,7 @@ EOF
 1. Open FileZilla
 2. Host: `191.101.13.61`
 3. Username: `u951885034`
-4. Password: `..C00per..`
+4. Password: (contact project owner)
 5. Port: `21`
 6. Navigate to: `/domains/agentic-saas-talks.com/public_html/`
 7. Upload all files from `/out` directory
@@ -301,7 +297,7 @@ After deployment, verify all features are working:
 
 ### Episodes Page Checks
 - [ ] Visit https://agentic-saas-talks.com/episodes
-- [ ] All 17 episodes display
+- [ ] All 18 episodes display
 - [ ] YouTube thumbnails load (maxresdefault quality)
 - [ ] Episode titles and descriptions show
 - [ ] Dates formatted correctly
@@ -372,9 +368,7 @@ npm run build
 
 2. **Test FTP connection:**
    ```bash
-   lftp -u u951885034,..C00per.. 191.101.13.61
-   ls /domains/agentic-saas-talks.com/public_html/
-   quit
+   lftp 191.101.13.61 -e "set ssl:verify-certificate no; set ftp:ssl-allow no; user u951885034 'YOUR_PASSWORD'; ls /domains/agentic-saas-talks.com/public_html/; quit"
    ```
 
 3. **Check internet connection:**
@@ -509,7 +503,16 @@ npm run build
 
 ## Deployment History
 
-### v1.3.0 (November 10, 2025) - Current
+### v1.4.0 (November 20, 2025) - Current
+- Added Episode 18: Deploying Agentic Applications
+- Added timestamps to episodes 5-18
+- Added guest information for 10 episodes
+- Mobile UX improvements (touch targets, padding)
+- URL param persistence for tag filters
+- Converted to Next.js Image component
+- Enhanced Back to Top button
+
+### v1.3.0 (November 10, 2025)
 - Added /hosts page with 5 hosts
 - Guest support for episodes
 - Color scheme update: purple to slate/blue
@@ -584,20 +587,19 @@ curl -v https://agentic-saas-talks.com
 ### Check FTP Access
 
 ```bash
-lftp -u u951885034,..C00per.. 191.101.13.61 -e "ls /domains/agentic-saas-talks.com/public_html/; quit"
+lftp 191.101.13.61 -e "set ssl:verify-certificate no; set ftp:ssl-allow no; user u951885034 'YOUR_PASSWORD'; ls /domains/agentic-saas-talks.com/public_html/; quit"
 ```
 
 ---
 
 ## Security Notes
 
-The FTP password is hardcoded in deployment scripts for convenience. For production environments with multiple developers:
+FTP credentials should be kept secure:
 
-1. Use environment variables
-2. Use .env file (add to .gitignore)
-3. Use SSH keys instead of password (if supported)
-
-For this single-developer project, hardcoded credentials are acceptable.
+1. Never commit passwords to the repository
+2. Store passwords in environment variables or password manager
+3. Contact project owner for FTP credentials
+4. Consider using SSH keys if supported by host
 
 ---
 
@@ -633,6 +635,6 @@ ping 191.101.13.61       # Test connection to server
 ---
 
 **Deployment Status:** Live in Production
-**Current Version:** 1.3.0
+**Current Version:** 1.4.0
 **Site URL:** https://agentic-saas-talks.com
-**Last Deployment:** November 10, 2025
+**Last Deployment:** November 20, 2025

@@ -2,6 +2,13 @@ import { Client } from 'basic-ftp';
 import path from 'path';
 
 async function deploy() {
+  const password = process.env.FTP_PASSWORD;
+  if (!password) {
+    console.error('Error: FTP_PASSWORD environment variable not set');
+    console.error('Usage: FTP_PASSWORD="your-password" node scripts/deploy-ftp.mjs');
+    process.exit(1);
+  }
+
   const client = new Client();
   client.ftp.verbose = true;
 
@@ -9,7 +16,7 @@ async function deploy() {
     await client.access({
       host: '191.101.13.61',
       user: 'u951885034',
-      password: '..C00per..',
+      password: password,
       secure: false,
       secureOptions: null,
       passvTimeout: 10000
