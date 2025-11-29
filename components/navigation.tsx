@@ -29,6 +29,7 @@ export const Navigation = memo(() => {
         <div className="hidden md:flex items-center gap-6" role="list">
           <NavLink href="/">Home</NavLink>
           <NavLink href="/episodes">Episodes</NavLink>
+          <NavLink href="/blog">Blog</NavLink>
           <NavLink href="/hosts">Hosts</NavLink>
           <div className="flex items-center gap-2" role="group" aria-label="Social media links">
             <Button size="sm" asChild>

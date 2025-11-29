@@ -1,0 +1,65 @@
+backend:
+  name: git-gateway
+  branch: main
+
+# Netlify Identity for user authentication
+# When you publish your site, you'll need to:
+# 1. Deploy to Netlify (or use Netlify Identity with your existing host)
+# 2. Enable Netlify Identity in your Netlify dashboard
+# 3. Enable Git Gateway in Netlify Identity settings
+
+# For local development, you can use the test-repo backend:
+# backend:
+#   name: test-repo
+
+# Media files will be stored in the public/uploads folder
+media_folder: "public/uploads"
+public_folder: "/uploads"
+
+# Optional: Use large media handling with Git LFS
+# media_library:
+#   name: uploadcare
+#   config:
+#     publicKey: demopublickey
+
+# Collections define the structure of your content
+collections:
+  # Blog posts collection
+  - name: "blog"
+    label: "Blog Posts"
+    folder: "content/blog"
+    create: true
+    slug: "{{slug}}"
+    editor:
+      preview: true
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Slug", name: "slug", widget: "string", hint: "URL-friendly version of the title (lowercase, use hyphens)" }
+      - {
+          label: "Author",
+          name: "author",
+          widget: "select",
+          options: ["Ermin Dzinic", "Bill Tarr", "Kamal Gupta", "Markus Kaiser", "Michael Cooper"]
+        }
+      - { label: "Publish Date", name: "date", widget: "datetime", format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false }
+      - { label: "Read Time", name: "readTime", widget: "string", default: "5 min", hint: "e.g., '5 min' or '10 min'" }
+      - {
+          label: "Tags",
+          name: "tags",
+          widget: "list",
+          hint: "Add 2-4 relevant tags"
+        }
+      - { label: "Excerpt", name: "excerpt", widget: "text", hint: "A brief 1-2 sentence summary" }
+      - { label: "Featured Image", name: "featuredImage", widget: "image", required: false }
+      - { label: "Body", name: "body", widget: "markdown" }
+
+# Site configuration
+site_url: https://agentic-saas-talks.com
+display_url: https://agentic-saas-talks.com
+logo_url: https://agentic-saas-talks.com/logo.jpg
+
+# Publish mode - editorial workflow enables draft/review/publish workflow
+# publish_mode: editorial_workflow
+
+# Custom branding
+# show_preview_links: true

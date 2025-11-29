@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
+import Script from "next/script";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -122,6 +123,11 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://www.linkedin.com" />
       </head>
       <body className={inter.className}>
+        {/* Netlify Identity Widget */}
+        <Script
+          src="https://identity.netlify.com/v1/netlify-identity-widget.js"
+          strategy="afterInteractive"
+        />
         {/* Skip navigation link for accessibility */}
         <a
           href="#main-content"

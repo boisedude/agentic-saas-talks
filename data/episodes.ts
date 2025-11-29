@@ -26,6 +26,22 @@ export interface Episode {
 // All episodes from the Agentic SaaS Talks playlist (newest first)
 export const episodes: Episode[] = [
   {
+    id: 19,
+    title: "Leaning into Agentic: How HoneySales Pivoted to an AI-Driven Future",
+    description: "Episode 19 examines what it means to pivot a SaaS company into an agentic architecture. HoneySales provides a real-world example: a startup that shifted from traditional sales workflows to an AI-driven, multi-agent system operating on AWS. This episode helps founders and engineering leaders understand the technical, organizational, and customer-facing implications of transitioning to Agentic SaaS.",
+    date: "2025-11-28",
+    videoUrl: "https://www.youtube.com/live/8rcMqtsPDaI",
+    duration: "58 min",
+    tags: ["Agentic SaaS", "AI Pivot", "Multi-Agent Systems"],
+    guests: [
+      {
+        name: "Denis Zatsepin",
+        linkedIn: "https://www.linkedin.com/in/denis-zatsepin/",
+        bio: "Founder and CEO of HoneySales, leading the company's pivot to an AI-driven, agentic sales platform.",
+      }
+    ],
+  },
+  {
     id: 18,
     title: "Deploying Agentic Applications: From Multi-Tenant to \"SaaS Anywhere\"",
     description: "In today's session, we're unpacking one of the most critical questions for modern AI companies: How do you actually deploy agentic applications? Join us as we break down how agentic systems will be deployed at scale, what changes SaaS companies must prepare for, and what the future of agent-driven architectures looks like.",
