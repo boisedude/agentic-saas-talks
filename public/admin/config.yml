@@ -1,6 +1,7 @@
 backend:
   name: git-gateway
   branch: main
+  site_domain: cheery-pony-8c2b29.netlify.app
 
 # Netlify Identity for user authentication
 # When you publish your site, you'll need to:
