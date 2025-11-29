@@ -14,6 +14,9 @@ RewriteRule ^episodes/?$ /episodes.html [L]
 # Redirect /hosts to hosts.html
 RewriteRule ^hosts/?$ /hosts.html [L]
 
+# Redirect /blog to blog.html
+RewriteRule ^blog/?$ /blog.html [L]
+
 # Fallback: try to serve .html version of any path
 RewriteCond %{REQUEST_FILENAME}.html -f
 RewriteRule ^(.+)/?$ /$1.html [L]
