@@ -30,7 +30,7 @@ export const episodes: Episode[] = [
     title: "Leaning into Agentic: How HoneySales Pivoted to an AI-Driven Future",
     description: "Episode 19 examines what it means to pivot a SaaS company into an agentic architecture. HoneySales provides a real-world example: a startup that shifted from traditional sales workflows to an AI-driven, multi-agent system operating on AWS. This episode helps founders and engineering leaders understand the technical, organizational, and customer-facing implications of transitioning to Agentic SaaS.",
     date: "2025-11-28",
-    videoUrl: "https://www.youtube.com/live/8rcMqtsPDaI",
+    videoUrl: "https://www.youtube.com/watch?v=8rcMqtsPDaI",
     duration: "58 min",
     tags: ["Agentic SaaS", "AI Pivot", "Multi-Agent Systems"],
     guests: [
