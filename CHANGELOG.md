@@ -7,6 +7,39 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.5.0] - 2025-01-12
+
+### Added - New Episodes
+- **Episode 20**: The Agentic SaaS Executive Summit - Live Event (Dec 2, 2025)
+  - 105 min live summit with two panel discussions
+  - Guests: Shriram Sridharan (Rox), Guy Korland (FalkorDB), Mihir Pandya (Scale AI), Peter Farkas & Peter Zaitsev (Percona)
+- **Episode 21**: From Open-Source to SaaS with Head of Engineering at Onehouse (Oct 10, 2025)
+  - Guest: Varun Madan (Onehouse)
+  - Covers Apache Hudi, data lakehouses, and building SaaS from open source
+- **Episode 22**: Taming AI Complexity with Head of Engineering at Anyscale (Oct 8, 2025)
+  - Guest: Jaikumar Ganesha (Anyscale)
+  - Covers Ray framework, AI infrastructure, and ML at scale
+- **Episode 23**: Revolutionizing AI SaaS: Control Plane Innovation with Anyscale (Aug 20, 2025)
+  - Covers control plane architecture and SaaS evolution
+
+### Fixed - SEO Improvements
+- **Unique page titles** for /episodes, /hosts, /blog (previously all shared same title)
+- **Unique meta descriptions** per page for better search snippets
+- **Canonical URLs** now correctly point to each page (were all pointing to `/`)
+- **Episode ordering** now sorted by date descending (was showing inconsistent order)
+- **Blog 403 error** fixed by reordering .htaccess rules
+
+### Technical
+- Added `layout.tsx` files for episodes, hosts, and blog routes with proper metadata
+- Episodes page now sorts by date instead of array order
+- Updated .htaccess to handle routes before directory check
+
+### Documentation
+- Updated CHANGELOG.md with v1.5.0 changes
+- Updated DEPLOYMENT-STATUS.md with latest deployment info
+
+---
+
 ## [1.3.1] - 2025-11-12
 
 ### Documentation - Major Cleanup and Consolidation
@@ -217,6 +250,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Version History Summary
 
+- **v1.5.0** (Jan 12, 2026) - Added 4 missing episodes, SEO fixes (unique titles, canonicals, sorting)
+- **v1.3.1** (Nov 12, 2025) - Documentation cleanup and consolidation
 - **v1.3.0** (Nov 10, 2025) - Hosts page, guest support, color scheme update, episode archive redesign
 - **v1.2.0** (Nov 7, 2025) - SEO optimization with 25+ schemas, sitemap, robots.txt
 - **v1.1.0** (Nov 7, 2025) - UX enhancements, mobile menu, loading states, accessibility
@@ -276,6 +311,6 @@ If you need to rollback to a previous version:
 
 ---
 
-**Last Updated**: November 10, 2025
-**Current Version**: 1.3.0
+**Last Updated**: January 12, 2026
+**Current Version**: 1.5.0
 **Status**: Live in Production

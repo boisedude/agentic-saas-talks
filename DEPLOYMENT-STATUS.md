@@ -1,16 +1,30 @@
-# Deployment Status - November 29, 2025
+# Deployment Status - January 12, 2026
 
 ## ✅ Completed Successfully
 
-### Episode Management
-- ✅ Episode 19 added: "Leaning into Agentic: How HoneySales Pivoted to an AI-Driven Future"
-  - Guest: Denis Zatsepin (HoneySales Founder & CEO)
-  - Date: November 28, 2025
-  - URL: https://www.youtube.com/live/8rcMqtsPDaI
-  - Location: `/data/episodes.ts`
+### Episode Management (January 12, 2026)
+- ✅ **Episode 20** added: "The Agentic SaaS Executive Summit - Live Event"
+  - Live summit with 5 guests from Rox, FalkorDB, Scale AI, Percona
+  - Date: December 2, 2025
+  - Duration: 105 min
+- ✅ **Episode 21** added: "From Open-Source to SaaS with Onehouse"
+  - Guest: Varun Madan (Head of Engineering)
+  - Date: October 10, 2025
+- ✅ **Episode 22** added: "Taming AI Complexity with Anyscale"
+  - Guest: Jaikumar Ganesha (Head of Engineering)
+  - Date: October 8, 2025
+- ✅ **Episode 23** added: "Revolutionizing AI SaaS with Anyscale"
+  - Date: August 20, 2025
+- ✅ Episode 19: "Leaning into Agentic: How HoneySales Pivoted"
+- ✅ Episode 18: "Deploying Agentic Applications"
+- **Total Episodes**: 23
 
-- ✅ Episode 18 included: "Deploying Agentic Applications"
-  - All episodes displaying correctly
+### SEO Fixes (January 12, 2026)
+- ✅ Unique page titles for /episodes, /hosts, /blog
+- ✅ Unique meta descriptions per page
+- ✅ Canonical URLs fixed (were all pointing to `/`)
+- ✅ Episode ordering fixed (now sorted by date descending)
+- ✅ Blog 403 error fixed (.htaccess rule ordering)
 
 ### Blog CMS System
 - ✅ Decap CMS fully implemented and tested
@@ -267,6 +281,7 @@ The 403 error on the main Hostinger site is likely a caching issue that will res
 
 ---
 
-**Last Updated**: November 29, 2025
-**Status**: ✅ Complete - Ready for Use
-**Next Action**: Wait for cache to clear, then verify main site
+**Last Updated**: January 12, 2026
+**Version**: 1.5.0
+**Status**: ✅ Complete - Live in Production
+**Total Episodes**: 23
