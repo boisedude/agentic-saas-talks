@@ -1,9 +1,7 @@
 RewriteEngine On
 
-# Serve existing files and directories as-is
-RewriteCond %{REQUEST_FILENAME} -f [OR]
-RewriteCond %{REQUEST_FILENAME} -d
-RewriteRule ^ - [L]
+# Handle specific routes FIRST (before directory check)
+# These routes have both .html files AND directories with the same name
 
 # Handle root path
 RewriteRule ^$ /index.html [L]
@@ -14,14 +12,17 @@ RewriteRule ^episodes/?$ /episodes.html [L]
 # Redirect /hosts to hosts.html
 RewriteRule ^hosts/?$ /hosts.html [L]
 
-# Redirect /blog to blog.html
+# Redirect /blog to blog.html (must come before directory check)
 RewriteRule ^blog/?$ /blog.html [L]
+
+# Serve existing files as-is (but NOT directories to avoid 403)
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule ^ - [L]
 
 # Fallback: try to serve .html version of any path
 RewriteCond %{REQUEST_FILENAME}.html -f
-RewriteRule ^(.+)/?$ /$1.html [L]
+RewriteRule ^(.+?)/?$ /$1.html [L]
 
 # If nothing matches, serve 404.html
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^ /404.html [L]

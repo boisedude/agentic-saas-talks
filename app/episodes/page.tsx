@@ -138,10 +138,13 @@ function EpisodesPageContent() {
     return counts
   }, [])
 
-  // Filter episodes by selected tag
+  // Sort episodes by date (newest first) and filter by selected tag
   const filteredEpisodes = useMemo(() => {
-    if (!selectedTag) return episodes
-    return episodes.filter((episode) => episode.tags.includes(selectedTag))
+    const sorted = [...episodes].sort((a, b) =>
+      new Date(b.date).getTime() - new Date(a.date).getTime()
+    )
+    if (!selectedTag) return sorted
+    return sorted.filter((episode) => episode.tags.includes(selectedTag))
   }, [selectedTag])
 
   // Generate structured data - memoized for performance
