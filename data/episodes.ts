@@ -26,6 +26,47 @@ export interface Episode {
 // All episodes from the Agentic SaaS Talks playlist (newest first)
 export const episodes: Episode[] = [
   {
+    id: 20,
+    title: "The Agentic SaaS Executive Summit - Live Event",
+    description: "A live summit event featuring two panel discussions: 'Agentic AI: Revolution, Evolution or Hype?' examining how Agentic AI is reshaping the SaaS landscape, and 'Commercializing Open Source: Paths, Tradeoffs & Lessons' exploring strategies for building sustainable businesses around open technologies.",
+    date: "2025-12-02",
+    videoUrl: "https://www.youtube.com/watch?v=LFNcqf9oolY",
+    duration: "105 min",
+    tags: ["Agentic AI", "Open Source", "SaaS", "Summit"],
+    timestamps: [
+      { time: "00:00", title: "Introduction & Welcome" },
+      { time: "15:00", title: "Panel 1: Agentic AI - Revolution, Evolution or Hype?" },
+      { time: "60:00", title: "Panel 2: Commercializing Open Source" },
+    ],
+    guests: [
+      {
+        name: "Shriram Sridharan",
+        linkedIn: "https://www.linkedin.com/in/shrirams/",
+        bio: "CTO at Rox, building enterprise AI agent swarms."
+      },
+      {
+        name: "Guy Korland",
+        linkedIn: "https://www.linkedin.com/in/guykorland/",
+        bio: "CEO at FalkorDB, leading graph database innovation."
+      },
+      {
+        name: "Mihir Pandya",
+        linkedIn: "https://www.linkedin.com/in/mihirpandya/",
+        bio: "Director of Engineering at Scale AI."
+      },
+      {
+        name: "Peter Farkas",
+        linkedIn: "https://www.linkedin.com/in/peterfarkaspercona/",
+        bio: "CEO at Percona, enterprise open source database solutions."
+      },
+      {
+        name: "Peter Zaitsev",
+        linkedIn: "https://www.linkedin.com/in/peterzaitsev/",
+        bio: "Founder at Percona, pioneer in open source database technology."
+      }
+    ],
+  },
+  {
     id: 19,
     title: "Leaning into Agentic: How HoneySales Pivoted to an AI-Driven Future",
     description: "Episode 19 examines what it means to pivot a SaaS company into an agentic architecture. HoneySales provides a real-world example: a startup that shifted from traditional sales workflows to an AI-driven, multi-agent system operating on AWS. This episode helps founders and engineering leaders understand the technical, organizational, and customer-facing implications of transitioning to Agentic SaaS.",
@@ -60,6 +101,83 @@ export const episodes: Episode[] = [
       { time: "45:20", title: "Control Plane vs Application Plane: Why Control Planes Matter" },
       { time: "52:40", title: "What Is Control Plane as a Service? (Omnistrate Deep Dive)" },
       { time: "1:00:10", title: "Future of Agentic Systems, Multi-Data Access & Closing Thoughts" },
+    ],
+  },
+  {
+    id: 21,
+    title: "From Open-Source to SaaS with Head of Engineering at Onehouse",
+    description: "Varun Madan, Head of Engineering at Onehouse, walks through the journey of transforming the open-source Apache Hudi project into a high-performance, enterprise-ready SaaS platform. Covers data lakehouse architecture, building SaaS offerings, and includes a live demo of real-time data ingestion.",
+    date: "2025-10-10",
+    videoUrl: "https://www.youtube.com/watch?v=xjeLLZHM3lY",
+    duration: "23 min",
+    tags: ["Open Source", "SaaS", "Data Lakehouse", "Apache Hudi"],
+    timestamps: [
+      { time: "00:00", title: "Intro: Data Quality for Agentic AI" },
+      { time: "01:15", title: "What is a Data Lakehouse & Why It Matters" },
+      { time: "03:50", title: "Apache Hudi: From Uber to Open Source" },
+      { time: "05:45", title: "Lake vs Warehouse vs Lakehouse" },
+      { time: "08:00", title: "Key Lakehouse Features: Indexes, Metadata, Speed" },
+      { time: "10:20", title: "From Open Source to SaaS: Building Onehouse" },
+      { time: "13:00", title: "Solving Real-World Enterprise Data Challenges" },
+      { time: "16:00", title: "Live Demo: Ingesting Kafka Data into Onehouse" },
+      { time: "19:30", title: "Running AI Workloads with Ray" },
+      { time: "21:30", title: "Final Thoughts & How to Get Started" },
+    ],
+    guests: [
+      {
+        name: "Varun Madan",
+        linkedIn: "https://www.linkedin.com/in/varunmadan/",
+        bio: "Head of Engineering at Onehouse, transforming Apache Hudi into enterprise SaaS."
+      }
+    ],
+  },
+  {
+    id: 22,
+    title: "Taming AI Complexity with Head of Engineering at Anyscale",
+    description: "Jaikumar Ganesha (JK), Head of Engineering at Anyscale, breaks down modern AI infrastructure challenges and how Ray (the open-source compute framework) is powering production-grade AI at scale. Covers the 'AI complexity wall,' distributed training, and includes a live demo of building a multimodal AI app.",
+    date: "2025-10-08",
+    videoUrl: "https://www.youtube.com/watch?v=OzWr7wm7v_M",
+    duration: "25 min",
+    tags: ["AI Infrastructure", "Ray", "Anyscale", "ML at Scale"],
+    timestamps: [
+      { time: "00:00", title: "Intro & Speaker Welcome" },
+      { time: "01:00", title: "AI Complexity Wall" },
+      { time: "03:00", title: "Why 90% of AI projects never reach production" },
+      { time: "04:30", title: "What is Ray? Introduction" },
+      { time: "06:00", title: "Key Trends: Multimodal, Agentic AI & Post-Training" },
+      { time: "09:00", title: "How Ray supports complex ML use cases" },
+      { time: "12:00", title: "The Modern AI/ML Stack" },
+      { time: "15:00", title: "Ray Data for Multimodal Workloads" },
+      { time: "17:30", title: "Pipeline Example: Resize, Segment, Classify" },
+      { time: "20:00", title: "Ray + Anyscale: Making Production Easy" },
+      { time: "22:30", title: "Demo: Developer Workflow & Auto-Scaling" },
+      { time: "24:00", title: "Recap & Try Ray Today" },
+    ],
+    guests: [
+      {
+        name: "Jaikumar Ganesha",
+        linkedIn: "https://www.linkedin.com/in/jaikumarganesha/",
+        bio: "Head of Engineering at Anyscale, scaling AI infrastructure with Ray."
+      }
+    ],
+  },
+  {
+    id: 23,
+    title: "Revolutionizing AI SaaS: Control Plane Innovation and Modern Cloud Models with Anyscale",
+    description: "A conversation filmed at AWS offices in San Francisco about how Anyscale empowers teams to build, scale, and operate complex ML workflows. Covers control plane architecture, the evolution of SaaS, and advice for SaaS founders adapting to the agentic future.",
+    date: "2025-08-20",
+    videoUrl: "https://www.youtube.com/watch?v=HgoMTnS4i2o",
+    duration: "14 min",
+    tags: ["AI SaaS", "Control Plane", "Anyscale", "Cloud Architecture"],
+    timestamps: [
+      { time: "00:00", title: "Intro & Event Overview" },
+      { time: "00:38", title: "What is Anyscale and its Value Proposition?" },
+      { time: "01:31", title: "Ease of Operating Ray and SaaS Delivery Models" },
+      { time: "04:19", title: "Use Cases: Media, Social, and Multimodal Data" },
+      { time: "06:08", title: "Effortless Scaling, Cluster Management, and Developer Efficiency" },
+      { time: "08:44", title: "Control Plane, Data Plane, and SaaS Models Explained" },
+      { time: "09:43", title: "Is 'SaaS Dead'? The Evolution of Software Delivery" },
+      { time: "12:28", title: "Advice for SaaS Founders in an Agentic and Cloud-First World" },
     ],
   },
   {
