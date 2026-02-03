@@ -1,68 +1,84 @@
 "use client"
 
-import { useMemo, useState, useEffect, Suspense } from "react"
+import { useMemo, useState, Suspense, useCallback } from "react"
 import { useSearchParams, useRouter } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
-import { Video, Calendar, Clock, ExternalLink, PlayCircle, Users, Linkedin, ChevronDown, Filter } from "lucide-react"
+import { Video, Calendar, Clock, ExternalLink, PlayCircle, Users, Linkedin, ChevronDown, Filter, Search, Share2, Twitter, Link2, Check } from "lucide-react"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
+import { Input } from "@/components/ui/input"
 import { episodes, type Episode } from "@/data/episodes"
-import type { Metadata } from "next"
 import { ImageWithLoading } from "@/components/image-with-loading"
 import { ScrollToTop } from "@/components/scroll-to-top"
 import { useReducedMotion } from "@/lib/use-reduced-motion"
 import { Breadcrumb } from "@/components/breadcrumb"
 import { getBreadcrumbSchema, getEpisodesListSchema, getWebPageSchema } from "@/lib/seo"
+import { getYouTubeVideoId, formatDate, getTimestampUrl } from "@/lib/helpers"
 
-// Helper function to convert timestamp (mm:ss or hh:mm:ss) to seconds
-const timestampToSeconds = (time: string): number => {
-  try {
-    const parts = time.split(':').map(Number)
-    if (parts.some(isNaN)) return 0
-    if (parts.length === 2) {
-      return parts[0] * 60 + parts[1] // mm:ss
-    }
-    if (parts.length === 3) {
-      return parts[0] * 3600 + parts[1] * 60 + parts[2] // hh:mm:ss
-    }
-    return 0
-  } catch {
-    return 0
-  }
-}
+// Social sharing component
+function ShareButtons({ episode }: { episode: Episode }) {
+  const [copied, setCopied] = useState(false)
+  const shareUrl = episode.videoUrl
+  const shareText = `Check out "${episode.title}" from Agentic SaaS Talks!`
 
-// Helper function to generate timestamp URL
-const getTimestampUrl = (baseUrl: string, timestamp: string): string => {
-  try {
-    const url = new URL(baseUrl)
-    const seconds = timestampToSeconds(timestamp)
-    url.searchParams.set('t', `${seconds}s`)
-    return url.toString()
-  } catch {
-    return baseUrl
-  }
-}
+  const handleCopyLink = useCallback(async () => {
+    await navigator.clipboard.writeText(shareUrl)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }, [shareUrl])
 
-// Helper function to extract video ID from YouTube URL
-const getYouTubeVideoId = (url: string): string => {
-  try {
-    const urlObj = new URL(url)
-    return urlObj.searchParams.get('v') ?? ''
-  } catch {
-    return ''
-  }
-}
+  const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`
+  const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`
 
-// Helper function to format date
-const formatDate = (dateString: string): string => {
-  try {
-    const date = new Date(dateString)
-    if (isNaN(date.getTime())) return dateString
-    return date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
-  } catch {
-    return dateString
-  }
+  return (
+    <div className="flex items-center gap-1">
+      <span className="text-xs text-muted-foreground mr-1">Share:</span>
+      <Button
+        size="icon"
+        variant="ghost"
+        className="h-9 w-9"
+        asChild
+      >
+        <a
+          href={twitterUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Share on X/Twitter"
+        >
+          <Twitter className="h-4 w-4" aria-hidden="true" />
+        </a>
+      </Button>
+      <Button
+        size="icon"
+        variant="ghost"
+        className="h-9 w-9"
+        asChild
+      >
+        <a
+          href={linkedInUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Share on LinkedIn"
+        >
+          <Linkedin className="h-4 w-4" aria-hidden="true" />
+        </a>
+      </Button>
+      <Button
+        size="icon"
+        variant="ghost"
+        className="h-9 w-9"
+        onClick={handleCopyLink}
+        aria-label={copied ? "Link copied!" : "Copy link"}
+      >
+        {copied ? (
+          <Check className="h-4 w-4 text-green-500" aria-hidden="true" />
+        ) : (
+          <Link2 className="h-4 w-4" aria-hidden="true" />
+        )}
+      </Button>
+    </div>
+  )
 }
 
 // Generate structured data for SEO
@@ -90,33 +106,33 @@ function EpisodesPageContent() {
   const searchParams = useSearchParams()
   const router = useRouter()
 
-  // Initialize selected tag from URL params
-  const initialTag = searchParams.get('tag')
-  const [selectedTag, setSelectedTag] = useState<string | null>(initialTag)
-  const [isFilterExpanded, setIsFilterExpanded] = useState(!!initialTag)
+  // Use URL as source of truth for selected tag and search
+  const selectedTag = searchParams.get('tag')
+  const searchQuery = searchParams.get('q') || ''
+  const [isFilterExpanded, setIsFilterExpanded] = useState(!!selectedTag || !!searchQuery)
 
   // Update URL when tag changes
   const handleTagChange = (tag: string | null) => {
-    setSelectedTag(tag)
     const params = new URLSearchParams(searchParams.toString())
     if (tag) {
       params.set('tag', tag)
+      setIsFilterExpanded(true)
     } else {
       params.delete('tag')
     }
     router.push(`/episodes${params.toString() ? `?${params.toString()}` : ''}`, { scroll: false })
   }
 
-  // Sync with URL changes (e.g., browser back/forward)
-  useEffect(() => {
-    const tagFromUrl = searchParams.get('tag')
-    if (tagFromUrl !== selectedTag) {
-      setSelectedTag(tagFromUrl)
-      if (tagFromUrl) {
-        setIsFilterExpanded(true)
-      }
+  // Update URL when search query changes
+  const handleSearchChange = useCallback((query: string) => {
+    const params = new URLSearchParams(searchParams.toString())
+    if (query) {
+      params.set('q', query)
+    } else {
+      params.delete('q')
     }
-  }, [searchParams, selectedTag])
+    router.push(`/episodes${params.toString() ? `?${params.toString()}` : ''}`, { scroll: false })
+  }, [router, searchParams])
 
   // Extract all unique tags from episodes
   const allTags = useMemo(() => {
@@ -138,14 +154,31 @@ function EpisodesPageContent() {
     return counts
   }, [])
 
-  // Sort episodes by date (newest first) and filter by selected tag
+  // Sort episodes by date (newest first) and filter by selected tag and search query
   const filteredEpisodes = useMemo(() => {
     const sorted = [...episodes].sort((a, b) =>
       new Date(b.date).getTime() - new Date(a.date).getTime()
     )
-    if (!selectedTag) return sorted
-    return sorted.filter((episode) => episode.tags.includes(selectedTag))
-  }, [selectedTag])
+    let filtered = sorted
+
+    // Filter by tag
+    if (selectedTag) {
+      filtered = filtered.filter((episode) => episode.tags.includes(selectedTag))
+    }
+
+    // Filter by search query
+    if (searchQuery) {
+      const query = searchQuery.toLowerCase()
+      filtered = filtered.filter((episode) =>
+        episode.title.toLowerCase().includes(query) ||
+        episode.description.toLowerCase().includes(query) ||
+        episode.tags.some(tag => tag.toLowerCase().includes(query)) ||
+        episode.guests?.some(guest => guest.name.toLowerCase().includes(query))
+      )
+    }
+
+    return filtered
+  }, [selectedTag, searchQuery])
 
   // Generate structured data - memoized for performance
   const structuredData = useMemo(() => ({
@@ -225,20 +258,33 @@ function EpisodesPageContent() {
       {/* Episodes Section */}
       <section className="py-12 sm:py-20">
         <div className="container mx-auto px-3 sm:px-4">
-          {/* Tag Filter */}
+          {/* Search and Filter */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: prefersReducedMotion ? 0 : 0.6 }}
             className="mb-12"
           >
-            {/* Filter Toggle Button */}
-            <div className="mb-4">
+            {/* Search and Filter Toggle */}
+            <div className="mb-4 flex flex-col sm:flex-row gap-4">
+              {/* Search Input */}
+              <div className="relative flex-1 max-w-md">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" aria-hidden="true" />
+                <Input
+                  type="search"
+                  placeholder="Search episodes..."
+                  value={searchQuery}
+                  onChange={(e) => handleSearchChange(e.target.value)}
+                  className="pl-10 h-11"
+                  aria-label="Search episodes"
+                />
+              </div>
+
+              {/* Filter Toggle Button */}
               <Button
                 variant="outline"
-                size="sm"
                 onClick={() => setIsFilterExpanded(!isFilterExpanded)}
-                className="flex items-center gap-2"
+                className="flex items-center gap-2 h-11 min-w-[44px]"
                 aria-expanded={isFilterExpanded}
                 aria-controls="filter-section"
               >
@@ -293,18 +339,24 @@ function EpisodesPageContent() {
                         </Button>
                       ))}
                     </div>
-                    {selectedTag && (
-                      <div className="mt-4 flex items-center gap-2 text-sm text-muted-foreground">
+                    {(selectedTag || searchQuery) && (
+                      <div className="mt-4 flex items-center gap-2 text-sm text-muted-foreground flex-wrap">
                         <span>
-                          Showing {filteredEpisodes.length} episode{filteredEpisodes.length !== 1 ? 's' : ''} tagged with &quot;{selectedTag}&quot;
+                          Showing {filteredEpisodes.length} episode{filteredEpisodes.length !== 1 ? 's' : ''}
+                          {searchQuery && ` matching "${searchQuery}"`}
+                          {selectedTag && searchQuery && ' and'}
+                          {selectedTag && ` tagged with "${selectedTag}"`}
                         </span>
                         <Button
                           variant="ghost"
                           size="sm"
-                          onClick={() => handleTagChange(null)}
+                          onClick={() => {
+                            handleTagChange(null)
+                            handleSearchChange('')
+                          }}
                           className="h-auto p-1 text-primary hover:text-primary/80"
                         >
-                          Clear filter
+                          Clear all filters
                         </Button>
                       </div>
                     )}
@@ -314,23 +366,29 @@ function EpisodesPageContent() {
             </AnimatePresence>
 
             {/* Filter Active Indicator (when collapsed) */}
-            {!isFilterExpanded && selectedTag && (
+            {!isFilterExpanded && (selectedTag || searchQuery) && (
               <motion.div
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: prefersReducedMotion ? 0 : 0.2 }}
-                className="mt-2 flex items-center gap-2 text-sm text-muted-foreground"
+                className="mt-2 flex items-center gap-2 text-sm text-muted-foreground flex-wrap"
               >
                 <span>
-                  Showing {filteredEpisodes.length} episode{filteredEpisodes.length !== 1 ? 's' : ''} tagged with &quot;{selectedTag}&quot;
+                  Showing {filteredEpisodes.length} episode{filteredEpisodes.length !== 1 ? 's' : ''}
+                  {searchQuery && ` matching "${searchQuery}"`}
+                  {selectedTag && searchQuery && ' and'}
+                  {selectedTag && ` tagged with "${selectedTag}"`}
                 </span>
                 <Button
                   variant="ghost"
                   size="sm"
-                  onClick={() => handleTagChange(null)}
+                  onClick={() => {
+                    handleTagChange(null)
+                    handleSearchChange('')
+                  }}
                   className="h-auto p-1 text-primary hover:text-primary/80"
                 >
-                  Clear filter
+                  Clear all filters
                 </Button>
               </motion.div>
             )}
@@ -501,18 +559,21 @@ function EpisodesPageContent() {
                         </div>
                       )}
 
-                      <Button asChild size="sm">
-                        <a
-                          href={episode.videoUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          aria-label={`Watch full episode: ${episode.title}`}
-                        >
-                          <PlayCircle className="mr-2 h-4 w-4" aria-hidden="true" />
-                          Watch Full Episode
-                          <ExternalLink className="ml-2 h-3 w-3" aria-hidden="true" />
-                        </a>
-                      </Button>
+                      <div className="flex flex-wrap items-center justify-between gap-3">
+                        <Button asChild size="sm" className="h-10">
+                          <a
+                            href={episode.videoUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label={`Watch full episode: ${episode.title}`}
+                          >
+                            <PlayCircle className="mr-2 h-4 w-4" aria-hidden="true" />
+                            Watch Full Episode
+                            <ExternalLink className="ml-2 h-3 w-3" aria-hidden="true" />
+                          </a>
+                        </Button>
+                        <ShareButtons episode={episode} />
+                      </div>
                     </div>
                   </div>
                 </Card>

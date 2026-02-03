@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useSyncExternalStore } from "react"
 
 /**
  * Hook to detect if the user prefers reduced motion
@@ -8,31 +8,29 @@ import { useEffect, useState } from "react"
  * Helps with accessibility by allowing components to disable animations
  */
 export function useReducedMotion(): boolean {
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
+  return useSyncExternalStore(
+    subscribe,
+    getSnapshot,
+    getServerSnapshot
+  )
+}
 
-  useEffect(() => {
-    // Check if matchMedia is available (for SSR safety)
-    if (typeof window === "undefined" || !window.matchMedia) {
-      return
-    }
+function subscribe(callback: () => void): () => void {
+  if (typeof window === "undefined" || !window.matchMedia) {
+    return () => {}
+  }
+  const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)")
+  mediaQuery.addEventListener("change", callback)
+  return () => mediaQuery.removeEventListener("change", callback)
+}
 
-    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)")
+function getSnapshot(): boolean {
+  if (typeof window === "undefined" || !window.matchMedia) {
+    return false
+  }
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches
+}
 
-    // Set initial state
-    setPrefersReducedMotion(mediaQuery.matches)
-
-    // Create event handler with proper typing
-    const handleChange = (event: MediaQueryListEvent) => {
-      setPrefersReducedMotion(event.matches)
-    }
-
-    // Use addEventListener for better browser compatibility
-    mediaQuery.addEventListener("change", handleChange)
-
-    return () => {
-      mediaQuery.removeEventListener("change", handleChange)
-    }
-  }, [])
-
-  return prefersReducedMotion
+function getServerSnapshot(): boolean {
+  return false
 }

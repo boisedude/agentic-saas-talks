@@ -1,20 +1,14 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, memo } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { Video, Menu, X, Linkedin } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
+import { NAV_LINKS, EXTERNAL_LINKS } from "@/lib/constants"
 
-const NAV_LINKS = [
-  { href: "/", label: "Home" },
-  { href: "/episodes", label: "Episodes" },
-  { href: "/blog", label: "Blog" },
-  { href: "/hosts", label: "Hosts" },
-] as const
-
-export function MobileNav() {
+export const MobileNav = memo(function MobileNav() {
   const [isOpen, setIsOpen] = useState(false)
   const pathname = usePathname()
 
@@ -110,7 +104,7 @@ export function MobileNav() {
                 <div className="pt-4 border-t border-border space-y-3">
                   <Button className="w-full" asChild>
                     <a
-                      href="https://www.youtube.com/@omnistrate"
+                      href={EXTERNAL_LINKS.youtube}
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label="Subscribe on YouTube"
@@ -122,7 +116,7 @@ export function MobileNav() {
                   </Button>
                   <Button className="w-full" variant="outline" asChild>
                     <a
-                      href="https://www.linkedin.com/company/omnistrate/"
+                      href={EXTERNAL_LINKS.linkedIn}
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label="Follow on LinkedIn"
@@ -140,4 +134,4 @@ export function MobileNav() {
       )}
     </>
   )
-}
+})

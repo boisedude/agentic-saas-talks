@@ -48,3 +48,5 @@ next-env.d.ts
 # FTP credentials (security)
 deploy.sh
 deploy-fast.sh
+# next-agents-md
+.next-docs/

@@ -1,17 +1,46 @@
 import { getAllBlogSlugs, getBlogPostBySlug } from "@/lib/blog"
-import { hosts } from "@/data/hosts"
 import { notFound } from "next/navigation"
 import { BlogPostClient } from "./blog-post-client"
-
-// Helper function to get author info
-const getAuthorInfo = (authorName: string) => {
-  return hosts.find(host => host.name === authorName)
-}
+import type { Metadata } from "next"
+import { getAuthorInfo } from "@/lib/helpers"
 
 interface BlogPostPageProps {
   params: Promise<{
     slug: string
   }>
+}
+
+// Generate metadata for each blog post
+export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
+  const { slug } = await params
+  const post = getBlogPostBySlug(slug)
+
+  if (!post) {
+    return {
+      title: "Post Not Found",
+    }
+  }
+
+  const author = getAuthorInfo(post.author)
+
+  return {
+    title: post.title,
+    description: post.excerpt,
+    authors: author ? [{ name: author.name, url: author.linkedIn }] : undefined,
+    openGraph: {
+      title: post.title,
+      description: post.excerpt,
+      type: "article",
+      publishedTime: post.date,
+      authors: author ? [author.name] : undefined,
+      tags: post.tags,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description: post.excerpt,
+    },
+  }
 }
 
 // Generate static params for all blog posts

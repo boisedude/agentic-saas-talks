@@ -1,10 +1,11 @@
 "use client"
 
-import { useState, useEffect, useCallback } from "react"
+import { useState, useEffect, useCallback, memo } from "react"
 import { ArrowUp } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { SCROLL_THRESHOLD } from "@/lib/constants"
 
-export function ScrollToTop() {
+export const ScrollToTop = memo(function ScrollToTop() {
   const [isVisible, setIsVisible] = useState(false)
 
   useEffect(() => {
@@ -17,8 +18,7 @@ export function ScrollToTop() {
       }
 
       timeoutId = setTimeout(() => {
-        // Show button when page is scrolled down 400px
-        setIsVisible(window.scrollY > 400)
+        setIsVisible(window.scrollY > SCROLL_THRESHOLD)
       }, 100)
     }
 
@@ -33,9 +33,11 @@ export function ScrollToTop() {
   }, [])
 
   const scrollToTop = useCallback(() => {
+    // Use smooth scroll if supported, otherwise instant
+    const supportsSmooth = 'scrollBehavior' in document.documentElement.style
     window.scrollTo({
       top: 0,
-      behavior: "smooth",
+      behavior: supportsSmooth ? "smooth" : "instant",
     })
   }, [])
 
@@ -53,4 +55,4 @@ export function ScrollToTop() {
       )}
     </>
   )
-}
+})

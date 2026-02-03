@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useCallback } from "react"
+import { useState, useCallback, memo } from "react"
 import Image from "next/image"
 
 interface ImageWithLoadingProps {
@@ -10,7 +10,7 @@ interface ImageWithLoadingProps {
   loading?: "eager" | "lazy"
 }
 
-export function ImageWithLoading({
+export const ImageWithLoading = memo(function ImageWithLoading({
   src,
   alt,
   className = "",
@@ -42,8 +42,8 @@ export function ImageWithLoading({
       className={className}
       fill
       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 400px"
-      priority={loading === "eager"}
+      preload={loading === "eager"}
       onError={handleError}
     />
   )
-}
+})

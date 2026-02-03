@@ -6,25 +6,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import type { BlogPost } from "@/lib/blog"
-import { hosts } from "@/data/hosts"
 import Link from "next/link"
 import { AnimatedBackground } from "@/components/animated-background"
 import { useReducedMotion } from "@/lib/use-reduced-motion"
-
-// Helper function to format date
-const formatDate = (dateString: string): string => {
-  try {
-    const date = new Date(dateString)
-    return date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
-  } catch {
-    return dateString
-  }
-}
-
-// Helper function to get author info
-const getAuthorInfo = (authorName: string) => {
-  return hosts.find(host => host.name === authorName)
-}
+import { formatDate, getAuthorInfo } from "@/lib/helpers"
 
 interface BlogPageClientProps {
   posts: BlogPost[]

@@ -108,7 +108,7 @@ export default function HostsPage() {
                             fill
                             className="object-cover object-center transition-transform duration-300 group-hover:scale-105"
                             sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                            priority={index < 3}
+                            preload={index < 3}
                             onError={() => handleImageError(host.name)}
                           />
                         ) : (

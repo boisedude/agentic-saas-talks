@@ -133,14 +133,10 @@ test.describe('Core Functionality Tests', () => {
 
     // Scroll down the page
     await page.evaluate(() => window.scrollTo(0, 1000));
-    await page.waitForTimeout(500);
+    await page.waitForTimeout(600);
 
-    // Look for scroll-to-top button
-    const scrollButton = page.getByRole('button', { name: /scroll to top/i }).or(
-      page.locator('button[aria-label*="scroll" i]')
-    ).or(
-      page.locator('button').filter({ has: page.locator('svg') }).last()
-    );
+    // Look for scroll-to-top button by aria-label
+    const scrollButton = page.locator('button[aria-label="Scroll to top"]');
 
     // Check if button is visible after scroll
     const isVisible = await scrollButton.isVisible().catch(() => false);
@@ -149,23 +145,26 @@ test.describe('Core Functionality Tests', () => {
       // Take screenshot with button visible
       await page.screenshot({ path: 'test-results/screenshots/scroll-button-visible.png' });
 
-      // Click the button
+      // Click the button and verify scroll happens
       await scrollButton.click();
-      await page.waitForTimeout(500);
 
-      // Check we scrolled back to top
-      const scrollY = await page.evaluate(() => window.scrollY);
-      expect(scrollY).toBeLessThan(100);
+      // Wait for scroll to complete - poll for position change
+      await expect(async () => {
+        const scrollY = await page.evaluate(() => window.scrollY);
+        expect(scrollY).toBeLessThan(100);
+      }).toPass({ timeout: 3000 });
     }
   });
 
   test('404 page displays for non-existent routes', async ({ page }) => {
-    const response = await page.goto('/non-existent-page-12345');
+    await page.goto('/non-existent-page-12345');
 
-    // Check response status or page content
-    // Next.js might redirect or show 404 page
+    // Check page content contains 404 indicators
     const content = await page.content();
     const has404 = content.includes('404') || content.includes('not found') || content.includes('Not Found');
+
+    // Assert that the 404 page content is displayed
+    expect(has404).toBe(true);
 
     // Take screenshot
     await page.screenshot({ path: 'test-results/screenshots/404-page.png', fullPage: true });

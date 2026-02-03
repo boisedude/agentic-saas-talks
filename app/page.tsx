@@ -1,7 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Video, Calendar, ExternalLink, PlayCircle, Users, Clock } from "lucide-react"
+import { Video, Calendar, ExternalLink, PlayCircle, Users, Clock, Bot, Link2, Shield, Cloud, Rocket, Sparkles } from "lucide-react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -10,6 +10,7 @@ import { episodes, type Episode } from "@/data/episodes"
 import Link from "next/link"
 import { ImageWithLoading } from "@/components/image-with-loading"
 import { AnimatedBackground } from "@/components/animated-background"
+import { ScrollToTop } from "@/components/scroll-to-top"
 import { useReducedMotion } from "@/lib/use-reduced-motion"
 import {
   getOrganizationSchema,
@@ -19,26 +20,7 @@ import {
   getWebPageSchema,
 } from "@/lib/seo"
 import { useMemo } from "react"
-
-// Helper function to extract video ID from YouTube URL
-const getYouTubeVideoId = (url: string): string => {
-  try {
-    const urlObj = new URL(url)
-    return urlObj.searchParams.get('v') ?? ''
-  } catch {
-    return ''
-  }
-}
-
-// Helper function to format date
-const formatDate = (dateString: string): string => {
-  try {
-    const date = new Date(dateString)
-    return date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
-  } catch {
-    return dateString
-  }
-}
+import { getYouTubeVideoId, formatDate } from "@/lib/helpers"
 
 export default function HomePage() {
   const prefersReducedMotion = useReducedMotion()
@@ -65,6 +47,7 @@ export default function HomePage() {
     <>
       {/* Animated Background Effects */}
       <AnimatedBackground />
+      <ScrollToTop />
 
       {/* Structured Data for SEO */}
       <script
@@ -100,7 +83,7 @@ export default function HomePage() {
 
       <div className="min-h-screen relative">
       {/* Hero Section */}
-      <section className="relative overflow-hidden py-20">
+      <section className="relative overflow-hidden py-24 lg:py-32">
         <div className="absolute inset-0 bg-gradient-to-b from-blue-500/10 via-slate-500/5 to-background" />
 
         <div className="container relative mx-auto px-3 sm:px-4">
@@ -153,15 +136,15 @@ export default function HomePage() {
                   href={latestEpisode.videoUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-label="Watch latest episode on YouTube"
+                  aria-label="Play latest episode on YouTube"
                 >
                   <PlayCircle className="mr-2 h-5 w-5" aria-hidden="true" />
-                  Watch Latest Episode
+                  Play Latest Episode
                   <ExternalLink className="ml-2 h-4 w-4" aria-hidden="true" />
                 </a>
               </Button>
               <Button size="lg" variant="outline" asChild>
-                <Link href="/episodes">View All Episodes</Link>
+                <Link href="/episodes">Browse All Episodes</Link>
               </Button>
             </div>
           </motion.div>
@@ -310,32 +293,44 @@ export default function HomePage() {
               {
                 title: "Agentic Architectures",
                 description: "AI application patterns, reasoning systems, and autonomous agents",
-                icon: "🤖",
+                Icon: Bot,
+                bgClass: "bg-blue-500/10",
+                iconClass: "text-blue-400",
               },
               {
                 title: "Model Context Protocol",
                 description: "Building human-language APIs and context-aware systems",
-                icon: "🔗",
+                Icon: Link2,
+                bgClass: "bg-purple-500/10",
+                iconClass: "text-purple-400",
               },
               {
                 title: "Data Privacy & Security",
                 description: "Data sovereignty, privacy concerns, and security in AI systems",
-                icon: "🔒",
+                Icon: Shield,
+                bgClass: "bg-green-500/10",
+                iconClass: "text-green-400",
               },
               {
                 title: "SaaS Evolution",
                 description: "Frontend to backend evolution and deployment models",
-                icon: "☁️",
+                Icon: Cloud,
+                bgClass: "bg-sky-500/10",
+                iconClass: "text-sky-400",
               },
               {
                 title: "AI Product Development",
                 description: "From prototype to production at scale",
-                icon: "🚀",
+                Icon: Rocket,
+                bgClass: "bg-orange-500/10",
+                iconClass: "text-orange-400",
               },
               {
                 title: "Future of Applications",
                 description: "Personalized applications and the agentic economy",
-                icon: "✨",
+                Icon: Sparkles,
+                bgClass: "bg-pink-500/10",
+                iconClass: "text-pink-400",
               },
             ].map((topic, index) => (
               <motion.div
@@ -349,7 +344,9 @@ export default function HomePage() {
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-slate-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 -translate-x-full group-hover:translate-x-full pointer-events-none"
                     style={{ transition: 'transform 0.8s ease-in-out, opacity 0.5s ease-in-out' }} />
                   <CardHeader className="relative">
-                    <div className="mb-2 text-4xl">{topic.icon}</div>
+                    <div className={`mb-3 inline-flex rounded-full p-3 ${topic.bgClass}`}>
+                      <topic.Icon className={`h-6 w-6 ${topic.iconClass}`} aria-hidden="true" />
+                    </div>
                     <CardTitle className="text-xl">{topic.title}</CardTitle>
                     <CardDescription>{topic.description}</CardDescription>
                   </CardHeader>

@@ -11,16 +11,7 @@ import Link from "next/link"
 import { AnimatedBackground } from "@/components/animated-background"
 import { useReducedMotion } from "@/lib/use-reduced-motion"
 import ReactMarkdown from "react-markdown"
-
-// Helper function to format date
-const formatDate = (dateString: string): string => {
-  try {
-    const date = new Date(dateString)
-    return date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
-  } catch {
-    return dateString
-  }
-}
+import { formatDate } from "@/lib/helpers"
 
 interface BlogPostClientProps {
   post: BlogPost
