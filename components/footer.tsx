@@ -1,4 +1,4 @@
-import { Video, ExternalLink, Linkedin } from "lucide-react"
+import { Video, ExternalLink, Linkedin, Mail } from "lucide-react"
 import Link from "next/link"
 import { EXTERNAL_LINKS } from "@/lib/constants"
 import { memo } from "react"
@@ -66,6 +66,22 @@ export const Footer = memo(() => {
                   About the Hosts
                 </Link>
               </li>
+              <li>
+                <Link
+                  href="/blog"
+                  className="inline-flex min-h-[44px] items-center text-muted-foreground transition-colors hover:text-foreground"
+                >
+                  Blog
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/privacy"
+                  className="inline-flex min-h-[44px] items-center text-muted-foreground transition-colors hover:text-foreground"
+                >
+                  Privacy Policy
+                </Link>
+              </li>
             </ul>
           </div>
 
@@ -94,6 +110,15 @@ export const Footer = memo(() => {
                   <Linkedin className="h-4 w-4" aria-hidden="true" />
                   LinkedIn
                   <ExternalLink className="h-3 w-3" aria-hidden="true" />
+                </a>
+              </li>
+              <li>
+                <a
+                  href="mailto:guest@agentic-saas-talks.com"
+                  className="inline-flex min-h-[44px] items-center gap-2 text-muted-foreground transition-colors hover:text-foreground"
+                >
+                  <Mail className="h-4 w-4" aria-hidden="true" />
+                  Suggest a Guest
                 </a>
               </li>
             </ul>

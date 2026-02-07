@@ -96,8 +96,8 @@ const generateVideoSchema = (episode: Episode) => {
     "embedUrl": episode.videoUrl,
     "publisher": {
       "@type": "Organization",
-      "name": "Omnistrate",
-      "url": EXTERNAL_LINKS.omnistrate
+      "name": "Agentic SaaS Talks",
+      "url": "https://agentic-saas-talks.com"
     },
   }
 }
@@ -396,6 +396,7 @@ function EpisodesPageContent() {
           </motion.div>
 
           {/* Episodes List */}
+          <h2 className="sr-only">Episodes</h2>
           {filteredEpisodes.length === 0 ? (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -457,7 +458,7 @@ function EpisodesPageContent() {
                       <div className="mb-3">
                         <div className="mb-2 flex flex-wrap gap-2">
                           {episode.id === 1 && <Badge variant="secondary">First Episode</Badge>}
-                          {episode.id === episodes.length && (
+                          {episode.id === filteredEpisodes[0]?.id && index === 0 && !selectedTag && !searchQuery && (
                             <Badge className="bg-gradient-to-r from-blue-500 to-slate-600">
                               Latest Episode
                             </Badge>
@@ -605,7 +606,7 @@ function EpisodesPageContent() {
               <p className="mb-6 text-muted-foreground">
                 Subscribe to our YouTube channel to stay updated with new episodes
               </p>
-              <Button variant="outline" asChild>
+              <Button asChild>
                 <a
                   href={EXTERNAL_LINKS.youtube}
                   target="_blank"

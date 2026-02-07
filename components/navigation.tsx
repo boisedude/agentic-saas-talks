@@ -27,7 +27,7 @@ export const Navigation = memo(() => {
         </Link>
 
         {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center gap-6" role="list">
+        <div className="hidden md:flex items-center gap-6">
           <NavLink href="/">Home</NavLink>
           <NavLink href="/episodes">Episodes</NavLink>
           <NavLink href="/blog">Blog</NavLink>

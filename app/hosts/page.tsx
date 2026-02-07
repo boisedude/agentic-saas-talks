@@ -101,7 +101,7 @@ export default function HostsPage() {
                   <Card className="group h-full overflow-hidden border-2 border-slate-500/20 bg-background/50 backdrop-blur-sm transition-all duration-300 hover:border-slate-500/40 hover:shadow-xl hover:shadow-slate-500/20 hover:-translate-y-1">
                     {/* Profile Photo */}
                     {host.photo && (
-                      <div className="relative h-64 w-full overflow-hidden bg-gradient-to-b from-slate-500/10 to-background">
+                      <div className="relative h-48 md:h-64 w-full overflow-hidden bg-gradient-to-b from-slate-500/10 to-background">
                         {!imageErrors[host.name] ? (
                           <Image
                             src={host.photo}

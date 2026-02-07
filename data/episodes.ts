@@ -32,7 +32,7 @@ export const episodes: Episode[] = [
     date: "2026-01-09",
     videoUrl: "https://www.youtube.com/watch?v=-nOw7Gr07S4",
     duration: "56 min",
-    tags: ["Year in Review", "SaaS", "Agentic AI", "Cloud Computing"],
+    tags: ["AI & Agents", "SaaS Strategy", "Cloud Infrastructure"],
   },
   {
     id: 20,
@@ -41,7 +41,7 @@ export const episodes: Episode[] = [
     date: "2025-12-02",
     videoUrl: "https://www.youtube.com/watch?v=LFNcqf9oolY",
     duration: "105 min",
-    tags: ["Agentic AI", "Open Source", "SaaS", "Summit"],
+    tags: ["AI & Agents", "Open Source", "SaaS Strategy"],
     timestamps: [
       { time: "00:00", title: "Introduction & Welcome" },
       { time: "15:00", title: "Panel 1: Agentic AI - Revolution, Evolution or Hype?" },
@@ -82,7 +82,7 @@ export const episodes: Episode[] = [
     date: "2025-11-28",
     videoUrl: "https://www.youtube.com/watch?v=8rcMqtsPDaI",
     duration: "58 min",
-    tags: ["Agentic SaaS", "AI Pivot", "Multi-Agent Systems"],
+    tags: ["AI & Agents", "SaaS Strategy", "Founder Stories"],
     guests: [
       {
         name: "Denis Zatsepin",
@@ -98,7 +98,7 @@ export const episodes: Episode[] = [
     date: "2025-11-14",
     videoUrl: "https://www.youtube.com/watch?v=zjG96VWKDZQ",
     duration: "66 min",
-    tags: ["AI Architecture", "SaaS", "AI Deployment", "Cloud Computing", "Control Planes"],
+    tags: ["AI Architecture", "SaaS Strategy", "Cloud Infrastructure"],
     timestamps: [
       { time: "00:00", title: "Welcome to Agentic SaaS Talks Episode 18" },
       { time: "03:10", title: "Why SaaS Deployment Got Complicated" },
@@ -119,7 +119,7 @@ export const episodes: Episode[] = [
     date: "2025-10-10",
     videoUrl: "https://www.youtube.com/watch?v=xjeLLZHM3lY",
     duration: "23 min",
-    tags: ["Open Source", "SaaS", "Data Lakehouse", "Apache Hudi"],
+    tags: ["Open Source", "Data & Databases", "SaaS Strategy"],
     timestamps: [
       { time: "00:00", title: "Intro: Data Quality for Agentic AI" },
       { time: "01:15", title: "What is a Data Lakehouse & Why It Matters" },
@@ -147,7 +147,7 @@ export const episodes: Episode[] = [
     date: "2025-10-08",
     videoUrl: "https://www.youtube.com/watch?v=OzWr7wm7v_M",
     duration: "25 min",
-    tags: ["AI Infrastructure", "Ray", "Anyscale", "ML at Scale"],
+    tags: ["AI Architecture", "Open Source", "Founder Stories"],
     timestamps: [
       { time: "00:00", title: "Intro & Speaker Welcome" },
       { time: "01:00", title: "AI Complexity Wall" },
@@ -177,7 +177,7 @@ export const episodes: Episode[] = [
     date: "2025-08-20",
     videoUrl: "https://www.youtube.com/watch?v=HgoMTnS4i2o",
     duration: "14 min",
-    tags: ["AI SaaS", "Control Plane", "Anyscale", "Cloud Architecture"],
+    tags: ["AI & Agents", "Cloud Infrastructure", "Founder Stories"],
     timestamps: [
       { time: "00:00", title: "Intro & Event Overview" },
       { time: "00:38", title: "What is Anyscale and its Value Proposition?" },
@@ -196,7 +196,7 @@ export const episodes: Episode[] = [
     date: "2025-01-20",
     videoUrl: "https://www.youtube.com/watch?v=g3L5RVtQb4s",
     duration: "57 min",
-    tags: ["AI Architecture", "Agentic Systems", "SaaS"],
+    tags: ["AI Architecture", "AI & Agents", "SaaS Strategy"],
     timestamps: [
       { time: "00:00", title: "Welcome & Setting the Stage: Agentic Future of SaaS" },
       { time: "04:15", title: "What Is MCP? Building Human-Language APIs" },
@@ -217,7 +217,7 @@ export const episodes: Episode[] = [
     date: "2024-12-16",
     videoUrl: "https://www.youtube.com/watch?v=5v5BWl9l4OY",
     duration: "51 min",
-    tags: ["Agentic SaaS", "Autonomy", "Orchestration"],
+    tags: ["AI & Agents", "SaaS Strategy"],
     timestamps: [
       { time: "00:00", title: "Intro: The Future of Agentic SaaS" },
       { time: "02:05", title: "Why SaaS Delivery Is Getting Cheaper & Faster" },
@@ -238,7 +238,7 @@ export const episodes: Episode[] = [
     date: "2024-12-02",
     videoUrl: "https://www.youtube.com/watch?v=reDzpXynnEw",
     duration: "67 min",
-    tags: ["DBaaS", "Database", "Infrastructure"],
+    tags: ["Data & Databases", "Cloud Infrastructure"],
     timestamps: [
       { time: "00:00", title: "Risks of AI Agents Modifying Production Databases" },
       { time: "07:15", title: "Protecting Data Integrity with Branches & Pre-Set Queries" },
@@ -266,7 +266,7 @@ export const episodes: Episode[] = [
     date: "2024-11-25",
     videoUrl: "https://www.youtube.com/watch?v=UaPP1X6LpiY",
     duration: "64 min",
-    tags: ["Developer Experience", "Testing", "SaaS", "Docker"],
+    tags: ["Developer Experience", "SaaS Strategy", "Founder Stories"],
     timestamps: [
       { time: "00:00", title: "Welcome & Guest Introductions: SaaS, Docker, and Developer Experience" },
       { time: "06:11", title: "Why Consistency is the Key to Building Scalable Software" },
@@ -294,7 +294,7 @@ export const episodes: Episode[] = [
     date: "2024-10-28",
     videoUrl: "https://www.youtube.com/watch?v=Wp1iEZnhJ-o",
     duration: "62 min",
-    tags: ["Control Plane", "Omnistrate", "SaaS Operations"],
+    tags: ["Cloud Infrastructure", "SaaS Strategy"],
     timestamps: [
       { time: "00:00", title: "Introduction to Control Plane Flexibility" },
       { time: "04:30", title: "Modular Architecture: Use What You Need" },
@@ -317,7 +317,7 @@ export const episodes: Episode[] = [
     date: "2024-10-21",
     videoUrl: "https://www.youtube.com/watch?v=VVMJdjrx7Fw",
     duration: "68 min",
-    tags: ["AI", "Fraud Detection", "Startups", "Identity"],
+    tags: ["AI & Agents", "Security & Identity", "Founder Stories"],
     timestamps: [
       { time: "00:00", title: "Intro: Identity, Security & the AI Shift" },
       { time: "05:12", title: "Why All Cybersecurity Is an Identity Problem" },
@@ -349,7 +349,7 @@ export const episodes: Episode[] = [
     date: "2024-09-16",
     videoUrl: "https://www.youtube.com/watch?v=OcLtP30pRhI",
     duration: "65 min",
-    tags: ["AI Products", "Prompt Engineering", "Production AI"],
+    tags: ["AI Architecture", "AI & Agents"],
     timestamps: [
       { time: "00:00", title: "Introduction & Context Setting" },
       { time: "05:30", title: "The Challenge of Contextual Awareness in AI Agents" },
@@ -372,7 +372,7 @@ export const episodes: Episode[] = [
     date: "2024-09-09",
     videoUrl: "https://www.youtube.com/watch?v=XL8kWY_QuQw",
     duration: "62 min",
-    tags: ["Subscriptions", "Growth", "AWS", "Pricing"],
+    tags: ["Growth & Pricing", "SaaS Strategy"],
     timestamps: [
       { time: "00:00", title: "Intro: Why SaaS Pricing Is Harder Than It Looks" },
       { time: "03:45", title: "ROI Mindset: Thinking Beyond Customer Satisfaction" },
@@ -397,7 +397,7 @@ export const episodes: Episode[] = [
     date: "2024-08-26",
     videoUrl: "https://www.youtube.com/watch?v=oHH2Nmv-h28",
     duration: "57 min",
-    tags: ["AI Agents", "Multi-Agent Systems", "Coordination"],
+    tags: ["AI & Agents", "Founder Stories"],
     timestamps: [
       { time: "00:00", title: "Introduction" },
       { time: "03:20", title: "What Is Rox?" },
@@ -429,7 +429,7 @@ export const episodes: Episode[] = [
     date: "2024-08-19",
     videoUrl: "https://www.youtube.com/watch?v=7s_CmfUqWQY",
     duration: "61 min",
-    tags: ["Pricing", "Packaging", "SaaS Strategy", "PLG"],
+    tags: ["Growth & Pricing", "SaaS Strategy"],
     timestamps: [
       { time: "00:00", title: "Intro: PLG, AI & Growth in Modern SaaS" },
       { time: "05:12", title: "Rethinking CAC in a Product-Led World" },
@@ -457,7 +457,7 @@ export const episodes: Episode[] = [
     date: "2024-08-12",
     videoUrl: "https://www.youtube.com/watch?v=d5FfOJoYcDc",
     duration: "60 min",
-    tags: ["AI", "Startup Journey", "Spine AI", "Research"],
+    tags: ["AI & Agents", "Founder Stories"],
     timestamps: [
       { time: "00:00", title: "Intro: Building AI Research Tools from the Ground Up" },
       { time: "05:12", title: "Data Sovereignty: Does AI Need to Stay in Canada or Europe?" },
@@ -485,7 +485,7 @@ export const episodes: Episode[] = [
     date: "2024-08-05",
     videoUrl: "https://www.youtube.com/watch?v=AuGAgLANqxU",
     duration: "59 min",
-    tags: ["Vertical SaaS", "Product Strategy", "Scaling"],
+    tags: ["SaaS Strategy", "Growth & Pricing"],
     timestamps: [
       { time: "00:00", title: "Intro: Building SaaS products and learning from failure" },
       { time: "04:10", title: "When nobody uses your feature: Handling tough conversations" },
@@ -506,7 +506,7 @@ export const episodes: Episode[] = [
     date: "2024-07-29",
     videoUrl: "https://www.youtube.com/watch?v=TEFW1zesu2k",
     duration: "56 min",
-    tags: ["Product Launch", "Startup Journey", "AutoBlocks", "AI Tooling"],
+    tags: ["Founder Stories", "AI Architecture"],
     timestamps: [
       { time: "00:00", title: "Introduction about Autoblocks' impact on AI industry" },
       { time: "03:45", title: "Efficiency gains from AI in sales, marketing, product design, and development" },
@@ -538,7 +538,7 @@ export const episodes: Episode[] = [
     date: "2024-07-22",
     videoUrl: "https://www.youtube.com/watch?v=eu94ja61HKM",
     duration: "61 min",
-    tags: ["Scaling", "Partnerships", "Confluent"],
+    tags: ["Growth & Pricing", "Founder Stories"],
   },
   {
     id: 3,
@@ -547,7 +547,7 @@ export const episodes: Episode[] = [
     date: "2024-07-15",
     videoUrl: "https://www.youtube.com/watch?v=GBnflK7Dnfo",
     duration: "61 min",
-    tags: ["Deployment Models", "BYOC", "Cloud Architecture"],
+    tags: ["Cloud Infrastructure", "SaaS Strategy"],
   },
   {
     id: 2,
@@ -556,7 +556,7 @@ export const episodes: Episode[] = [
     date: "2024-07-08",
     videoUrl: "https://www.youtube.com/watch?v=pK9_l1eAvRk",
     duration: "49 min",
-    tags: ["Cloud Marketplaces", "Distribution", "AWS Marketplace"],
+    tags: ["Growth & Pricing", "Cloud Infrastructure"],
     guests: [
       {
         name: "Sridhar Adusumilli",
@@ -572,6 +572,6 @@ export const episodes: Episode[] = [
     date: "2024-07-01",
     videoUrl: "https://www.youtube.com/watch?v=NwyIMZbhJno",
     duration: "64 min",
-    tags: ["AI Impact", "SaaS", "AWS"],
+    tags: ["AI & Agents", "SaaS Strategy"],
   },
 ]

@@ -43,9 +43,9 @@ export const metadata: Metadata = {
     "AWS",
     "Omnistrate",
   ],
-  authors: [{ name: "Omnistrate", url: "https://www.omnistrate.com" }],
-  creator: "Omnistrate",
-  publisher: "Omnistrate",
+  authors: [{ name: "Agentic SaaS Talks", url: "https://agentic-saas-talks.com" }],
+  creator: "Agentic SaaS Talks",
+  publisher: "Agentic SaaS Talks",
   category: "Technology",
   openGraph: {
     title: "Agentic SaaS Talks - Exploring the Future of AI Applications",
@@ -120,6 +120,7 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://www.linkedin.com" />
         <link rel="preconnect" href="https://www.googletagmanager.com" />
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+        <link rel="alternate" type="application/rss+xml" title="Agentic SaaS Talks RSS Feed" href="/feed.xml" />
       </head>
       <body className={inter.className}>
         {/* Google Analytics */}
