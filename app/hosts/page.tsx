@@ -6,6 +6,7 @@ import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { hosts } from "@/data/hosts"
+import Link from "next/link"
 import { ScrollToTop } from "@/components/scroll-to-top"
 import { useReducedMotion } from "@/lib/use-reduced-motion"
 import { Breadcrumb } from "@/components/breadcrumb"
@@ -198,12 +199,12 @@ export default function HostsPage() {
                   </p>
                   <div className="flex flex-wrap justify-center gap-4">
                     <Button variant="outline" asChild>
-                      <a
+                      <Link
                         href="/episodes"
                         aria-label="View all episodes"
                       >
                         View All Episodes
-                      </a>
+                      </Link>
                     </Button>
                     <Button asChild>
                       <a

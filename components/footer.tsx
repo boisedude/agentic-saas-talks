@@ -82,6 +82,14 @@ export const Footer = memo(() => {
                   Privacy Policy
                 </Link>
               </li>
+              <li>
+                <Link
+                  href="/terms"
+                  className="inline-flex min-h-[44px] items-center text-muted-foreground transition-colors hover:text-foreground"
+                >
+                  Terms of Use
+                </Link>
+              </li>
             </ul>
           </div>
 

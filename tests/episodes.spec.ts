@@ -11,13 +11,13 @@ test.describe('Episodes Validation Tests', () => {
     await page.screenshot({ path: 'test-results/screenshots/homepage-validation.png', fullPage: true });
   });
 
-  test('episodes page shows all 18 episodes', async ({ page }) => {
+  test('episodes page shows all 18 episode cards', async ({ page }) => {
     await page.goto('/episodes');
 
-    // Wait for episodes content to load - look for episode titles
-    await page.waitForSelector('h3:has-text("Episode")');
+    // Wait for episode cards to load
+    await page.waitForSelector('h3');
 
-    // Count episodes by looking for "Episode X:" pattern in headings
+    // Count episode cards by looking for "Episode X:" pattern in headings
     const episodeHeadings = page.locator('h3').filter({ hasText: /Episode \d+:/ });
     const episodeCount = await episodeHeadings.count();
 
@@ -27,114 +27,104 @@ test.describe('Episodes Validation Tests', () => {
     await page.screenshot({ path: 'test-results/screenshots/all-episodes.png', fullPage: true });
   });
 
-  test('Episode 18 appears with correct title', async ({ page }) => {
+  test('episode cards link to detail pages', async ({ page }) => {
     await page.goto('/episodes');
 
-    // Look for Episode 18's specific title
-    const episode18Title = page.getByText('Deploying Agentic Applications: From Multi-Tenant to "SaaS Anywhere"', { exact: false });
+    // Wait for cards to load
+    await page.waitForSelector('h3');
+
+    // Click the first episode card link
+    const firstCard = page.locator('a[href^="/episodes/"]').first();
+    await expect(firstCard).toBeVisible();
+
+    const href = await firstCard.getAttribute('href');
+    expect(href).toMatch(/^\/episodes\/\d+$/);
+  });
+
+  test('episode detail page loads correctly', async ({ page }) => {
+    // Navigate to a known episode
+    await page.goto('/episodes/18');
+
+    // Check title heading
+    const heading = page.getByRole('heading', { level: 1 });
+    await expect(heading).toContainText('Episode 18');
+    await expect(heading).toContainText('Deploying Agentic Applications');
+
+    // Check timestamps section
+    const timestampsHeading = page.getByRole('heading', { name: /Timestamps/i });
+    await expect(timestampsHeading).toBeVisible();
+
+    // Check watch on YouTube button
+    const watchButton = page.getByRole('link', { name: /Watch on YouTube/i });
+    await expect(watchButton).toBeVisible();
+
+    await page.screenshot({ path: 'test-results/screenshots/episode-detail.png', fullPage: true });
+  });
+
+  test('episode detail page shows guest info', async ({ page }) => {
+    // Episode 15 has Tudor Golubenco as a guest
+    await page.goto('/episodes/15');
+
+    const guestName = page.getByText('Tudor Golubenco');
+    await expect(guestName).toBeVisible();
+
+    const guestsHeading = page.getByRole('heading', { name: /Special Guests/i });
+    await expect(guestsHeading).toBeVisible();
+
+    await page.screenshot({ path: 'test-results/screenshots/episode-guest.png', fullPage: true });
+  });
+
+  test('episode detail page has breadcrumbs', async ({ page }) => {
+    await page.goto('/episodes/1');
+
+    const breadcrumbNav = page.locator('nav[aria-label="Breadcrumb"]');
+    await expect(breadcrumbNav).toBeVisible();
+
+    // Should have Home > Episodes > Episode 1 links
+    await expect(breadcrumbNav.getByText('Home')).toBeVisible();
+    await expect(breadcrumbNav.getByText('Episodes')).toBeVisible();
+  });
+
+  test('Episode 18 appears with correct title on listing', async ({ page }) => {
+    await page.goto('/episodes');
+
+    const episode18Title = page.getByText('Deploying Agentic Applications', { exact: false });
     await expect(episode18Title.first()).toBeVisible();
 
-    // Also verify it's labeled as Episode 18
-    const episodeNumber = page.getByText(/Episode 18|#18/i);
-    await expect(episodeNumber.first()).toBeVisible();
-
     await page.screenshot({ path: 'test-results/screenshots/episode-18.png' });
-  });
-
-  test('timestamps are visible on episodes that have them', async ({ page }) => {
-    await page.goto('/episodes');
-
-    // Look for timestamp indicators (time format like 00:00 or links/buttons related to timestamps)
-    const timestamps = page.locator('text=/\\d{1,2}:\\d{2}/').or(
-      page.getByText(/timestamps/i)
-    ).or(
-      page.locator('[data-timestamps]')
-    );
-
-    const timestampCount = await timestamps.count();
-
-    // Most episodes have timestamps, so we should find some
-    expect(timestampCount).toBeGreaterThan(0);
-
-    await page.screenshot({ path: 'test-results/screenshots/timestamps-visible.png', fullPage: true });
-  });
-
-  test('guest information displays correctly', async ({ page }) => {
-    await page.goto('/episodes');
-
-    // Look for guest names that we know exist in the data
-    const knownGuests = [
-      'Tudor Golubenco',
-      'Eli Aleyner',
-      'Joshua McKenty',
-      'Shriram Sridharan',
-      'Flynn Glover',
-      'Ashwin Raman',
-      'Adam Nolte',
-      'Sridhar Adusumilli'
-    ];
-
-    let foundGuests = 0;
-
-    for (const guest of knownGuests) {
-      const guestElement = page.getByText(guest, { exact: false });
-      if (await guestElement.count() > 0) {
-        foundGuests++;
-      }
-    }
-
-    // Should find at least some guest names
-    expect(foundGuests).toBeGreaterThan(0);
-
-    await page.screenshot({ path: 'test-results/screenshots/guest-info.png', fullPage: true });
-  });
-
-  test('episode details display correctly (title, description, tags)', async ({ page }) => {
-    await page.goto('/episodes');
-
-    // Check for episode titles
-    const titles = page.locator('h2, h3').filter({ hasText: /Episode|Deploying|Building|From|The|How|Inside|Pricing|Mastering/i });
-    const titleCount = await titles.count();
-    expect(titleCount).toBeGreaterThan(0);
-
-    // Check for tags
-    const tags = page.locator('[data-tag], .tag, .badge').or(
-      page.getByText(/AI|SaaS|Architecture|DBaaS|Pricing|Startup/i)
-    );
-    const tagCount = await tags.count();
-    expect(tagCount).toBeGreaterThan(0);
-
-    // Check for descriptions (longer text content)
-    const descriptions = page.locator('p').filter({ hasText: /.{50,}/ }); // At least 50 chars
-    const descCount = await descriptions.count();
-    expect(descCount).toBeGreaterThan(0);
-
-    await page.screenshot({ path: 'test-results/screenshots/episode-details.png', fullPage: true });
   });
 
   test('episode cards show duration information', async ({ page }) => {
     await page.goto('/episodes');
 
-    // Look for duration format like "66 min" or "1h 2m"
-    const durations = page.locator('text=/\\d+\\s*min|\\d+h\\s*\\d+m/i');
+    // Look for duration format like "66 min"
+    const durations = page.locator('text=/\\d+\\s*min/i');
     const durationCount = await durations.count();
 
-    // Should find duration info for episodes
     expect(durationCount).toBeGreaterThan(0);
 
     await page.screenshot({ path: 'test-results/screenshots/durations.png' });
   });
 
-  test('newest episode (18) appears first in the list', async ({ page }) => {
+  test('newest episode (24) appears first in the list', async ({ page }) => {
     await page.goto('/episodes');
 
     // Wait for episodes to load
-    await page.waitForSelector('h3:has-text("Episode")');
+    await page.waitForSelector('h3');
 
     // Get the first episode heading
     const firstEpisodeHeading = page.locator('h3').filter({ hasText: /Episode \d+:/ }).first();
 
-    // Check that it's Episode 18
-    await expect(firstEpisodeHeading).toContainText('Episode 18');
+    // Episode 24 is newest by date
+    await expect(firstEpisodeHeading).toContainText('Episode 24');
+  });
+
+  test('episode detail page has structured data', async ({ page }) => {
+    await page.goto('/episodes/18');
+
+    // Check for JSON-LD scripts
+    const jsonLdScripts = page.locator('script[type="application/ld+json"]');
+    const count = await jsonLdScripts.count();
+    expect(count).toBeGreaterThanOrEqual(2);
   });
 });

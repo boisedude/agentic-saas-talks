@@ -1,4 +1,6 @@
 import { Episode } from "@/data/episodes"
+import type { BlogPost } from "@/lib/blog"
+import type { Host } from "@/data/hosts"
 import { getYouTubeVideoId } from "@/lib/helpers"
 
 export const SITE_URL = "https://agentic-saas-talks.com"
@@ -168,6 +170,55 @@ export const getWebPageSchema = (props: {
     "url": SITE_URL,
   },
 })
+
+// BlogPosting Schema
+export const getBlogPostSchema = (post: BlogPost, author?: Host) => {
+  const wordCount = post.content.split(/\s+/).length
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": post.title,
+    "description": post.excerpt,
+    "datePublished": post.date,
+    "author": author
+      ? {
+          "@type": "Person",
+          "name": author.name,
+          "url": author.linkedIn,
+        }
+      : {
+          "@type": "Organization",
+          "name": "Agentic SaaS Talks",
+          "url": SITE_URL,
+        },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Omnistrate",
+      "url": "https://www.omnistrate.com",
+      "logo": {
+        "@type": "ImageObject",
+        "url": `${SITE_URL}/logo.jpg`,
+      },
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": `${SITE_URL}/blog/${post.slug}`,
+    },
+    ...(post.featuredImage
+      ? {
+          image: {
+            "@type": "ImageObject",
+            url: post.featuredImage.startsWith("http")
+              ? post.featuredImage
+              : `${SITE_URL}${post.featuredImage}`,
+          },
+        }
+      : {}),
+    "keywords": post.tags.join(", "),
+    "wordCount": wordCount,
+  }
+}
 
 // VideoSeries Schema
 export const getVideoSeriesSchema = (episodes: Episode[]) => ({

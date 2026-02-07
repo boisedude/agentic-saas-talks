@@ -12,6 +12,7 @@ import { AnimatedBackground } from "@/components/animated-background"
 import { useReducedMotion } from "@/lib/use-reduced-motion"
 import ReactMarkdown from "react-markdown"
 import { formatDate } from "@/lib/helpers"
+import { getBreadcrumbSchema, getBlogPostSchema, SITE_URL } from "@/lib/seo"
 
 interface BlogPostClientProps {
   post: BlogPost
@@ -27,8 +28,25 @@ export function BlogPostClient({ post, author }: BlogPostClientProps) {
     return headingText === post.title ? '' : match
   })
 
+  const blogPostSchema = getBlogPostSchema(post, author)
+  const breadcrumbSchema = getBreadcrumbSchema([
+    { name: "Home", url: SITE_URL },
+    { name: "Blog", url: `${SITE_URL}/blog` },
+    { name: post.title, url: `${SITE_URL}/blog/${post.slug}` },
+  ])
+
   return (
     <>
+      {/* Structured Data for SEO */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(blogPostSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+
       {/* Animated Background Effects */}
       <AnimatedBackground />
 

@@ -23,6 +23,11 @@ export interface Episode {
   guests?: Guest[]
 }
 
+/** Find an episode by its numeric ID */
+export function getEpisodeById(id: number): Episode | undefined {
+  return episodes.find((ep) => ep.id === id)
+}
+
 // All episodes from the Agentic SaaS Talks playlist (newest first)
 export const episodes: Episode[] = [
   {

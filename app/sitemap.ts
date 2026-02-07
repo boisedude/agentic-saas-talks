@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next"
 import { getAllBlogPosts } from "@/lib/blog"
+import { episodes } from "@/data/episodes"
 
 export const dynamic = "force-static"
 
@@ -38,7 +39,21 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "yearly",
       priority: 0.3,
     },
+    {
+      url: `${baseUrl}/terms`,
+      lastModified: new Date(),
+      changeFrequency: "yearly",
+      priority: 0.3,
+    },
   ]
+
+  // Generate sitemap entries for all episodes
+  const episodeEntries: MetadataRoute.Sitemap = episodes.map((episode) => ({
+    url: `${baseUrl}/episodes/${episode.id}`,
+    lastModified: new Date(episode.date),
+    changeFrequency: "monthly" as const,
+    priority: 0.8,
+  }))
 
   // Generate sitemap entries for all blog posts
   const blogPosts = getAllBlogPosts()
@@ -49,8 +64,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }))
 
-  // Note: Episodes are YouTube links, so we don't add individual episode pages
-  // The /episodes page serves as the main entry point
-
-  return [...staticPages, ...blogEntries]
+  return [...staticPages, ...episodeEntries, ...blogEntries]
 }

@@ -235,7 +235,7 @@ export default function HomePage() {
                         <span>{latestEpisode.duration}</span>
                       </div>
                     </div>
-                    <div className="mt-4">
+                    <div className="mt-4 flex flex-wrap gap-3">
                       <Button asChild>
                         <a
                           href={latestEpisode.videoUrl}
@@ -247,6 +247,11 @@ export default function HomePage() {
                           Watch Now
                           <ExternalLink className="ml-2 h-3 w-3" aria-hidden="true" />
                         </a>
+                      </Button>
+                      <Button variant="outline" asChild>
+                        <Link href={`/episodes/${latestEpisode.id}`}>
+                          View Details
+                        </Link>
                       </Button>
                     </div>
                   </CardContent>

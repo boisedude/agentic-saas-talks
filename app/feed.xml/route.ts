@@ -1,5 +1,5 @@
 import { episodes } from "@/data/episodes"
-import { SITE_URL, SITE_NAME, SITE_DESCRIPTION, EXTERNAL_LINKS } from "@/lib/constants"
+import { SITE_URL, SITE_NAME, SITE_DESCRIPTION } from "@/lib/constants"
 
 export const dynamic = "force-static"
 
@@ -38,6 +38,7 @@ export function GET() {
     <link>${SITE_URL}</link>
     <atom:link href="${SITE_URL}/feed.xml" rel="self" type="application/rss+xml"/>
     <language>en-us</language>
+    <copyright>Agentic SaaS Talks. All rights reserved.</copyright>
     <lastBuildDate>${new Date(sortedEpisodes[0]?.date ?? Date.now()).toUTCString()}</lastBuildDate>
     <managingEditor>guest@agentic-saas-talks.com (Agentic SaaS Talks)</managingEditor>
     <image>
