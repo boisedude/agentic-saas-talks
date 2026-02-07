@@ -73,7 +73,7 @@ export const AnimatedBackground = memo(() => {
       />
 
       {/* Radial gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-radial from-transparent via-background/50 to-background" />
+      <div className="absolute inset-0" style={{ background: 'radial-gradient(circle, transparent, color-mix(in srgb, var(--background) 50%, transparent), var(--background))' }} />
     </div>
   )
 })

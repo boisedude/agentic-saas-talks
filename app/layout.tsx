@@ -3,8 +3,6 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
-import Script from "next/script";
-
 const inter = Inter({ subsets: ["latin"], display: "swap" });
 
 export const metadata: Metadata = {
@@ -16,10 +14,12 @@ export const metadata: Metadata = {
   description: "Join our webcast series exploring the future of AI applications, agentic architectures, and the evolution of SaaS platforms. Deep dives into AI, SaaS, and intelligent systems with industry experts from AWS, Omnistrate, and leading AI companies.",
   icons: {
     icon: [
+      { url: '/icon.png', sizes: '32x32', type: 'image/png' },
       { url: '/logo.jpg', sizes: '160x160', type: 'image/jpeg' },
+      { url: '/icon-192.png', sizes: '192x192', type: 'image/png' },
     ],
     apple: [
-      { url: '/logo.jpg', sizes: '160x160', type: 'image/jpeg' },
+      { url: '/apple-icon.png', sizes: '180x180', type: 'image/png' },
     ],
   },
   keywords: [
@@ -53,10 +53,10 @@ export const metadata: Metadata = {
     siteName: "Agentic SaaS Talks",
     images: [
       {
-        url: "/logo.jpg",
-        width: 800,
-        height: 600,
-        alt: "Agentic SaaS Talks Logo - AI and SaaS Webcast Series",
+        url: "/opengraph-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Agentic SaaS Talks - Exploring the Future of AI Applications",
       },
     ],
     locale: "en_US",
@@ -66,7 +66,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Agentic SaaS Talks - Exploring the Future of AI Applications",
     description: "Join our webcast series exploring the future of AI applications, agentic architectures, and the evolution of SaaS platforms.",
-    images: ["/logo.jpg"],
+    images: ["/twitter-image.png"],
     creator: "@omnistrate",
   },
   robots: {
@@ -80,10 +80,6 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
-  // TODO: Add Google Search Console verification code when available
-  // verification: {
-  //   google: "your-verification-code-here",
-  // },
   alternates: {
     canonical: "https://agentic-saas-talks.com",
   },
@@ -123,11 +119,6 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://www.linkedin.com" />
       </head>
       <body className={inter.className}>
-        {/* Netlify Identity Widget */}
-        <Script
-          src="https://identity.netlify.com/v1/netlify-identity-widget.js"
-          strategy="afterInteractive"
-        />
         {/* Skip navigation link for accessibility */}
         <a
           href="#main-content"

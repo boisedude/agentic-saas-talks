@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "eslint app/ components/ lib/ data/"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.15",
@@ -32,11 +32,10 @@
     "basic-ftp": "^5.1.0",
     "eslint": "^9.39.2",
     "eslint-config-next": "^16.1.6",
-    "playwright": "^1.58.1",
+    "playwright": "^1.58.2",
     "postcss": "^8",
     "sharp": "^0.34.5",
     "tailwindcss": "^4.0.0",
-    "tw-animate-css": "^1.0.0",
     "typescript": "^5"
   }
 }

@@ -3,7 +3,7 @@
 import { useMemo, useState, Suspense, useCallback } from "react"
 import { useSearchParams, useRouter } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
-import { Video, Calendar, Clock, ExternalLink, PlayCircle, Users, Linkedin, ChevronDown, Filter, Search, Share2, Twitter, Link2, Check } from "lucide-react"
+import { Video, Calendar, Clock, ExternalLink, PlayCircle, Users, Linkedin, ChevronDown, Filter, Search, Twitter, Link2, Check } from "lucide-react"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -15,6 +15,7 @@ import { useReducedMotion } from "@/lib/use-reduced-motion"
 import { Breadcrumb } from "@/components/breadcrumb"
 import { getBreadcrumbSchema, getEpisodesListSchema, getWebPageSchema } from "@/lib/seo"
 import { getYouTubeVideoId, formatDate, getTimestampUrl } from "@/lib/helpers"
+import { EXTERNAL_LINKS } from "@/lib/constants"
 
 // Social sharing component
 function ShareButtons({ episode }: { episode: Episode }) {
@@ -96,7 +97,7 @@ const generateVideoSchema = (episode: Episode) => {
     "publisher": {
       "@type": "Organization",
       "name": "Omnistrate",
-      "url": "https://www.youtube.com/@omnistrate"
+      "url": EXTERNAL_LINKS.omnistrate
     },
   }
 }
@@ -606,7 +607,7 @@ function EpisodesPageContent() {
               </p>
               <Button variant="outline" asChild>
                 <a
-                  href="https://www.youtube.com/@omnistrate"
+                  href={EXTERNAL_LINKS.youtube}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Subscribe to Agentic SaaS Talks on YouTube"

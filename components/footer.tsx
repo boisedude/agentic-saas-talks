@@ -1,5 +1,6 @@
 import { Video, ExternalLink, Linkedin } from "lucide-react"
 import Link from "next/link"
+import { EXTERNAL_LINKS } from "@/lib/constants"
 import { memo } from "react"
 
 export const Footer = memo(() => {
@@ -18,7 +19,7 @@ export const Footer = memo(() => {
             {/* Social Icons */}
             <div className="flex gap-2">
               <a
-                href="https://www.youtube.com/@omnistrate"
+                href={EXTERNAL_LINKS.youtube}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-muted transition-colors hover:bg-muted/80 hover:text-red-500"
@@ -27,7 +28,7 @@ export const Footer = memo(() => {
                 <Video className="h-5 w-5" aria-hidden="true" />
               </a>
               <a
-                href="https://www.linkedin.com/company/omnistrate/"
+                href={EXTERNAL_LINKS.linkedIn}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-muted transition-colors hover:bg-muted/80 hover:text-blue-500"
@@ -73,7 +74,7 @@ export const Footer = memo(() => {
             <ul className="space-y-2 text-sm">
               <li>
                 <a
-                  href="https://www.youtube.com/@omnistrate"
+                  href={EXTERNAL_LINKS.youtube}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex min-h-[44px] items-center gap-2 text-muted-foreground transition-colors hover:text-foreground"
@@ -85,7 +86,7 @@ export const Footer = memo(() => {
               </li>
               <li>
                 <a
-                  href="https://www.linkedin.com/company/omnistrate/"
+                  href={EXTERNAL_LINKS.linkedIn}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex min-h-[44px] items-center gap-2 text-muted-foreground transition-colors hover:text-foreground"
@@ -103,7 +104,7 @@ export const Footer = memo(() => {
           <div className="text-center">
             <div className="mb-3 text-sm font-semibold text-muted-foreground">Sponsored By</div>
             <a
-              href="https://www.omnistrate.com"
+              href={EXTERNAL_LINKS.omnistrate}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 text-lg font-bold text-foreground transition-colors hover:text-blue-500"

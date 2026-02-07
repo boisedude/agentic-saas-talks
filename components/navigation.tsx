@@ -6,6 +6,7 @@ import { Video, Linkedin } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { MobileNav } from "@/components/mobile-nav"
 import { NavLink } from "@/components/nav-link"
+import { EXTERNAL_LINKS } from "@/lib/constants"
 import { memo } from "react"
 
 export const Navigation = memo(() => {
@@ -34,7 +35,7 @@ export const Navigation = memo(() => {
           <div className="flex items-center gap-2" role="group" aria-label="Social media links">
             <Button size="sm" asChild>
               <a
-                href="https://www.youtube.com/@omnistrate"
+                href={EXTERNAL_LINKS.youtube}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Subscribe on YouTube"
@@ -45,7 +46,7 @@ export const Navigation = memo(() => {
             </Button>
             <Button size="sm" variant="outline" asChild>
               <a
-                href="https://www.linkedin.com/company/omnistrate/"
+                href={EXTERNAL_LINKS.linkedIn}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Follow on LinkedIn"

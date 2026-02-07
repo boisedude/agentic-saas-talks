@@ -10,6 +10,7 @@ import { ScrollToTop } from "@/components/scroll-to-top"
 import { useReducedMotion } from "@/lib/use-reduced-motion"
 import { Breadcrumb } from "@/components/breadcrumb"
 import { getBreadcrumbSchema, getWebPageSchema } from "@/lib/seo"
+import { EXTERNAL_LINKS } from "@/lib/constants"
 import Image from "next/image"
 import { useState, useCallback, useMemo } from "react"
 
@@ -206,7 +207,7 @@ export default function HostsPage() {
                     </Button>
                     <Button asChild>
                       <a
-                        href="https://www.youtube.com/@omnistrate"
+                        href={EXTERNAL_LINKS.youtube}
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label="Subscribe on YouTube"

@@ -1,6 +1,6 @@
-# Agent Guide: Adding Episodes to Agentic SaaS Talks
+# Agent Guide: Agentic SaaS Talks Website
 
-Quick reference for AI agents to add new episodes to the website.
+Comprehensive reference for AI agents working on this Next.js website. All paths are relative to the project root.
 
 ---
 
@@ -8,50 +8,45 @@ Quick reference for AI agents to add new episodes to the website.
 
 ### Step 1: Get Episode Info from YouTube
 
-Use Playwright to scrape the YouTube video:
+Use Playwright (via MCP tools or scripts) to scrape the YouTube video page. Available scripts:
 
-```typescript
-// scripts/scrape-episode.ts
-import { chromium } from 'playwright';
+- `scripts/scrape-playlist.ts` — Scrapes the full YouTube playlist to list all videos with titles and URLs
+- `scripts/scrape-videos.ts` — Scrapes individual video pages for detailed info (title, date, duration, description, timestamps, guests)
+- `scripts/scrape-full-episodes.ts` — Scrapes a hardcoded list of video URLs for full details
 
-async function scrapeYouTubeVideo(url: string) {
-  const browser = await chromium.launch();
-  const page = await browser.newPage();
-  const videoId = url.match(/watch\?v=([^&]+)/)?.[1] || url.match(/live\/([^?]+)/)?.[1];
+Run with: `npx tsx scripts/scrape-playlist.ts`
 
-  await page.goto(`https://www.youtube.com/watch?v=${videoId}`, { waitUntil: 'networkidle' });
-  await page.click('#expand').catch(() => {});
-  await page.waitForTimeout(1000);
+**Note:** Some new episodes may not yet be added to the YouTube playlist. If you know the video URL, scrape it directly using Playwright MCP tools or by adding the URL to `scripts/scrape-videos.ts`.
 
-  // Extract title, description, timestamps from page
-  // Return structured data
-}
+### Step 2: Validate Current Data
+
+```bash
+npx tsx scripts/validate-episodes.ts
 ```
 
-Run with: `npx tsx scripts/scrape-episode.ts`
+This shows the current highest ID and next available ID.
 
-### Step 2: Add Episode to Data File
+### Step 3: Add Episode to Data File
 
-Edit `/home/mcoop/agentic-saas-talks/data/episodes.ts`
+Edit `data/episodes.ts`
 
-Add new episode at the **TOP** of the `episodes` array:
+Add new episode at the **TOP** of the `episodes` array (newest first):
 
 ```typescript
 {
-  id: 19,  // Increment from previous episode
+  id: 25,  // Use next available ID from validation script
   title: "Episode Title Here",
   description: "2-3 sentence description of what the episode covers.",
   date: "2025-11-22",  // Format: YYYY-MM-DD
   videoUrl: "https://www.youtube.com/watch?v=VIDEO_ID",
-  duration: "60 min",
+  duration: "60 min",  // Format: "X min"
   tags: ["AI Architecture", "SaaS", "Tag3"],
-  timestamps: [
+  timestamps: [  // Optional — include if available from YouTube description
     { time: "00:00", title: "Introduction" },
     { time: "05:30", title: "Topic 1" },
     { time: "15:00", title: "Topic 2" },
-    // Copy from YouTube description
   ],
-  guests: [  // Optional - only if episode has guests
+  guests: [  // Optional — only if episode has external guests (not hosts)
     {
       name: "Guest Name",
       linkedIn: "https://www.linkedin.com/in/username/",
@@ -61,16 +56,15 @@ Add new episode at the **TOP** of the `episodes` array:
 }
 ```
 
-### Step 3: Build
+### Step 4: Validate and Build
 
 ```bash
-cd /home/mcoop/agentic-saas-talks
-npm run build
+npx tsx scripts/validate-episodes.ts && npm run build
 ```
 
-Verify build passes with no errors.
+Verify both pass with no errors.
 
-### Step 4: Test (Optional)
+### Step 5: Test (Optional)
 
 ```bash
 npm run dev
@@ -85,15 +79,15 @@ Or run Playwright tests:
 npx playwright test
 ```
 
-### Step 5: Deploy to Hostinger
+### Step 6: Deploy to Hostinger
 
 ```bash
-lftp 191.101.13.61 -e "set ssl:verify-certificate no; set ftp:ssl-allow no; user u951885034 'FTP_PASSWORD_HERE'; cd /domains/agentic-saas-talks.com/public_html; mirror --reverse --delete --verbose /home/mcoop/agentic-saas-talks/out/ ./; quit"
+lftp 191.101.13.61 -e "set ssl:verify-certificate no; set ftp:ssl-allow no; user u951885034 'FTP_PASSWORD_HERE'; cd /domains/agentic-saas-talks.com/public_html; mirror --reverse --delete --verbose out/ ./; quit"
 ```
 
-**Note:** Get FTP password from user - it's not stored in repo.
+**Note:** Get FTP password from user — it is not stored in the repo.
 
-### Step 6: Verify Deployment
+### Step 7: Verify Deployment
 
 Check https://agentic-saas-talks.com:
 - Homepage shows new episode
@@ -102,36 +96,32 @@ Check https://agentic-saas-talks.com:
 
 ---
 
-## Important Notes
+## Data Format Reference
 
 ### Episode ID
-- Always increment from the highest existing ID
-- Check current highest: `grep "id:" data/episodes.ts | head -1`
+- Always use the next available ID (run `npx tsx scripts/validate-episodes.ts` to check)
+- IDs are not sequential by date — they increment globally
+
+### Date Format
+- Always use ISO format: `YYYY-MM-DD`
+
+### Duration Format
+- Always use: `"X min"` (e.g., `"56 min"`)
 
 ### Timestamps Format
-- Use `HH:MM` or `H:MM:SS` format
+- Use `MM:SS` or `H:MM:SS` format
 - Example: `"1:05:30"` for 1 hour 5 minutes 30 seconds
 - Example: `"05:30"` for 5 minutes 30 seconds
 
 ### Tags
 Common tags used in this project:
-- AI Architecture
-- SaaS
-- Cloud Computing
-- Control Planes
-- AI Agents
-- Pricing
-- Startups
-- Database
-- Developer Experience
+- AI Architecture, SaaS, Cloud Computing, Control Planes, AI Agents
+- Pricing, Startups, Database, Developer Experience
+- Agentic AI, Open Source, Data Streaming, Year in Review
 
 ### Guest LinkedIn URLs
 - Format: `https://www.linkedin.com/in/username/`
-- Include trailing slash
-
-### Date Format
-- Always use ISO format: `YYYY-MM-DD`
-- Example: `"2025-11-22"`
+- Always include trailing slash
 
 ---
 
@@ -139,11 +129,35 @@ Common tags used in this project:
 
 | File | Purpose |
 |------|---------|
-| `data/episodes.ts` | Episode data - ADD NEW EPISODES HERE |
-| `data/hosts.ts` | Host information |
-| `app/page.tsx` | Homepage (shows latest episode) |
-| `app/episodes/page.tsx` | Episodes archive page |
-| `out/` | Built files for deployment |
+| **Data** | |
+| `data/episodes.ts` | Episode data — **ADD NEW EPISODES HERE** |
+| `data/hosts.ts` | Host information (names, bios, photos, LinkedIn) |
+| **Pages** | |
+| `app/page.tsx` | Homepage (shows latest episode, hero, topics) |
+| `app/episodes/page.tsx` | Episodes archive with search/filter |
+| `app/hosts/page.tsx` | Hosts page with photos and bios |
+| `app/blog/page.tsx` | Blog listing page |
+| `app/blog/[slug]/page.tsx` | Individual blog post page |
+| `app/layout.tsx` | Root layout (metadata, fonts, nav, footer) |
+| **Components** | |
+| `components/navbar.tsx` | Navigation bar |
+| `components/footer.tsx` | Site footer |
+| `components/ui/` | Reusable UI components (button, card, badge, etc.) |
+| **Config & Utilities** | |
+| `lib/constants.ts` | Site URL, external links, nav links, animation config |
+| `lib/seo.ts` | Schema.org structured data generators |
+| `lib/helpers.ts` | Utility functions (date formatting, YouTube ID extraction) |
+| `lib/blog.ts` | Blog post loading from markdown files |
+| **Scripts** | |
+| `scripts/scrape-playlist.ts` | Scrape YouTube playlist for all video URLs |
+| `scripts/scrape-videos.ts` | Scrape individual YouTube videos for details |
+| `scripts/scrape-full-episodes.ts` | Detailed scraping of specific video URLs |
+| `scripts/validate-episodes.ts` | Validate episode data integrity |
+| `scripts/deploy-ftp.mjs` | FTP deployment script |
+| **Build Output** | |
+| `out/` | Static export files for deployment |
+| **Tests** | |
+| `tests/` | Playwright E2E tests |
 
 ---
 
@@ -165,12 +179,12 @@ npm run build
 ```
 
 ### Timestamps Not Linking
-- Check format is `HH:MM` or `H:MM:SS`
+- Check format is `MM:SS` or `H:MM:SS`
 - No leading zeros needed for hours
 
 ### Guest Info Not Showing
 - Verify `guests` array is inside the episode object
-- Check LinkedIn URL format
+- Check LinkedIn URL format has trailing slash
 
 ### Thumbnail Wrong
 - YouTube needs custom thumbnail uploaded
@@ -181,17 +195,37 @@ npm run build
 ## Quick Commands
 
 ```bash
+# Validation
+npx tsx scripts/validate-episodes.ts  # Validate episode data
+
 # Development
-npm run dev              # Start local server
-npm run build            # Build for production
-npm run lint             # Check for errors
+npm run dev              # Start local server at http://localhost:3000
+npm run build            # Build static export for production
+npm run lint             # Run ESLint
+
+# Scraping
+npx tsx scripts/scrape-playlist.ts       # List all playlist videos
+npx tsx scripts/scrape-videos.ts         # Scrape video details
 
 # Testing
-npx playwright test      # Run all tests
+npx playwright test      # Run all E2E tests
 
 # Deployment
 # Use lftp command above with correct password
 ```
+
+---
+
+## Tech Stack
+
+- **Framework:** Next.js 16 (static export via `output: 'export'`)
+- **React:** 19
+- **CSS:** Tailwind CSS 4
+- **Animation:** Framer Motion
+- **UI Components:** Radix UI primitives + shadcn/ui pattern
+- **Linting:** ESLint 9 with eslint-config-next
+- **Testing:** Playwright
+- **Deployment:** Static files via FTP to Hostinger
 
 ---
 

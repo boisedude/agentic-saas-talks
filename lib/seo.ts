@@ -1,18 +1,9 @@
 import { Episode } from "@/data/episodes"
+import { getYouTubeVideoId } from "@/lib/helpers"
 
 export const SITE_URL = "https://agentic-saas-talks.com"
 export const SITE_NAME = "Agentic SaaS Talks"
 export const SITE_DESCRIPTION = "Join our webcast series exploring the future of AI applications, agentic architectures, and the evolution of SaaS platforms. Deep dives into AI, SaaS, and intelligent systems with industry experts."
-
-// Helper function to extract video ID from YouTube URL
-export const getYouTubeVideoId = (url: string): string => {
-  try {
-    const urlObj = new URL(url)
-    return urlObj.searchParams.get('v') || ''
-  } catch {
-    return ''
-  }
-}
 
 // Organization Schema
 export const getOrganizationSchema = () => ({

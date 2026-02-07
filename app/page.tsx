@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
-import { episodes, type Episode } from "@/data/episodes"
+import { episodes } from "@/data/episodes"
 import Link from "next/link"
 import { ImageWithLoading } from "@/components/image-with-loading"
 import { AnimatedBackground } from "@/components/animated-background"
@@ -19,17 +19,15 @@ import {
   getVideoSeriesSchema,
   getWebPageSchema,
 } from "@/lib/seo"
-import { useMemo } from "react"
 import { getYouTubeVideoId, formatDate } from "@/lib/helpers"
+import { EXTERNAL_LINKS } from "@/lib/constants"
 
 export default function HomePage() {
   const prefersReducedMotion = useReducedMotion()
 
-  // Memoize latest episode to prevent unnecessary recalculations
-  const latestEpisode = useMemo<Episode>(() => episodes[0], [])
+  const latestEpisode = episodes[0]
 
-  // Generate structured data - memoized for performance
-  const structuredData = useMemo(() => ({
+  const structuredData = {
     organizationSchema: getOrganizationSchema(),
     webSiteSchema: getWebSiteSchema(),
     videoSeriesSchema: getVideoSeriesSchema(episodes),
@@ -41,7 +39,7 @@ export default function HomePage() {
       datePublished: episodes[episodes.length - 1]?.date ?? new Date().toISOString(),
       dateModified: latestEpisode.date,
     }),
-  }), [latestEpisode])
+  }
 
   return (
     <>
@@ -105,7 +103,7 @@ export default function HomePage() {
             </p>
             <div className="flex flex-wrap items-center justify-center gap-4 text-muted-foreground">
               <a
-                href="https://youtube.com/playlist?list=PLT2Zisspnj0fsEqkag0AtmPnw3mRfF3j_"
+                href={EXTERNAL_LINKS.youtubePlaylist}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 hover:text-primary transition-colors"
@@ -380,7 +378,7 @@ export default function HomePage() {
             </p>
             <Button size="lg" asChild>
               <a
-                href="https://www.youtube.com/@omnistrate"
+                href={EXTERNAL_LINKS.youtube}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Subscribe to Agentic SaaS Talks on YouTube"
@@ -413,7 +411,7 @@ export default function HomePage() {
                 </CardDescription>
                 <CardTitle className="text-5xl font-bold">
                   <a
-                    href="https://www.omnistrate.com"
+                    href={EXTERNAL_LINKS.omnistrate}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-3 transition-colors hover:text-blue-500"
@@ -447,7 +445,7 @@ export default function HomePage() {
                 <div className="flex justify-center pt-4">
                   <Button size="lg" asChild>
                     <a
-                      href="https://www.omnistrate.com"
+                      href={EXTERNAL_LINKS.omnistrate}
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label="Learn more about Omnistrate"

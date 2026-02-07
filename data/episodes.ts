@@ -26,6 +26,15 @@ export interface Episode {
 // All episodes from the Agentic SaaS Talks playlist (newest first)
 export const episodes: Episode[] = [
   {
+    id: 24,
+    title: "Agentic SaaS Talks — 2025 Year in Review",
+    description: "The first show of the new year as the hosts look back on a full year of conversations from the podcast. Bill Tarr, Markus Kaiser, Ermin Dzinic, Kamal Gupta, and host Michael Cooper share the most important lessons learned from founders, operators, and cloud leaders across SaaS, AI, and modern cloud platforms — and what those lessons mean heading into 2026.",
+    date: "2026-01-09",
+    videoUrl: "https://www.youtube.com/watch?v=-nOw7Gr07S4",
+    duration: "56 min",
+    tags: ["Year in Review", "SaaS", "Agentic AI", "Cloud Computing"],
+  },
+  {
     id: 20,
     title: "The Agentic SaaS Executive Summit - Live Event",
     description: "A live summit event featuring two panel discussions: 'Agentic AI: Revolution, Evolution or Hype?' examining how Agentic AI is reshaping the SaaS landscape, and 'Commercializing Open Source: Paths, Tradeoffs & Lessons' exploring strategies for building sustainable businesses around open technologies.",
