@@ -7,6 +7,7 @@ import {
   getOrganizationSchema,
   getWebSiteSchema,
   getEpisodesListSchema,
+  getVideoSeriesSchema,
 } from "./seo"
 import type { Episode } from "@/data/episodes"
 import type { BlogPost } from "@/lib/blog"
@@ -157,5 +158,29 @@ describe("getEpisodesListSchema", () => {
     expect(schema["@type"]).toBe("ItemList")
     expect(schema.itemListElement).toHaveLength(1)
     expect(schema.itemListElement[0].position).toBe(1)
+  })
+
+  it("uses site episode URLs instead of YouTube URLs", () => {
+    const schema = getEpisodesListSchema([mockEpisode])
+    const itemUrl = schema.itemListElement[0].item.url
+    expect(itemUrl).toContain("/episodes/1")
+    expect(itemUrl).not.toContain("youtube.com")
+  })
+})
+
+describe("getVideoSeriesSchema", () => {
+  it("returns VideoSeries with episodes", () => {
+    const schema = getVideoSeriesSchema([mockEpisode])
+    expect(schema["@type"]).toBe("VideoSeries")
+    expect(schema.numberOfEpisodes).toBe(1)
+    expect(schema.episode).toHaveLength(1)
+    expect(schema.episode[0].name).toBe("Test Episode")
+  })
+
+  it("uses site episode URLs instead of YouTube URLs", () => {
+    const schema = getVideoSeriesSchema([mockEpisode])
+    const episodeUrl = schema.episode[0].url
+    expect(episodeUrl).toContain("/episodes/1")
+    expect(episodeUrl).not.toContain("youtube.com")
   })
 })

@@ -3,6 +3,7 @@ import { notFound } from "next/navigation"
 import { EpisodeDetailClient } from "./episode-detail-client"
 import type { Metadata } from "next"
 import { getYouTubeVideoId } from "@/lib/helpers"
+import { SITE_URL } from "@/lib/constants"
 
 interface EpisodePageProps {
   params: Promise<{
@@ -23,9 +24,13 @@ export async function generateMetadata({ params }: EpisodePageProps): Promise<Me
   return {
     title: `Episode ${episode.id}: ${episode.title}`,
     description: episode.description,
+    alternates: {
+      canonical: `${SITE_URL}/episodes/${episode.id}`,
+    },
     openGraph: {
       title: `Episode ${episode.id}: ${episode.title}`,
       description: episode.description,
+      url: `${SITE_URL}/episodes/${episode.id}`,
       type: "video.episode",
       images: [
         {

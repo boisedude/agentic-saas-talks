@@ -93,7 +93,7 @@ export const getEpisodesListSchema = (episodes: Episode[]) => ({
     "item": {
       "@type": "VideoObject",
       "name": episode.title,
-      "url": episode.videoUrl,
+      "url": `${SITE_URL}/episodes/${episode.id}`,
       "description": episode.description,
       "thumbnailUrl": `https://i.ytimg.com/vi/${getYouTubeVideoId(episode.videoUrl)}/maxresdefault.jpg`,
       "uploadDate": episode.date,
@@ -237,7 +237,7 @@ export const getVideoSeriesSchema = (episodes: Episode[]) => ({
     "@type": "VideoObject",
     "name": episode.title,
     "description": episode.description,
-    "url": episode.videoUrl,
+    "url": `${SITE_URL}/episodes/${episode.id}`,
     "thumbnailUrl": `https://i.ytimg.com/vi/${getYouTubeVideoId(episode.videoUrl)}/maxresdefault.jpg`,
     "uploadDate": episode.date,
     "episodeNumber": episode.id,
