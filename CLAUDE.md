@@ -82,7 +82,7 @@ npx playwright test
 ### Step 6: Deploy to Hostinger
 
 ```bash
-lftp 191.101.13.61 -e "set ssl:verify-certificate no; set ftp:ssl-allow no; user u951885034 'FTP_PASSWORD_HERE'; cd /domains/agentic-saas-talks.com/public_html; mirror --reverse --delete --verbose out/ ./; quit"
+lftp 191.101.13.61 -e "set ssl:verify-certificate no; set ftp:ssl-allow no; user u951885034.agentic 'FTP_PASSWORD_HERE'; mirror --reverse --delete --verbose out/ ./; quit"
 ```
 
 **Note:** Get FTP password from user — it is not stored in the repo.
@@ -164,7 +164,7 @@ Common tags used in this project:
 ## Deployment Credentials
 
 - **FTP Host:** 191.101.13.61
-- **FTP Username:** u951885034
+- **FTP Username:** u951885034.agentic
 - **FTP Password:** Ask user
 - **Remote Path:** /domains/agentic-saas-talks.com/public_html
 

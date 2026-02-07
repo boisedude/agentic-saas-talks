@@ -23,7 +23,7 @@ export function BlogPostClient({ post, author }: BlogPostClientProps) {
 
   // Strip leading H1 from markdown if it matches the post title (avoids duplicate heading)
   const content = post.content.replace(/^\s*#\s+.+\n+/, (match) => {
-    const headingText = match.replace(/^\s*#\s+/, '').trim()
+    const headingText = match.replace(/^\s*#\s+/, '').replace(/\*+/g, '').trim()
     return headingText === post.title ? '' : match
   })
 
