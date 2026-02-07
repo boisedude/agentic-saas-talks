@@ -81,7 +81,7 @@ export default function HomePage() {
 
       <div className="min-h-screen relative">
       {/* Hero Section */}
-      <section className="relative overflow-hidden py-24 lg:py-32">
+      <section className="relative overflow-hidden py-16 sm:py-20 lg:py-32">
         <div className="absolute inset-0 bg-gradient-to-b from-blue-500/10 via-slate-500/5 to-background" />
 
         <div className="container relative mx-auto px-3 sm:px-4">
@@ -112,21 +112,13 @@ export default function HomePage() {
                 <span>YouTube Playlist</span>
               </a>
               <Separator orientation="vertical" className="h-6" />
-              <a
-                href="/episodes"
-                className="flex items-center gap-2 hover:text-primary transition-colors"
-              >
-                <Calendar className="h-5 w-5" />
-                <span>Regular Episodes</span>
-              </a>
-              <Separator orientation="vertical" className="h-6" />
-              <a
+              <Link
                 href="/episodes"
                 className="flex items-center gap-2 hover:text-primary transition-colors"
               >
                 <Users className="h-5 w-5" />
-                <span>{episodes.length} Episodes</span>
-              </a>
+                <span>Browse {episodes.length} Episodes</span>
+              </Link>
             </div>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
               <Button size="lg" asChild>
@@ -243,7 +235,7 @@ export default function HomePage() {
                         <span>{latestEpisode.duration}</span>
                       </div>
                     </div>
-                    <div className="mt-4 flex flex-wrap gap-3">
+                    <div className="mt-4">
                       <Button asChild>
                         <a
                           href={latestEpisode.videoUrl}
@@ -255,9 +247,6 @@ export default function HomePage() {
                           Watch Now
                           <ExternalLink className="ml-2 h-3 w-3" aria-hidden="true" />
                         </a>
-                      </Button>
-                      <Button variant="outline" asChild>
-                        <Link href="/episodes">View All Episodes</Link>
                       </Button>
                     </div>
                   </CardContent>
@@ -338,9 +327,7 @@ export default function HomePage() {
                 viewport={{ once: true }}
                 transition={{ duration: prefersReducedMotion ? 0 : 0.6, delay: prefersReducedMotion ? 0 : Math.min(index * 0.1, 0.5) }}
               >
-                <Card className="h-full border-2 border-slate-500/20 bg-background/50 backdrop-blur-sm transition-all duration-300 hover:border-slate-500/40 hover:shadow-lg hover:shadow-slate-500/10 hover:-translate-y-1 group relative overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-slate-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 -translate-x-full group-hover:translate-x-full pointer-events-none"
-                    style={{ transition: 'transform 0.8s ease-in-out, opacity 0.5s ease-in-out' }} />
+                <Card className="h-full border-2 border-slate-500/20 bg-background/50 backdrop-blur-sm">
                   <CardHeader className="relative">
                     <div className={`mb-3 inline-flex rounded-full p-3 ${topic.bgClass}`}>
                       <topic.Icon className={`h-6 w-6 ${topic.iconClass}`} aria-hidden="true" />

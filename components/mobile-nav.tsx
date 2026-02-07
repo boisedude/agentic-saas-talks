@@ -56,7 +56,7 @@ export const MobileNav = memo(function MobileNav() {
         <>
           {/* Backdrop */}
           <div
-            className="fixed inset-0 z-40 bg-black/80 md:hidden animate-in fade-in duration-200"
+            className="fixed inset-0 z-40 bg-black/95 md:hidden animate-in fade-in duration-200"
             onClick={() => setIsOpen(false)}
             aria-hidden="true"
           />

@@ -54,11 +54,16 @@ export function BlogPageClient({ posts }: BlogPageClientProps) {
                 <Card className="h-full flex flex-col hover:shadow-lg transition-shadow">
                   <CardHeader>
                     <div className="flex flex-wrap gap-2 mb-3">
-                      {post.tags.map((tag) => (
+                      {post.tags.slice(0, 3).map((tag) => (
                         <Badge key={tag} variant="secondary">
                           {tag}
                         </Badge>
                       ))}
+                      {post.tags.length > 3 && (
+                        <Badge variant="outline" className="text-muted-foreground">
+                          +{post.tags.length - 3} more
+                        </Badge>
+                      )}
                     </div>
                     <CardTitle className="line-clamp-2">
                       <Link

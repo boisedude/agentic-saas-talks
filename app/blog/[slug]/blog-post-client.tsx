@@ -21,6 +21,12 @@ interface BlogPostClientProps {
 export function BlogPostClient({ post, author }: BlogPostClientProps) {
   const prefersReducedMotion = useReducedMotion()
 
+  // Strip leading H1 from markdown if it matches the post title (avoids duplicate heading)
+  const content = post.content.replace(/^\s*#\s+.+\n+/, (match) => {
+    const headingText = match.replace(/^\s*#\s+/, '').trim()
+    return headingText === post.title ? '' : match
+  })
+
   return (
     <>
       {/* Animated Background Effects */}
@@ -59,7 +65,7 @@ export function BlogPostClient({ post, author }: BlogPostClientProps) {
           </div>
 
           {/* Title */}
-          <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent">
+          <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-400 via-blue-500 to-slate-400 bg-clip-text text-transparent">
             {post.title}
           </h1>
 
@@ -99,10 +105,10 @@ export function BlogPostClient({ post, author }: BlogPostClientProps) {
                   <h3 className="text-xl font-bold mt-4 mb-2">{children}</h3>
                 ),
                 p: ({ children }) => (
-                  <p className="mb-4 text-muted-foreground leading-relaxed">{children}</p>
+                  <p className="mb-4 text-foreground/80 leading-relaxed">{children}</p>
                 ),
                 ul: ({ children }) => (
-                  <ul className="list-disc list-inside mb-4 space-y-2 text-muted-foreground">{children}</ul>
+                  <ul className="list-disc list-inside mb-4 space-y-2 text-foreground/80">{children}</ul>
                 ),
                 li: ({ children }) => (
                   <li className="ml-4">{children}</li>
@@ -128,7 +134,7 @@ export function BlogPostClient({ post, author }: BlogPostClientProps) {
                 hr: () => <Separator className="my-8" />,
               }}
             >
-              {post.content}
+              {content}
             </ReactMarkdown>
           </div>
 

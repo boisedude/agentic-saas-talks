@@ -17,6 +17,53 @@ import { getBreadcrumbSchema, getEpisodesListSchema, getWebPageSchema } from "@/
 import { getYouTubeVideoId, formatDate, getTimestampUrl } from "@/lib/helpers"
 import { EXTERNAL_LINKS } from "@/lib/constants"
 
+// Collapsible timestamps component
+const TIMESTAMPS_COLLAPSED_COUNT = 5
+
+function CollapsibleTimestamps({ episode }: { episode: Episode }) {
+  const [expanded, setExpanded] = useState(false)
+  const timestamps = episode.timestamps || []
+  const showToggle = timestamps.length > TIMESTAMPS_COLLAPSED_COUNT
+  const visibleTimestamps = expanded ? timestamps : timestamps.slice(0, TIMESTAMPS_COLLAPSED_COUNT)
+
+  return (
+    <div className="mb-4">
+      <h4 className="mb-2 flex items-center gap-2 font-semibold text-sm">
+        <Clock className="h-4 w-4" />
+        Timestamps
+      </h4>
+      <div className="space-y-1 rounded-lg border border-slate-500/20 bg-slate-500/5 p-3">
+        {visibleTimestamps.map((timestamp, idx) => (
+          <a
+            key={idx}
+            href={getTimestampUrl(episode.videoUrl, timestamp.time)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group flex items-start gap-2 text-xs sm:text-sm transition-all duration-200 hover:text-primary rounded-md p-2 sm:p-1.5 -mx-2 sm:-mx-1.5 hover:bg-slate-500/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 min-h-[44px] sm:min-h-0"
+            aria-label={`Jump to ${timestamp.time}: ${timestamp.title}`}
+          >
+            <code className="shrink-0 rounded bg-slate-500/20 px-1.5 py-0.5 font-mono text-xs text-slate-400 group-hover:bg-slate-500/30 transition-colors">
+              {timestamp.time}
+            </code>
+            <span className="flex-1 leading-relaxed group-hover:underline decoration-slate-500/50 underline-offset-2">
+              {timestamp.title}
+            </span>
+            <ExternalLink className="mt-0.5 h-3 w-3 shrink-0 opacity-0 transition-all group-hover:opacity-100" aria-hidden="true" />
+          </a>
+        ))}
+        {showToggle && (
+          <button
+            onClick={() => setExpanded(!expanded)}
+            className="w-full text-xs text-muted-foreground hover:text-primary transition-colors pt-2 border-t border-slate-500/10 mt-1"
+          >
+            {expanded ? "Show less" : `Show all ${timestamps.length} timestamps`}
+          </button>
+        )}
+      </div>
+    </div>
+  )
+}
+
 // Social sharing component
 function ShareButtons({ episode }: { episode: Episode }) {
   const [copied, setCopied] = useState(false)
@@ -222,7 +269,7 @@ function EpisodesPageContent() {
       <div className="min-h-screen">
         <ScrollToTop />
       {/* Hero Section */}
-      <section className="relative overflow-hidden py-20">
+      <section className="relative overflow-hidden py-12 sm:py-16 lg:py-20">
         <div className="absolute inset-0 bg-gradient-to-b from-blue-500/10 via-slate-500/5 to-background" />
 
         <div className="container relative mx-auto px-3 sm:px-4">
@@ -533,32 +580,7 @@ function EpisodesPageContent() {
 
                       {/* Timestamps */}
                       {episode.timestamps && episode.timestamps.length > 0 && (
-                        <div className="mb-4">
-                          <h4 className="mb-2 flex items-center gap-2 font-semibold text-sm">
-                            <Clock className="h-4 w-4" />
-                            Timestamps
-                          </h4>
-                          <div className="space-y-1 rounded-lg border border-slate-500/20 bg-slate-500/5 p-3 max-h-48 overflow-y-auto">
-                            {episode.timestamps.map((timestamp, idx) => (
-                              <a
-                                key={idx}
-                                href={getTimestampUrl(episode.videoUrl, timestamp.time)}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="group flex items-start gap-2 text-xs sm:text-sm transition-all duration-200 hover:text-primary rounded-md p-2 sm:p-1.5 -mx-2 sm:-mx-1.5 hover:bg-slate-500/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 min-h-[44px] sm:min-h-0"
-                                aria-label={`Jump to ${timestamp.time}: ${timestamp.title}`}
-                              >
-                                <code className="shrink-0 rounded bg-slate-500/20 px-1.5 py-0.5 font-mono text-xs text-slate-400 group-hover:bg-slate-500/30 transition-colors">
-                                  {timestamp.time}
-                                </code>
-                                <span className="flex-1 leading-relaxed group-hover:underline decoration-slate-500/50 underline-offset-2">
-                                  {timestamp.title}
-                                </span>
-                                <ExternalLink className="mt-0.5 h-3 w-3 shrink-0 opacity-0 transition-all group-hover:opacity-100" aria-hidden="true" />
-                              </a>
-                            ))}
-                          </div>
-                        </div>
+                        <CollapsibleTimestamps episode={episode} />
                       )}
 
                       <div className="flex flex-wrap items-center justify-between gap-3">
