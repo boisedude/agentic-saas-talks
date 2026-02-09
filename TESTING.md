@@ -206,7 +206,7 @@ Tests load times, bundle sizes, and console errors.
 ### High Priority Issues (Must Fix)
 
 #### 1. Skip Link Not Clickable
-**File:** `/mnt/d/Projects/agentic-saas-talks/app/layout.tsx` (line 120)
+**File:** `/home/mcoop/projects/agentic-saas-talks/app/layout.tsx` (line 120)
 
 **Problem:** Navigation bar intercepts pointer events, preventing skip link from being clicked.
 
@@ -233,7 +233,7 @@ className="... focus:z-[100] ..."
 ---
 
 #### 2. Scroll-to-Top Button Not Working
-**File:** `/mnt/d/Projects/agentic-saas-talks/components/scroll-to-top.tsx` (line 27-32)
+**File:** `/home/mcoop/projects/agentic-saas-talks/components/scroll-to-top.tsx` (line 27-32)
 
 **Problem:** Button is visible but doesn't scroll to top when clicked. Test shows scrollY stays at 1000px after click.
 
@@ -381,7 +381,7 @@ npx playwright test --headed
 ### Test Files Created
 
 ```
-/mnt/d/Projects/agentic-saas-talks/
+/home/mcoop/projects/agentic-saas-talks/
 ├── playwright.config.ts          # Test configuration
 ├── tests/
 │   ├── 01-core-functionality.spec.ts

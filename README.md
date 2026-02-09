@@ -39,7 +39,7 @@ See [DEPLOYMENT.md](DEPLOYMENT.md) for detailed deployment instructions.
 - **Components**: shadcn/ui
 - **Animations**: Framer Motion
 - **Icons**: Lucide React
-- **Deployment**: Hostinger FTP with lftp
+- **Deployment**: Hostinger SSH/rsync
 
 ---
 
@@ -79,8 +79,7 @@ agentic-saas-talks/
 │   ├── logo.jpg                # Channel logo
 │   ├── sitemap.xml             # Complete sitemap with video metadata
 │   └── robots.txt              # Search engine directives
-├── deploy.sh                   # Main deployment script (build + deploy)
-├── deploy-fast.sh              # Quick deploy (no build)
+├── deploy.sh                   # SSH/rsync deployment script
 ├── README.md                   # This file
 ├── CHANGELOG.md                # Version history and recent changes
 ├── DEPLOYMENT_GUIDE.md         # Detailed deployment instructions
@@ -100,13 +99,13 @@ agentic-saas-talks/
 
 - Node.js 18+
 - npm or yarn
-- lftp (for deployment)
+- SSH access to Hostinger (for deployment)
 
 ### Installation
 
 ```bash
 # Navigate to project directory
-cd /mnt/d/Projects/agentic-saas-talks
+cd /home/mcoop/projects/agentic-saas-talks
 
 # Install dependencies
 npm install
@@ -140,16 +139,24 @@ npm start
 This script:
 1. Builds your Next.js site
 2. Creates static HTML/CSS/JS files in `/out`
-3. Uploads to Hostinger via FTP
+3. Uploads to Hostinger via SSH/rsync
 4. Makes site live at agentic-saas-talks.com
 
 ### Fast Deployment (No Build)
 
 ```bash
-./deploy-fast.sh
+./deploy.sh --skip-build
 ```
 
 Use this when you haven't changed any code and just want to re-upload existing build.
+
+### Preview Deployment (Dry Run)
+
+```bash
+./deploy.sh --dry
+```
+
+Preview what files would be uploaded without making any changes.
 
 ### Manual Deployment
 
@@ -374,7 +381,7 @@ To add new routes, create folders under `app/` with a `page.tsx` file.
 
 The site is fully built, tested, and ready to deploy to:
 - **Domain**: agentic-saas-talks.com
-- **Hosting**: Hostinger FTP
+- **Hosting**: Hostinger SSH
 
 ---
 
@@ -388,7 +395,8 @@ npm start                # Test production build
 
 # Deployment
 ./deploy.sh              # Build and deploy to Hostinger
-./deploy-fast.sh         # Quick deploy (no build)
+./deploy.sh --skip-build # Quick deploy (no build)
+./deploy.sh --dry        # Preview changes (no deploy)
 
 # Code Quality
 npm run lint             # Check for errors

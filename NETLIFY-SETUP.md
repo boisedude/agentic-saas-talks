@@ -34,7 +34,7 @@ Move entirely to Netlify for automatic deployments.
 First, initialize a Git repository and push your code to GitHub:
 
 ```bash
-cd /mnt/d/Projects/agentic-saas-talks
+cd /home/mcoop/projects/agentic-saas-talks
 
 # Initialize git (if not already done)
 git init

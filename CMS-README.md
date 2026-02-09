@@ -130,7 +130,7 @@ npm run build
 ### Deploy to Hostinger
 ```bash
 ./deploy.sh
-# Or use deploy-fast.sh for quicker deployment
+# Or use ./deploy.sh --skip-build for quicker deployment
 ```
 
 ## CMS Configuration

@@ -2,7 +2,7 @@
 export const SITE_URL = "https://agentic-saas-talks.com"
 export const SITE_NAME = "Agentic SaaS Talks"
 export const SITE_DESCRIPTION =
-  "Join our webcast series exploring the future of AI applications, agentic architectures, and the evolution of SaaS platforms."
+  "Agentic SaaS Talks is a technology webcast series with 24 episodes covering AI applications, agentic architectures, and SaaS platform evolution. Hosted by technology leaders from AWS, Omnistrate, and The Tributary AI."
 
 // External links
 export const EXTERNAL_LINKS = {

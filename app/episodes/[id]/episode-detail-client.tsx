@@ -26,6 +26,7 @@ import {
   getBreadcrumbSchema,
   getVideoSchema,
   getWebPageSchema,
+  getPodcastEpisodeSchema,
 } from "@/lib/seo"
 import { SITE_URL } from "@/lib/seo"
 import { getYouTubeVideoId, formatDate, getTimestampUrl } from "@/lib/helpers"
@@ -101,6 +102,7 @@ export function EpisodeDetailClient({ episode }: EpisodeDetailClientProps) {
   ])
 
   const videoSchema = getVideoSchema(episode)
+  const podcastEpisodeSchema = getPodcastEpisodeSchema(episode)
 
   const webPageSchema = getWebPageSchema({
     title: `Episode ${episode.id}: ${episode.title}`,
@@ -122,6 +124,10 @@ export function EpisodeDetailClient({ episode }: EpisodeDetailClientProps) {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(podcastEpisodeSchema) }}
       />
 
       <div className="min-h-screen">

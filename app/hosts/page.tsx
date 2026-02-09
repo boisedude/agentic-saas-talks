@@ -10,7 +10,7 @@ import Link from "next/link"
 import { ScrollToTop } from "@/components/scroll-to-top"
 import { useReducedMotion } from "@/lib/use-reduced-motion"
 import { Breadcrumb } from "@/components/breadcrumb"
-import { getBreadcrumbSchema, getWebPageSchema } from "@/lib/seo"
+import { getBreadcrumbSchema, getWebPageSchema, getPersonSchema } from "@/lib/seo"
 import { EXTERNAL_LINKS } from "@/lib/constants"
 import Image from "next/image"
 import { useState, useCallback, useMemo } from "react"
@@ -35,6 +35,7 @@ export default function HostsPage() {
       description: "Meet the hosts of Agentic SaaS Talks - technology leaders and entrepreneurs exploring the future of AI and SaaS.",
       url: "https://agentic-saas-talks.com/hosts",
     }),
+    personSchemas: hosts.map((host) => getPersonSchema(host)),
   }), [])
 
   return (
@@ -52,6 +53,15 @@ export default function HostsPage() {
           __html: JSON.stringify(structuredData.webPageSchema),
         }}
       />
+      {structuredData.personSchemas.map((schema, index) => (
+        <script
+          key={index}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(schema),
+          }}
+        />
+      ))}
 
       <div className="min-h-screen">
         <ScrollToTop />

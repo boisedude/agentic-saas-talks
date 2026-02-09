@@ -320,18 +320,19 @@ Before deploying to production:
    # Visit http://localhost:3000
    ```
 
-3. **Deploy to Hostinger** (using lftp):
+3. **Deploy to Hostinger** (using SSH/rsync):
    ```bash
-   # Install lftp if needed: sudo apt-get install lftp
-   lftp 191.101.13.61 -e "set ssl:verify-certificate no; set ftp:ssl-allow no; user u951885034 'YOUR_FTP_PASSWORD'; cd /domains/agentic-saas-talks.com/public_html; mirror --reverse --delete --verbose /path/to/agentic-saas-talks/out/ ./; quit"
+   ./deploy.sh              # Build and deploy
+   ./deploy.sh --skip-build # Deploy without rebuilding
+   ./deploy.sh --dry        # Preview changes without deploying
    ```
 
-   **Or using FileZilla:**
-   - Host: `191.101.13.61`
-   - Username: `u951885034`
-   - Password: (get from project owner)
-   - Remote path: `/domains/agentic-saas-talks.com/public_html/`
-   - Upload all files from `/out` directory
+   Or use npm scripts:
+   ```bash
+   npm run deploy           # Build and deploy
+   npm run deploy:skip-build
+   npm run deploy:dry
+   ```
 
 4. **Verify deployment**:
    - Visit https://agentic-saas-talks.com

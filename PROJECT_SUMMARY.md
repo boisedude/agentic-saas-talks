@@ -37,7 +37,7 @@ The Agentic SaaS Talks website is a modern, fully-featured web platform for show
 | Components | shadcn/ui | Latest | Accessible UI components |
 | Animations | Framer Motion | 11.11.17 | Smooth page animations |
 | Icons | Lucide React | 0.462.0 | Modern icon library |
-| Deployment | lftp | Latest | Automated FTP deployment |
+| Deployment | SSH/rsync | Latest | Automated SSH deployment |
 | Testing | Playwright | Latest | End-to-end testing |
 
 ### Build Configuration
@@ -402,24 +402,23 @@ Located in `/components/`:
 
 - **Provider**: Hostinger
 - **Domain**: agentic-saas-talks.com
-- **FTP Host**: 191.101.13.61
-- **Protocol**: FTP (port 21)
+- **SSH Host**: 191.101.13.61
+- **Protocol**: SSH/rsync (port 65002)
 - **SSL**: Enabled (HTTPS)
 
 ### Deployment Scripts
 
 **Main Script** (`deploy.sh`):
 1. Navigates to project directory
-2. Runs `npm run build`
+2. Runs `npm run build` (unless `--skip-build` flag is used)
 3. Creates `/out` directory with static files
-4. Uploads to Hostinger via lftp
-5. Uses parallel uploads (--parallel=5)
+4. Uploads to Hostinger via SSH/rsync
+5. Uses SSH key authentication (`~/.ssh/id_ed25519`)
 6. Removes old files (--delete flag)
 
-**Quick Deploy** (`deploy-fast.sh`):
-- Skips build step
-- Uploads existing `/out` directory
-- Faster deployment (30-60 seconds)
+**Deployment Flags**:
+- `--skip-build`: Skips build step, uploads existing `/out` directory
+- `--dry`: Preview what would be uploaded without making changes
 
 ### Deployment Process
 
@@ -428,10 +427,20 @@ Located in `/components/`:
 ./deploy.sh
 
 # Quick deployment (no build)
-./deploy-fast.sh
+./deploy.sh --skip-build
+
+# Preview changes
+./deploy.sh --dry
 ```
 
-**Deployment Time**: 2-3 minutes (full), 30-60 seconds (quick)
+Or use npm scripts:
+```bash
+npm run deploy           # Build and deploy
+npm run deploy:skip-build
+npm run deploy:dry
+```
+
+**Deployment Time**: 2-3 minutes (full), 30-60 seconds (skip-build)
 
 ### Files Deployed
 
@@ -608,9 +617,8 @@ agentic-saas-talks/
 │   ├── UX_IMPROVEMENTS_SUMMARY.md
 │   ├── SEO_OPTIMIZATION_REPORT.md
 │   └── SEO_CHANGES_SUMMARY.md
-├── Deployment Scripts (2 files)
-│   ├── deploy.sh               # Full deployment
-│   └── deploy-fast.sh          # Quick deployment
+├── Deployment Scripts (1 file)
+│   └── deploy.sh               # SSH/rsync deployment with flags
 └── Configuration Files
     ├── package.json            # Dependencies
     ├── next.config.ts          # Next.js config

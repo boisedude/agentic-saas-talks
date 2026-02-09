@@ -189,13 +189,12 @@ After adding new episodes or blog posts, you need to build and deploy the site.
 Use the automated deployment script:
 
 ```bash
-./deploy-fast.sh
+./deploy.sh --skip-build
 ```
 
 This script will:
-1. Build the Next.js site
-2. Export static files to `/out` directory
-3. Deploy to Hostinger via FTP
+1. Skip the build step (use existing `/out` directory)
+2. Deploy to Hostinger via SSH/rsync
 
 ### Option 2: Manual Deployment
 

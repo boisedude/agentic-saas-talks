@@ -2,10 +2,9 @@ import { Episode } from "@/data/episodes"
 import type { BlogPost } from "@/lib/blog"
 import type { Host } from "@/data/hosts"
 import { getYouTubeVideoId } from "@/lib/helpers"
+import { SITE_URL, SITE_NAME, SITE_DESCRIPTION } from "@/lib/constants"
 
-export const SITE_URL = "https://agentic-saas-talks.com"
-export const SITE_NAME = "Agentic SaaS Talks"
-export const SITE_DESCRIPTION = "Join our webcast series exploring the future of AI applications, agentic architectures, and the evolution of SaaS platforms. Deep dives into AI, SaaS, and intelligent systems with industry experts."
+export { SITE_URL, SITE_NAME, SITE_DESCRIPTION }
 
 // Organization Schema
 export const getOrganizationSchema = () => ({
@@ -20,7 +19,7 @@ export const getOrganizationSchema = () => ({
     "height": 600,
   },
   "description": SITE_DESCRIPTION,
-  "founder": {
+  "sponsor": {
     "@type": "Organization",
     "name": "Omnistrate",
     "url": "https://www.omnistrate.com",
@@ -242,4 +241,57 @@ export const getVideoSeriesSchema = (episodes: Episode[]) => ({
     "uploadDate": episode.date,
     "episodeNumber": episode.id,
   })),
+})
+
+// Person Schema for hosts
+export const getPersonSchema = (host: Host) => ({
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": host.name,
+  "description": host.bio,
+  ...(host.role ? { "jobTitle": host.role } : {}),
+  ...(host.photo ? { "image": `${SITE_URL}${host.photo}` } : {}),
+  ...(host.company ? {
+    "worksFor": {
+      "@type": "Organization",
+      "name": host.company,
+      ...(host.companyUrl ? { "url": host.companyUrl } : {}),
+    },
+  } : {}),
+  "sameAs": [host.linkedIn],
+})
+
+// PodcastSeries Schema
+export const getPodcastSeriesSchema = (episodes: Episode[]) => ({
+  "@context": "https://schema.org",
+  "@type": "PodcastSeries",
+  "name": SITE_NAME,
+  "description": SITE_DESCRIPTION,
+  "url": SITE_URL,
+  "webFeed": `${SITE_URL}/feed.xml`,
+  "numberOfEpisodes": episodes.length,
+  "author": [
+    { "@type": "Person", "name": "Ermin Dzinic" },
+    { "@type": "Person", "name": "Bill Tarr" },
+    { "@type": "Person", "name": "Kamal Gupta" },
+    { "@type": "Person", "name": "Markus Kaiser" },
+    { "@type": "Person", "name": "Michael Cooper" },
+  ],
+})
+
+// PodcastEpisode Schema
+export const getPodcastEpisodeSchema = (episode: Episode) => ({
+  "@context": "https://schema.org",
+  "@type": "PodcastEpisode",
+  "name": episode.title,
+  "description": episode.description,
+  "datePublished": episode.date,
+  "url": `${SITE_URL}/episodes/${episode.id}`,
+  "duration": convertDurationToISO8601(episode.duration),
+  "episodeNumber": episode.id,
+  "partOfSeries": {
+    "@type": "PodcastSeries",
+    "name": SITE_NAME,
+    "url": SITE_URL,
+  },
 })

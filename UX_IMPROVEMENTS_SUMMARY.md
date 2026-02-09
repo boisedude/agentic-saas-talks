@@ -161,7 +161,7 @@ All UX improvements have been successfully implemented, tested, and validated wi
 **Ready for Deployment**: ✅ YES
 
 ### What to Deploy
-- Entire `/mnt/d/Projects/agentic-saas-talks` directory
+- Entire `/home/mcoop/projects/agentic-saas-talks` directory
 - See `DEPLOYMENT.md` for detailed deployment instructions
 - See `PLAYWRIGHT_TEST_REPORT.md` for full test results
 

@@ -82,10 +82,17 @@ npx playwright test
 ### Step 6: Deploy to Hostinger
 
 ```bash
-lftp 191.101.13.61 -e "set ssl:verify-certificate no; set ftp:ssl-allow no; user u951885034.agentic 'FTP_PASSWORD_HERE'; mirror --reverse --delete --verbose out/ ./; quit"
+./deploy.sh              # Build and deploy via SSH/rsync
+./deploy.sh --skip-build # Deploy existing build without rebuilding
+./deploy.sh --dry        # Preview what would be uploaded (no changes)
 ```
 
-**Note:** Get FTP password from user — it is not stored in the repo.
+Or use npm scripts:
+```bash
+npm run deploy           # Build and deploy
+npm run deploy:skip-build
+npm run deploy:dry
+```
 
 ### Step 7: Verify Deployment
 
@@ -131,7 +138,7 @@ Common tags used in this project:
 |------|---------|
 | **Data** | |
 | `data/episodes.ts` | Episode data — **ADD NEW EPISODES HERE** |
-| `data/hosts.ts` | Host information (names, bios, photos, LinkedIn) |
+| `data/hosts.ts` | Host information (names, bios, photos, LinkedIn, company) |
 | **Pages** | |
 | `app/page.tsx` | Homepage (shows latest episode, hero, topics) |
 | `app/episodes/page.tsx` | Episodes archive with search/filter |
@@ -145,7 +152,7 @@ Common tags used in this project:
 | `components/ui/` | Reusable UI components (button, card, badge, etc.) |
 | **Config & Utilities** | |
 | `lib/constants.ts` | Site URL, external links, nav links, animation config |
-| `lib/seo.ts` | Schema.org structured data generators |
+| `lib/seo.ts` | Schema.org structured data generators (Video, Podcast, Person, FAQ, etc.) |
 | `lib/helpers.ts` | Utility functions (date formatting, YouTube ID extraction) |
 | `lib/blog.ts` | Blog post loading from markdown files |
 | **Scripts** | |
@@ -153,7 +160,7 @@ Common tags used in this project:
 | `scripts/scrape-videos.ts` | Scrape individual YouTube videos for details |
 | `scripts/scrape-full-episodes.ts` | Detailed scraping of specific video URLs |
 | `scripts/validate-episodes.ts` | Validate episode data integrity |
-| `scripts/deploy-ftp.mjs` | FTP deployment script |
+| `deploy.sh` | SSH/rsync deployment script (--dry, --skip-build flags) |
 | **Build Output** | |
 | `out/` | Static export files for deployment |
 | **Tests** | |
@@ -161,12 +168,14 @@ Common tags used in this project:
 
 ---
 
-## Deployment Credentials
+## Deployment
 
-- **FTP Host:** 191.101.13.61
-- **FTP Username:** u951885034.agentic
-- **FTP Password:** Ask user
-- **Remote Path:** /domains/agentic-saas-talks.com/public_html
+- **Method:** SSH/rsync via `deploy.sh`
+- **SSH Host:** 191.101.13.61
+- **SSH Port:** 65002
+- **SSH User:** u951885034
+- **SSH Key:** `~/.ssh/id_ed25519`
+- **Remote Path:** `/home/u951885034/domains/agentic-saas-talks.com/public_html`
 
 ---
 
@@ -211,7 +220,9 @@ npx tsx scripts/scrape-videos.ts         # Scrape video details
 npx playwright test      # Run all E2E tests
 
 # Deployment
-# Use lftp command above with correct password
+npm run deploy           # Build + deploy via SSH/rsync
+npm run deploy:skip-build # Deploy without rebuilding
+npm run deploy:dry       # Preview (no changes)
 ```
 
 ---
@@ -225,7 +236,7 @@ npx playwright test      # Run all E2E tests
 - **UI Components:** Radix UI primitives + shadcn/ui pattern
 - **Linting:** ESLint 9 with eslint-config-next
 - **Testing:** Playwright
-- **Deployment:** Static files via FTP to Hostinger
+- **Deployment:** Static files via SSH/rsync to Hostinger
 
 ---
 

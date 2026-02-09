@@ -46,8 +46,7 @@ next-env.d.ts
 /playwright/.cache/
 /test-screenshots/
 
-# FTP credentials (security)
-deploy.sh
-deploy-fast.sh
+# Claude Code local settings
+.claude/settings.local.json
 # next-agents-md
 .next-docs/

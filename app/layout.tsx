@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     default: "Agentic SaaS Talks - Exploring the Future of AI Applications",
     template: "%s | Agentic SaaS Talks",
   },
-  description: "Join our webcast series exploring the future of AI applications, agentic architectures, and the evolution of SaaS platforms. Deep dives into AI, SaaS, and intelligent systems with industry experts from AWS, Omnistrate, and leading AI companies.",
+  description: "Agentic SaaS Talks is a technology webcast series with 24 episodes covering AI applications, agentic architectures, and SaaS platform evolution. Hosted by technology leaders from AWS, Omnistrate, and The Tributary AI.",
   icons: {
     icon: [
       { url: '/icon.png', sizes: '32x32', type: 'image/png' },
@@ -49,7 +49,7 @@ export const metadata: Metadata = {
   category: "Technology",
   openGraph: {
     title: "Agentic SaaS Talks - Exploring the Future of AI Applications",
-    description: "Join our webcast series exploring the future of AI applications, agentic architectures, and the evolution of SaaS platforms. Deep dives into AI, SaaS, and intelligent systems with industry experts.",
+    description: "Agentic SaaS Talks is a technology webcast series with 24 episodes covering AI applications, agentic architectures, and SaaS platform evolution. Hosted by technology leaders from AWS, Omnistrate, and The Tributary AI.",
     url: "https://agentic-saas-talks.com",
     siteName: "Agentic SaaS Talks",
     images: [
@@ -66,7 +66,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Agentic SaaS Talks - Exploring the Future of AI Applications",
-    description: "Join our webcast series exploring the future of AI applications, agentic architectures, and the evolution of SaaS platforms.",
+    description: "Agentic SaaS Talks is a technology webcast series with 24 episodes covering AI applications, agentic architectures, and SaaS platform evolution. Hosted by technology leaders from AWS, Omnistrate, and The Tributary AI.",
     images: ["/twitter-image.png"],
     creator: "@omnistrate",
   },

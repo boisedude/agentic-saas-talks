@@ -8,7 +8,10 @@
     "start": "next start",
     "lint": "eslint app/ components/ lib/ data/",
     "test:unit": "vitest run",
-    "test:unit:watch": "vitest"
+    "test:unit:watch": "vitest",
+    "deploy": "./deploy.sh",
+    "deploy:dry": "./deploy.sh --dry",
+    "deploy:skip-build": "./deploy.sh --skip-build"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.15",

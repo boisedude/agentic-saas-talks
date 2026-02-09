@@ -1,7 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Video, Calendar, ExternalLink, PlayCircle, Users, Clock, Bot, Link2, Shield, Cloud, Rocket, Sparkles } from "lucide-react"
+import { Video, Calendar, ExternalLink, PlayCircle, Users, Clock, Bot, Link2, Shield, Cloud, Rocket, Sparkles, HelpCircle } from "lucide-react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -18,6 +18,8 @@ import {
   getVideoSchema,
   getVideoSeriesSchema,
   getWebPageSchema,
+  getPodcastSeriesSchema,
+  getFAQSchema,
 } from "@/lib/seo"
 import { getYouTubeVideoId, formatDate } from "@/lib/helpers"
 import { EXTERNAL_LINKS } from "@/lib/constants"
@@ -27,14 +29,39 @@ export default function HomePage() {
 
   const latestEpisode = episodes[0]
 
+  const faqItems = [
+    {
+      question: "What is Agentic SaaS Talks?",
+      answer: "Agentic SaaS Talks is a technology webcast series exploring the future of AI applications, agentic architectures, and the evolution of SaaS platforms. The series features deep dives into topics like Model Context Protocol (MCP), data sovereignty, AI product development, and cloud-native design patterns.",
+    },
+    {
+      question: "Who hosts Agentic SaaS Talks?",
+      answer: "The show is hosted by five technology leaders: Ermin Dzinic (Architect at AWS), Bill Tarr (Principal Partner Solutions Architect at AWS), Kamal Gupta (Founder and CEO of Omnistrate), Markus Kaiser (Amazon Web Services), and Michael Cooper (Founder of The Tributary AI).",
+    },
+    {
+      question: "What topics does Agentic SaaS Talks cover?",
+      answer: "The series covers agentic architectures, Model Context Protocol (MCP), data privacy and security, SaaS evolution, AI product development, and the future of intelligent applications. Episodes feature discussions with industry experts, founders, and technologists.",
+    },
+    {
+      question: "Where can I watch Agentic SaaS Talks?",
+      answer: "All episodes are available on YouTube via the Omnistrate channel and playlist. You can also browse episodes, read show notes, and access timestamps at agentic-saas-talks.com.",
+    },
+    {
+      question: "How often are new episodes released?",
+      answer: "New episodes are released regularly, typically every one to two weeks. The series has published 24 episodes since its launch. Subscribe on YouTube or follow the RSS feed to get notified of new episodes.",
+    },
+  ]
+
   const structuredData = {
     organizationSchema: getOrganizationSchema(),
     webSiteSchema: getWebSiteSchema(),
     videoSeriesSchema: getVideoSeriesSchema(episodes),
+    podcastSeriesSchema: getPodcastSeriesSchema(episodes),
+    faqSchema: getFAQSchema(faqItems),
     latestVideoSchema: getVideoSchema(latestEpisode),
     webPageSchema: getWebPageSchema({
       title: "Agentic SaaS Talks - Exploring the Future of AI Applications",
-      description: "Join our webcast series exploring the future of AI applications, agentic architectures, and the evolution of SaaS platforms.",
+      description: "Agentic SaaS Talks is a technology webcast series with 24 episodes covering AI applications, agentic architectures, and SaaS platform evolution. Hosted by technology leaders from AWS, Omnistrate, and The Tributary AI.",
       url: "https://agentic-saas-talks.com",
       datePublished: episodes[episodes.length - 1]?.date ?? new Date().toISOString(),
       dateModified: latestEpisode.date,
@@ -64,6 +91,18 @@ export default function HomePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(structuredData.videoSeriesSchema),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(structuredData.podcastSeriesSchema),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(structuredData.faqSchema),
         }}
       />
       <script
@@ -381,6 +420,46 @@ export default function HomePage() {
               </a>
             </Button>
           </motion.div>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section className="py-20">
+        <div className="container mx-auto px-3 sm:px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: prefersReducedMotion ? 0 : 0.6 }}
+            className="mb-12 text-center"
+          >
+            <h2 className="mb-4 text-4xl font-bold">Frequently Asked Questions</h2>
+            <p className="text-xl text-muted-foreground">
+              Common questions about Agentic SaaS Talks
+            </p>
+          </motion.div>
+
+          <div className="mx-auto max-w-3xl space-y-6">
+            {faqItems.map((faq, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: prefersReducedMotion ? 0 : 0.6, delay: prefersReducedMotion ? 0 : Math.min(index * 0.1, 0.5) }}
+              >
+                <Card className="border-2 border-slate-500/20 bg-background/50 backdrop-blur-sm p-6">
+                  <h3 className="flex items-start gap-3 text-lg font-semibold mb-3">
+                    <HelpCircle className="mt-0.5 h-5 w-5 shrink-0 text-blue-400" aria-hidden="true" />
+                    {faq.question}
+                  </h3>
+                  <p className="text-muted-foreground leading-relaxed pl-8">
+                    {faq.answer}
+                  </p>
+                </Card>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
 
