@@ -65,7 +65,7 @@ export const getVideoSchema = (episode: Episode) => {
       `https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`,
       `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`,
     ],
-    "uploadDate": episode.date,
+    "uploadDate": `${episode.date}T00:00:00Z`,
     "duration": convertDurationToISO8601(episode.duration),
     "contentUrl": episode.videoUrl,
     "embedUrl": `https://www.youtube.com/embed/${videoId}`,
@@ -95,7 +95,7 @@ export const getEpisodesListSchema = (episodes: Episode[]) => ({
       "url": `${SITE_URL}/episodes/${episode.id}`,
       "description": episode.description,
       "thumbnailUrl": `https://i.ytimg.com/vi/${getYouTubeVideoId(episode.videoUrl)}/maxresdefault.jpg`,
-      "uploadDate": episode.date,
+      "uploadDate": `${episode.date}T00:00:00Z`,
     },
   })),
 })
@@ -238,7 +238,7 @@ export const getVideoSeriesSchema = (episodes: Episode[]) => ({
     "description": episode.description,
     "url": `${SITE_URL}/episodes/${episode.id}`,
     "thumbnailUrl": `https://i.ytimg.com/vi/${getYouTubeVideoId(episode.videoUrl)}/maxresdefault.jpg`,
-    "uploadDate": episode.date,
+    "uploadDate": `${episode.date}T00:00:00Z`,
     "episodeNumber": episode.id,
   })),
 })
