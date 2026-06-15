@@ -58,7 +58,7 @@ describe("getVideoSchema", () => {
     expect(schema["@type"]).toBe("VideoObject")
     expect(schema.name).toBe("Test Episode")
     expect(schema.description).toBe("A test episode description.")
-    expect(schema.uploadDate).toBe("2025-01-15")
+    expect(schema.uploadDate).toBe("2025-01-15T00:00:00Z")
     expect(schema.duration).toBe("PT57M")
     expect(schema.contentUrl).toBe(mockEpisode.videoUrl)
     expect(schema.embedUrl).toContain("abc123")
