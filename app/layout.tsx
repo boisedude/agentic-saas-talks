@@ -114,7 +114,7 @@ export default function RootLayout({
         {/* Content Security Policy */}
         <meta
           httpEquiv="Content-Security-Policy"
-          content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://i.ytimg.com https://www.googletagmanager.com; font-src 'self'; frame-src https://www.youtube.com; connect-src 'self' https://www.google-analytics.com https://www.googletagmanager.com https://region1.google-analytics.com; object-src 'none'"
+          content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://i.ytimg.com https://www.googletagmanager.com; font-src 'self'; frame-src https://www.youtube.com; connect-src 'self' https://www.google-analytics.com https://www.googletagmanager.com https://region1.google-analytics.com https://cloudflareinsights.com; object-src 'none'"
         />
         {/* Resource hints for performance optimization */}
         <link rel="preconnect" href="https://www.youtube.com" />
@@ -141,6 +141,13 @@ export default function RootLayout({
             gtag('config', 'G-3TLS4354D6');
           `}
         </Script>
+        {/* Cloudflare Web Analytics (cookieless) */}
+        <Script
+          defer
+          src="https://static.cloudflareinsights.com/beacon.min.js"
+          data-cf-beacon='{"token": "de98f84e9b2c4b4fac16c1ac9e29ee50"}'
+          strategy="afterInteractive"
+        />
         {/* Skip navigation link for accessibility */}
         <a
           href="#main-content"
