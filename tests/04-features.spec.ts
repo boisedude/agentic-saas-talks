@@ -1,60 +1,48 @@
 import { test, expect } from '@playwright/test';
+import { episodes } from '../data/episodes';
+
+// Locator for episode cards on the listing page (headings render "Episode N:").
+const EPISODE_HEADING = /Episode \d+:/;
 
 test.describe('Feature-Specific Tests', () => {
-  test('episode tag filtering works (if implemented)', async ({ page }) => {
+  test('episode tag filtering filters the list', async ({ page }) => {
     await page.goto('/episodes');
 
-    // Look for tag filters/buttons
-    const tagButtons = page.locator('button').filter({ hasText: /agent|ai|saas/i });
-    const tagCount = await tagButtons.count();
+    const cards = page.locator('h3').filter({ hasText: EPISODE_HEADING });
+    await expect(cards).toHaveCount(episodes.length);
 
-    if (tagCount > 0) {
-      // Take screenshot of tags
-      await page.screenshot({ path: 'test-results/screenshots/episode-tags.png', fullPage: true });
+    // Pick a real tag that covers a strict subset of episodes so filtering is observable.
+    const tag = 'SaaS Strategy';
+    const expected = episodes.filter((e) => e.tags.includes(tag)).length;
+    expect(expected).toBeGreaterThan(0);
+    expect(expected).toBeLessThan(episodes.length);
 
-      // Click first tag
-      await tagButtons.first().click();
-      await page.waitForTimeout(500);
+    // Tag buttons live inside the collapsible filter panel.
+    await page.getByRole('button', { name: /Filter by Topic/i }).click();
+    await page.getByRole('button', { name: new RegExp(`^${tag} \\(`) }).click();
 
-      // Take screenshot after filtering
-      await page.screenshot({ path: 'test-results/screenshots/episode-tags-filtered.png', fullPage: true });
+    // URL reflects the filter and the visible list narrows to the tagged episodes.
+    await expect(page).toHaveURL(/[?&]tag=/);
+    await expect(cards).toHaveCount(expected);
 
-      // Check that some filtering occurred (episodes changed or filtered)
-      const episodes = page.locator('[data-episode], article, .episode-card').or(
-        page.locator('div').filter({ has: page.locator('h2, h3') })
-      );
-      const episodeCount = await episodes.count();
-      expect(episodeCount).toBeGreaterThan(0);
-    } else {
-      test.skip(true, 'Tag filtering not implemented');
-    }
+    await page.screenshot({ path: 'test-results/screenshots/episode-tags-filtered.png' });
   });
 
-  test('breadcrumb navigation works (if implemented)', async ({ page }) => {
-    await page.goto('/episodes');
+  test('breadcrumb navigation works on episode detail pages', async ({ page }) => {
+    await page.goto('/episodes/1');
 
-    // Look for breadcrumbs (be specific to avoid matching main navigation)
-    const breadcrumb = page.locator('nav[aria-label*="breadcrumb" i]').or(
-      page.locator('.breadcrumb, .breadcrumbs')
-    );
+    const breadcrumb = page.locator('nav[aria-label="Breadcrumb"]');
+    await expect(breadcrumb).toBeVisible();
 
-    const breadcrumbExists = await breadcrumb.count() > 0;
+    // Scope link lookups to the breadcrumb (the main nav also has a "Home" link).
+    await expect(breadcrumb.getByRole('link', { name: 'Home' })).toBeVisible();
+    await expect(breadcrumb.getByRole('link', { name: 'Episodes' })).toBeVisible();
 
-    if (breadcrumbExists) {
-      await expect(breadcrumb.first()).toBeVisible();
+    await page.screenshot({ path: 'test-results/screenshots/breadcrumbs.png' });
 
-      // Take screenshot
-      await page.screenshot({ path: 'test-results/screenshots/breadcrumbs.png' });
-
-      // Click home breadcrumb
-      const homeLink = breadcrumb.getByRole('link', { name: /home/i });
-      if (await homeLink.count() > 0) {
-        await homeLink.click();
-        await expect(page).toHaveURL('/');
-      }
-    } else {
-      test.skip(true, 'Breadcrumb navigation not implemented');
-    }
+    // The trailing crumb (current episode) is not a link.
+    await breadcrumb.getByRole('link', { name: 'Home' }).click();
+    await expect(page).toHaveURL('/');
   });
 
   test('episode cards are interactive and navigate correctly', async ({ page }) => {
@@ -70,8 +58,9 @@ test.describe('Feature-Specific Tests', () => {
     const linkCount = await episodeLinks.count();
 
     if (linkCount > 0) {
-      // Take screenshot of episodes
-      await page.screenshot({ path: 'test-results/screenshots/episode-cards.png', fullPage: true });
+      // Take screenshot of episodes (viewport-only: the full mobile listing
+      // exceeds the browser's 32767px max screenshot dimension).
+      await page.screenshot({ path: 'test-results/screenshots/episode-cards.png' });
 
       // Check first episode link
       const firstLink = episodeLinks.first();
@@ -119,30 +108,32 @@ test.describe('Feature-Specific Tests', () => {
     expect(socialCount).toBeGreaterThanOrEqual(0);
   });
 
-  test('search functionality works (if implemented)', async ({ page }) => {
+  test('search filters the episode list', async ({ page }) => {
+    // Compute the expected match count with the same predicate the page uses.
+    const query = 'BYOC';
+    const q = query.toLowerCase();
+    const expected = episodes.filter((e) =>
+      e.title.toLowerCase().includes(q) ||
+      e.description.toLowerCase().includes(q) ||
+      e.tags.some((t) => t.toLowerCase().includes(q)) ||
+      (e.guests?.some((g) => g.name.toLowerCase().includes(q)) ?? false)
+    ).length;
+    expect(expected).toBeGreaterThan(0);
+    expect(expected).toBeLessThan(episodes.length);
+
+    // The list is derived from the `q` URL param and the input is bound to it.
+    // (Driving via the URL is engine/viewport-stable; a typed fill() doesn't
+    // reliably round-trip through the controlled input on mobile WebKit.)
     await page.goto('/episodes');
+    const cards = page.locator('h3').filter({ hasText: EPISODE_HEADING });
+    await expect(cards).toHaveCount(episodes.length);
 
-    // Look for search input
-    const searchInput = page.locator('input[type="search"], input[placeholder*="search" i]');
-    const searchExists = await searchInput.count() > 0;
+    await page.goto(`/episodes?q=${query}`);
+    const searchInput = page.getByRole('searchbox', { name: /Search episodes/i });
+    await expect(searchInput).toHaveValue(query);
+    await expect(cards).toHaveCount(expected);
 
-    if (searchExists) {
-      await expect(searchInput).toBeVisible();
-
-      // Type in search
-      await searchInput.fill('AI');
-      await page.waitForTimeout(500);
-
-      // Take screenshot
-      await page.screenshot({ path: 'test-results/screenshots/search-results.png', fullPage: true });
-
-      // Check results updated
-      const episodes = page.locator('article, .episode-card, [data-episode]');
-      const episodeCount = await episodes.count();
-      expect(episodeCount).toBeGreaterThanOrEqual(0);
-    } else {
-      test.skip(true, 'Search functionality not implemented');
-    }
+    await page.screenshot({ path: 'test-results/screenshots/search-results.png' });
   });
 
   test('loading states display correctly (if implemented)', async ({ page }) => {
@@ -183,28 +174,26 @@ test.describe('Feature-Specific Tests', () => {
     }
   });
 
-  test('social sharing buttons work (if implemented)', async ({ page }) => {
-    await page.goto('/episodes');
+  test('social share links work on episode detail pages', async ({ page }) => {
+    await page.goto('/episodes/1');
 
-    // Look for share buttons
-    const shareButton = page.locator('button').filter({ hasText: /share/i }).or(
-      page.locator('[aria-label*="share" i]')
-    );
+    // Twitter + LinkedIn share controls (the copy-link button has no "share" label).
+    const shareControls = page.locator('[aria-label*="share" i]');
+    await expect(shareControls.first()).toBeVisible();
+    expect(await shareControls.count()).toBeGreaterThanOrEqual(2);
 
-    const shareExists = await shareButton.count() > 0;
+    // Share links point at the correct intent URLs with this episode's canonical URL.
+    const twitter = page.getByRole('link', { name: /Share on X\/Twitter/i });
+    await expect(twitter).toHaveAttribute('href', /twitter\.com\/intent\/tweet/);
+    await expect(twitter).toHaveAttribute('href', /episodes(%2F|\/)1/);
 
-    if (shareExists) {
-      await expect(shareButton).toBeVisible();
+    const linkedIn = page.getByRole('link', { name: /Share on LinkedIn/i });
+    await expect(linkedIn).toHaveAttribute('href', /linkedin\.com\/sharing/);
 
-      // Click share button
-      await shareButton.first().click();
-      await page.waitForTimeout(500);
+    // Copy-link button is present and labelled.
+    await expect(page.getByRole('button', { name: /Copy link/i })).toBeVisible();
 
-      // Take screenshot
-      await page.screenshot({ path: 'test-results/screenshots/share-dialog.png' });
-    } else {
-      test.skip(true, 'Social sharing not implemented');
-    }
+    await page.screenshot({ path: 'test-results/screenshots/share-controls.png' });
   });
 
   test('newsletter signup works (if implemented)', async ({ page }) => {
@@ -236,11 +225,14 @@ test.describe('Feature-Specific Tests', () => {
   test('animations and transitions are smooth', async ({ page }) => {
     await page.goto('/');
 
-    // Test page transition
-    await page.click('a[href="/episodes"]');
+    // Test page transition. Navigate via the URL rather than clicking the desktop
+    // nav link (which is hidden behind the hamburger menu on mobile viewports).
+    await page.goto('/episodes');
+    await expect(page).toHaveURL(/\/episodes$/);
     await page.waitForTimeout(500);
 
-    await page.screenshot({ path: 'test-results/screenshots/page-transition.png', fullPage: true });
+    // Viewport-only screenshot (full mobile listing exceeds the 32767px max).
+    await page.screenshot({ path: 'test-results/screenshots/page-transition.png' });
 
     // Go back and test hover animations
     await page.goto('/episodes');
