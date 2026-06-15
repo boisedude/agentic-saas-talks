@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { episodes } from '../data/episodes';
 
 test.describe('Episodes Validation Tests', () => {
   test('homepage loads correctly', async ({ page }) => {
@@ -11,7 +12,7 @@ test.describe('Episodes Validation Tests', () => {
     await page.screenshot({ path: 'test-results/screenshots/homepage-validation.png', fullPage: true });
   });
 
-  test('episodes page shows all 18 episode cards', async ({ page }) => {
+  test('episodes page shows all episode cards', async ({ page }) => {
     await page.goto('/episodes');
 
     // Wait for episode cards to load
@@ -21,10 +22,12 @@ test.describe('Episodes Validation Tests', () => {
     const episodeHeadings = page.locator('h3').filter({ hasText: /Episode \d+:/ });
     const episodeCount = await episodeHeadings.count();
 
-    // Should have exactly 18 episodes
-    expect(episodeCount).toBe(18);
+    // Should match the number of episodes in the data file
+    expect(episodeCount).toBe(episodes.length);
 
-    await page.screenshot({ path: 'test-results/screenshots/all-episodes.png', fullPage: true });
+    // Viewport-only screenshot: a full-page capture of the (single-column on
+    // mobile) listing exceeds the browser's 32767px max dimension as episodes grow.
+    await page.screenshot({ path: 'test-results/screenshots/all-episodes.png' });
   });
 
   test('episode cards link to detail pages', async ({ page }) => {
@@ -54,8 +57,10 @@ test.describe('Episodes Validation Tests', () => {
     const timestampsHeading = page.getByRole('heading', { name: /Timestamps/i });
     await expect(timestampsHeading).toBeVisible();
 
-    // Check watch on YouTube button
-    const watchButton = page.getByRole('link', { name: /Watch on YouTube/i });
+    // Check watch on YouTube button. Its accessible name is the aria-label
+    // ("Watch <title> on YouTube"), and there are multiple such links, so match
+    // the pattern and take the first.
+    const watchButton = page.getByRole('link', { name: /Watch .+ on YouTube/i }).first();
     await expect(watchButton).toBeVisible();
 
     await page.screenshot({ path: 'test-results/screenshots/episode-detail.png', fullPage: true });
@@ -65,7 +70,8 @@ test.describe('Episodes Validation Tests', () => {
     // Episode 15 has Tudor Golubenco as a guest
     await page.goto('/episodes/15');
 
-    const guestName = page.getByText('Tudor Golubenco');
+    // Name appears in both the guest heading and the bio text, so target the heading.
+    const guestName = page.getByRole('heading', { name: 'Tudor Golubenco' });
     await expect(guestName).toBeVisible();
 
     const guestsHeading = page.getByRole('heading', { name: /Special Guests/i });
@@ -106,7 +112,7 @@ test.describe('Episodes Validation Tests', () => {
     await page.screenshot({ path: 'test-results/screenshots/durations.png' });
   });
 
-  test('newest episode (24) appears first in the list', async ({ page }) => {
+  test('newest episode appears first in the list', async ({ page }) => {
     await page.goto('/episodes');
 
     // Wait for episodes to load
@@ -115,8 +121,8 @@ test.describe('Episodes Validation Tests', () => {
     // Get the first episode heading
     const firstEpisodeHeading = page.locator('h3').filter({ hasText: /Episode \d+:/ }).first();
 
-    // Episode 24 is newest by date
-    await expect(firstEpisodeHeading).toContainText('Episode 24');
+    // The data file is ordered newest-first, so episodes[0] is the latest.
+    await expect(firstEpisodeHeading).toContainText(`Episode ${episodes[0].id}`);
   });
 
   test('episode detail page has structured data', async ({ page }) => {
