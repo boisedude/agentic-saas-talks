@@ -8,20 +8,24 @@ Comprehensive reference for AI agents working on this Next.js website. All paths
 
 ### Step 1: Get Episode Info from YouTube
 
-Use Playwright (via MCP tools or scripts) to scrape the YouTube video page. Available scripts:
+**Preferred (browser-free):**
 
-- `scripts/scrape-playlist.ts` — Scrapes the full YouTube playlist to list all videos with titles and URLs
-- `scripts/scrape-videos.ts` — Scrapes individual video pages for detailed info (title, date, duration, description, timestamps, guests)
-- `scripts/scrape-full-episodes.ts` — Scrapes a hardcoded list of video URLs for full details
+```bash
+npm run episodes:check       # or: npx tsx scripts/find-new-episodes.ts
+```
 
-Run with: `npx tsx scripts/scrape-playlist.ts`
+`scripts/find-new-episodes.ts` lists the playlist via its **RSS feed**, diffs it against `data/episodes.ts`, and for every video not yet on the site fetches the watch page and extracts full details (title, duration, publish date, description, parsed timestamps) from the embedded `ytInitialPlayerResponse` JSON. It prints ready-to-paste `Episode` skeletons with the next available IDs and the raw description (use it to write the summary, pick tags, and identify guests). Run with `--all` to dump details for every video in the feed, not just new ones. Uses only Node's global `fetch` — no Chromium needed.
 
-**Note:** Some new episodes may not yet be added to the YouTube playlist. If you know the video URL, scrape it directly using Playwright MCP tools or by adding the URL to `scripts/scrape-videos.ts`.
+This does **not** capture guest LinkedIn URLs — find/verify those manually (a wrong URL is worse than none; omit a guest rather than guess). Remember the recurring **hosts** (in `data/hosts.ts`: Kamal Gupta, Michael Cooper, Bill Tarr, Markus Kaiser, Ermin Dzinic) are **not** guests — only list external panelists.
+
+**Caveat:** the RSS feed only returns the latest ~15 videos. That's plenty for routine "what's new" checks, but to backfill older videos pass `--all` or fall back to the Playwright scripts below.
+
+**Legacy (Playwright — flaky):** `scripts/scrape-playlist.ts`, `scripts/scrape-videos.ts`, `scripts/scrape-full-episodes.ts`. These depend on a Chromium download (`npx playwright install chromium`) that stalls in some environments; prefer the RSS script above. If you do use them and a new video isn't in the playlist yet, add its URL directly to `scripts/scrape-videos.ts`.
 
 ### Step 2: Validate Current Data
 
 ```bash
-npx tsx scripts/validate-episodes.ts
+npm run episodes:validate    # or: npx tsx scripts/validate-episodes.ts
 ```
 
 This shows the current highest ID and next available ID.
@@ -156,9 +160,10 @@ Common tags used in this project:
 | `lib/helpers.ts` | Utility functions (date formatting, YouTube ID extraction) |
 | `lib/blog.ts` | Blog post loading from markdown files |
 | **Scripts** | |
-| `scripts/scrape-playlist.ts` | Scrape YouTube playlist for all video URLs |
-| `scripts/scrape-videos.ts` | Scrape individual YouTube videos for details |
-| `scripts/scrape-full-episodes.ts` | Detailed scraping of specific video URLs |
+| `scripts/find-new-episodes.ts` | **Preferred** — RSS-based: diff playlist vs data, dump ready-to-paste details (no browser) |
+| `scripts/scrape-playlist.ts` | Legacy (Playwright) — scrape playlist for all video URLs |
+| `scripts/scrape-videos.ts` | Legacy (Playwright) — scrape individual videos for details |
+| `scripts/scrape-full-episodes.ts` | Legacy (Playwright) — detailed scraping of specific video URLs |
 | `scripts/validate-episodes.ts` | Validate episode data integrity |
 | `deploy.sh` | SSH/rsync deployment script (--dry, --skip-build flags) |
 | **Build Output** | |
@@ -217,15 +222,17 @@ npm run build
 ## Quick Commands
 
 ```bash
-# Validation
-npx tsx scripts/validate-episodes.ts  # Validate episode data
+# Episodes
+npm run episodes:check      # Find new videos + dump ready-to-paste details (RSS, no browser)
+npm run episodes:check -- --all   # Dump details for every video in the feed
+npm run episodes:validate   # Validate episode data integrity
 
 # Development
 npm run dev              # Start local server at http://localhost:3000
 npm run build            # Build static export for production
 npm run lint             # Run ESLint
 
-# Scraping
+# Scraping (legacy Playwright fallback — prefer episodes:check)
 npx tsx scripts/scrape-playlist.ts       # List all playlist videos
 npx tsx scripts/scrape-videos.ts         # Scrape video details
 
