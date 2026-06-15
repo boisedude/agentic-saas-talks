@@ -15,8 +15,8 @@ test.describe('Core Functionality Tests', () => {
     const heroSection = page.locator('section').first();
     await expect(heroSection).toBeVisible();
 
-    // Check navigation
-    await expect(page.getByRole('navigation')).toBeVisible();
+    // Check navigation (main + footer are both nav landmarks; assert the first)
+    await expect(page.getByRole('navigation').first()).toBeVisible();
 
     // Take screenshot
     await page.screenshot({ path: 'test-results/screenshots/homepage.png', fullPage: true });
@@ -38,8 +38,9 @@ test.describe('Core Functionality Tests', () => {
     const heading = page.getByRole('heading', { name: /Episodes/i }).first();
     await expect(heading).toBeVisible();
 
-    // Take screenshot
-    await page.screenshot({ path: 'test-results/screenshots/episodes-page.png', fullPage: true });
+    // Viewport-only screenshot: the full episodes list on a high-DPR mobile
+    // viewport exceeds Playwright's 32767px full-page limit.
+    await page.screenshot({ path: 'test-results/screenshots/episodes-page.png' });
   });
 
   test('navigation to /hosts page works', async ({ page }) => {
@@ -88,19 +89,27 @@ test.describe('Core Functionality Tests', () => {
     await menuButton.click();
     await page.waitForTimeout(500); // Wait for animation
 
-    // Check if mobile menu is visible (look for navigation links)
-    const episodesLink = page.getByRole('link', { name: /Episodes/i });
+    // Check if mobile menu is visible (scope to the mobile menu panel so the
+    // "Episodes" hero/footer links don't trip strict mode)
+    const episodesLink = page
+      .locator('#mobile-navigation')
+      .getByRole('link', { name: 'Episodes', exact: true })
     await expect(episodesLink).toBeVisible();
 
     // Take screenshot of open menu
-    await page.screenshot({ path: 'test-results/screenshots/mobile-menu-open.png', fullPage: true });
+    await page.screenshot({ path: 'test-results/screenshots/mobile-menu-open.png' });
 
-    // Click to close (click button again or click outside)
-    await menuButton.click();
+    // Close with Escape — once open there are two "Close menu" buttons (the
+    // header toggle and the dialog's own close), so clicking by name is
+    // ambiguous; the menu closes on Escape.
+    await page.keyboard.press('Escape');
     await page.waitForTimeout(500); // Wait for animation
 
+    // Menu panel should be gone after closing
+    await expect(page.locator('#mobile-navigation')).toHaveCount(0);
+
     // Take screenshot of closed menu
-    await page.screenshot({ path: 'test-results/screenshots/mobile-menu-closed.png', fullPage: true });
+    await page.screenshot({ path: 'test-results/screenshots/mobile-menu-closed.png' });
   });
 
   test('external links work correctly', async ({ page, context }) => {

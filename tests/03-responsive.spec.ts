@@ -33,8 +33,9 @@ test.describe('Responsive Design Tests', () => {
     });
     expect(hasHorizontalScroll).toBeFalsy();
 
-    // Take screenshot
-    await page.screenshot({ path: 'test-results/screenshots/mobile-375-episodes.png', fullPage: true });
+    // Viewport-only screenshot: the full episodes list on a high-DPR mobile
+    // viewport exceeds Playwright's 32767px full-page limit.
+    await page.screenshot({ path: 'test-results/screenshots/mobile-375-episodes.png' });
   });
 
   test('hosts page renders correctly on mobile (375x667)', async ({ page }) => {
@@ -168,8 +169,8 @@ test.describe('Responsive Design Tests', () => {
     await page.setViewportSize({ width: 1280, height: 720 });
     await page.goto('/');
 
-    // Check desktop navigation is visible
-    const desktopNav = page.getByRole('navigation');
+    // Check desktop navigation is visible (main + footer are both nav landmarks)
+    const desktopNav = page.getByRole('navigation').first();
     await expect(desktopNav).toBeVisible();
 
     // Switch to mobile

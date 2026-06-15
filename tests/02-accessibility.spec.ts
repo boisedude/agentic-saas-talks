@@ -104,8 +104,8 @@ test.describe('Accessibility Tests', () => {
     const main = page.locator('main').or(page.locator('[role="main"]'));
     await expect(main).toBeVisible();
 
-    // Check for navigation landmark
-    const nav = page.locator('nav').or(page.locator('[role="navigation"]'));
+    // Check for navigation landmark (main + footer are both nav landmarks)
+    const nav = page.locator('nav').or(page.locator('[role="navigation"]')).first();
     await expect(nav).toBeVisible();
 
     // Take screenshot
