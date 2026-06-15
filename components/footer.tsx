@@ -18,12 +18,12 @@ export const Footer = memo(() => {
               Exploring the future of AI applications, agentic architectures, and the evolution of
               SaaS platforms.
             </p>
-            <div className="flex gap-1.5">
+            <div className="flex gap-2">
               <a
                 href={EXTERNAL_LINKS.youtube}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-muted transition-colors hover:bg-muted/80 hover:text-red-500"
+                className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-muted transition-colors hover:bg-muted/80 hover:text-red-500"
                 aria-label="Subscribe on YouTube"
               >
                 <Video className="h-4 w-4" aria-hidden="true" />
@@ -32,21 +32,21 @@ export const Footer = memo(() => {
                 href={EXTERNAL_LINKS.linkedIn}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-muted transition-colors hover:bg-muted/80 hover:text-blue-500"
+                className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-muted transition-colors hover:bg-muted/80 hover:text-blue-500"
                 aria-label="Follow on LinkedIn"
               >
                 <Linkedin className="h-4 w-4" aria-hidden="true" />
               </a>
               <a
                 href="mailto:guest@agentic-saas-talks.com"
-                className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-muted transition-colors hover:bg-muted/80 hover:text-foreground"
+                className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-muted transition-colors hover:bg-muted/80 hover:text-foreground"
                 aria-label="Suggest a Guest"
               >
                 <Mail className="h-4 w-4" aria-hidden="true" />
               </a>
               <a
                 href="/feed.xml"
-                className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-muted transition-colors hover:bg-muted/80 hover:text-orange-500"
+                className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-muted transition-colors hover:bg-muted/80 hover:text-orange-500"
                 aria-label="RSS Feed"
               >
                 <Rss className="h-4 w-4" aria-hidden="true" />
@@ -55,7 +55,7 @@ export const Footer = memo(() => {
           </div>
 
           {/* Links */}
-          <nav className="flex flex-wrap gap-x-6 gap-y-1 text-xs text-muted-foreground">
+          <nav aria-label="Footer" className="flex flex-wrap gap-x-6 gap-y-1 text-xs text-muted-foreground">
             <Link href="/episodes" className="transition-colors hover:text-foreground">Episodes</Link>
             <Link href="/hosts" className="transition-colors hover:text-foreground">Hosts</Link>
             <Link href="/blog" className="transition-colors hover:text-foreground">Blog</Link>

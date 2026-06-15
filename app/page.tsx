@@ -125,8 +125,8 @@ export default function HomePage() {
 
         <div className="container relative mx-auto px-3 sm:px-4">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={prefersReducedMotion ? { y: 0 } : { y: 20 }}
+            animate={{ y: 0 }}
             transition={{ duration: prefersReducedMotion ? 0 : 0.6 }}
             className="mx-auto max-w-4xl text-center"
           >
@@ -184,8 +184,8 @@ export default function HomePage() {
       <section className="py-20">
         <div className="container mx-auto px-3 sm:px-4">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={prefersReducedMotion ? { y: 0 } : { y: 20 }}
+            whileInView={{ y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: prefersReducedMotion ? 0 : 0.6 }}
             className="mb-12 text-center"
@@ -197,8 +197,8 @@ export default function HomePage() {
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={prefersReducedMotion ? { y: 0 } : { y: 20 }}
+            whileInView={{ y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: prefersReducedMotion ? 0 : 0.6, delay: prefersReducedMotion ? 0 : 0.2 }}
           >
@@ -219,7 +219,7 @@ export default function HomePage() {
                     <ImageWithLoading
                       src={`https://i.ytimg.com/vi/${getYouTubeVideoId(latestEpisode.videoUrl)}/maxresdefault.jpg`}
                       alt={latestEpisode.title}
-                      className="absolute inset-0 h-full w-full object-contain transition-transform group-hover:scale-105"
+                      className="absolute inset-0 h-full w-full object-cover transition-transform group-hover:scale-105"
                       loading="eager"
                     />
 
@@ -307,8 +307,8 @@ export default function HomePage() {
 
         <div className="container relative mx-auto px-3 sm:px-4">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={prefersReducedMotion ? { y: 0 } : { y: 20 }}
+            whileInView={{ y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: prefersReducedMotion ? 0 : 0.6 }}
             className="mb-12 text-center"
@@ -366,8 +366,8 @@ export default function HomePage() {
             ].map((topic, index) => (
               <motion.div
                 key={topic.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={prefersReducedMotion ? { y: 0 } : { y: 20 }}
+                whileInView={{ y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: prefersReducedMotion ? 0 : 0.6, delay: prefersReducedMotion ? 0 : Math.min(index * 0.1, 0.5) }}
               >
@@ -390,8 +390,8 @@ export default function HomePage() {
       <section className="py-20">
         <div className="container mx-auto px-3 sm:px-4">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={prefersReducedMotion ? { y: 0 } : { y: 20 }}
+            whileInView={{ y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: prefersReducedMotion ? 0 : 0.6 }}
             className="mx-auto max-w-3xl text-center"
@@ -427,8 +427,8 @@ export default function HomePage() {
       <section className="py-20">
         <div className="container mx-auto px-3 sm:px-4">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={prefersReducedMotion ? { y: 0 } : { y: 20 }}
+            whileInView={{ y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: prefersReducedMotion ? 0 : 0.6 }}
             className="mb-12 text-center"
@@ -443,8 +443,8 @@ export default function HomePage() {
             {faqItems.map((faq, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={prefersReducedMotion ? { y: 0 } : { y: 20 }}
+                whileInView={{ y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: prefersReducedMotion ? 0 : 0.6, delay: prefersReducedMotion ? 0 : Math.min(index * 0.1, 0.5) }}
               >
@@ -469,8 +469,8 @@ export default function HomePage() {
 
         <div className="container relative mx-auto px-3 sm:px-4">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={prefersReducedMotion ? { y: 0 } : { y: 20 }}
+            whileInView={{ y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: prefersReducedMotion ? 0 : 0.6 }}
             className="mx-auto max-w-4xl"

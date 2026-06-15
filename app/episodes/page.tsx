@@ -1,7 +1,6 @@
 "use client"
 
-import { useMemo, useState, Suspense, useCallback } from "react"
-import { useSearchParams, useRouter } from "next/navigation"
+import { useMemo, useState, useEffect, useCallback } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Video, Calendar, Clock, PlayCircle, ChevronDown, Filter, Search } from "lucide-react"
 import { Card } from "@/components/ui/card"
@@ -20,33 +19,49 @@ import Link from "next/link"
 
 function EpisodesPageContent() {
   const prefersReducedMotion = useReducedMotion()
-  const searchParams = useSearchParams()
-  const router = useRouter()
 
-  const selectedTag = searchParams.get('tag')
-  const searchQuery = searchParams.get('q') || ''
-  const [isFilterExpanded, setIsFilterExpanded] = useState(!!selectedTag || !!searchQuery)
+  const [selectedTag, setSelectedTag] = useState<string | null>(null)
+  const [searchQuery, setSearchQuery] = useState('')
+  const [isFilterExpanded, setIsFilterExpanded] = useState(false)
+
+  // Read filter state from the URL on the client. We intentionally avoid the
+  // useSearchParams() hook: in a static export it forces this page to render its
+  // Suspense fallback at build time, leaving the entire episode list out of the
+  // prerendered HTML (bad for crawlers/SEO). Reading window.location here keeps
+  // the full, unfiltered list in the static HTML while still supporting shareable
+  // ?tag=/?q= deep links and back/forward navigation.
+  useEffect(() => {
+    const syncFromUrl = () => {
+      const params = new URLSearchParams(window.location.search)
+      const tag = params.get('tag')
+      const q = params.get('q') || ''
+      setSelectedTag(tag)
+      setSearchQuery(q)
+      if (tag || q) setIsFilterExpanded(true)
+    }
+    syncFromUrl()
+    window.addEventListener('popstate', syncFromUrl)
+    return () => window.removeEventListener('popstate', syncFromUrl)
+  }, [])
+
+  const updateUrl = useCallback((tag: string | null, query: string) => {
+    const params = new URLSearchParams()
+    if (tag) params.set('tag', tag)
+    if (query) params.set('q', query)
+    const qs = params.toString()
+    window.history.pushState(null, '', `/episodes${qs ? `?${qs}` : ''}`)
+  }, [])
 
   const handleTagChange = (tag: string | null) => {
-    const params = new URLSearchParams(searchParams.toString())
-    if (tag) {
-      params.set('tag', tag)
-      setIsFilterExpanded(true)
-    } else {
-      params.delete('tag')
-    }
-    router.push(`/episodes${params.toString() ? `?${params.toString()}` : ''}`, { scroll: false })
+    setSelectedTag(tag)
+    if (tag) setIsFilterExpanded(true)
+    updateUrl(tag, searchQuery)
   }
 
   const handleSearchChange = useCallback((query: string) => {
-    const params = new URLSearchParams(searchParams.toString())
-    if (query) {
-      params.set('q', query)
-    } else {
-      params.delete('q')
-    }
-    router.push(`/episodes${params.toString() ? `?${params.toString()}` : ''}`, { scroll: false })
-  }, [router, searchParams])
+    setSearchQuery(query)
+    updateUrl(selectedTag, query)
+  }, [selectedTag, updateUrl])
 
   const allTags = useMemo(() => {
     const tagSet = new Set<string>()
@@ -134,8 +149,8 @@ function EpisodesPageContent() {
               ]}
             />
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
+              initial={prefersReducedMotion ? { y: 0 } : { y: 20 }}
+              animate={{ y: 0 }}
               transition={{ duration: prefersReducedMotion ? 0 : 0.6 }}
               className="mx-auto max-w-4xl text-center"
             >
@@ -162,8 +177,8 @@ function EpisodesPageContent() {
           <div className="container mx-auto px-3 sm:px-4">
             {/* Search and Filter */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
+              initial={prefersReducedMotion ? { y: 0 } : { y: 20 }}
+              animate={{ y: 0 }}
               transition={{ duration: prefersReducedMotion ? 0 : 0.6 }}
               className="mb-12"
             >
@@ -265,8 +280,8 @@ function EpisodesPageContent() {
 
               {!isFilterExpanded && (selectedTag || searchQuery) && (
                 <motion.div
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
+                  initial={prefersReducedMotion ? { y: 0 } : { y: -10 }}
+                  animate={{ y: 0 }}
                   transition={{ duration: prefersReducedMotion ? 0 : 0.2 }}
                   className="mt-2 flex items-center gap-2 text-sm text-muted-foreground flex-wrap"
                 >
@@ -295,8 +310,8 @@ function EpisodesPageContent() {
             <h2 className="sr-only">Episodes</h2>
             {filteredEpisodes.length === 0 ? (
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
+                initial={prefersReducedMotion ? { y: 0 } : { y: 20 }}
+                animate={{ y: 0 }}
                 transition={{ duration: prefersReducedMotion ? 0 : 0.6 }}
                 className="text-center py-12"
               >
@@ -314,8 +329,8 @@ function EpisodesPageContent() {
                 {filteredEpisodes.map((episode, index) => (
                   <motion.div
                     key={episode.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
+                    initial={prefersReducedMotion ? { y: 0 } : { y: 20 }}
+                    whileInView={{ y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: prefersReducedMotion ? 0 : 0.6, delay: prefersReducedMotion ? 0 : Math.min(index * 0.05, 0.3) }}
                   >
@@ -355,7 +370,7 @@ function EpisodesPageContent() {
                           <div className="mb-2 flex items-center gap-2 text-xs text-muted-foreground">
                             <Calendar className="h-3 w-3" />
                             <span>{formatDate(episode.date)}</span>
-                            <span className="text-slate-600">|</span>
+                            <span className="text-muted-foreground/50" aria-hidden="true">|</span>
                             <Clock className="h-3 w-3" />
                             <span>{episode.duration}</span>
                           </div>
@@ -390,8 +405,8 @@ function EpisodesPageContent() {
 
             {/* Subscribe CTA */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={prefersReducedMotion ? { y: 0 } : { y: 20 }}
+              whileInView={{ y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: prefersReducedMotion ? 0 : 0.6 }}
               className="mt-12 text-center"
@@ -423,9 +438,5 @@ function EpisodesPageContent() {
 }
 
 export default function EpisodesPage() {
-  return (
-    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading episodes...</div>}>
-      <EpisodesPageContent />
-    </Suspense>
-  )
+  return <EpisodesPageContent />
 }

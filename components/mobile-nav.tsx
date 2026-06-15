@@ -42,7 +42,7 @@ export const MobileNav = memo(function MobileNav() {
       <Button
         variant="ghost"
         size="icon"
-        className="md:hidden"
+        className="md:hidden h-11 w-11"
         onClick={() => setIsOpen(!isOpen)}
         aria-label={isOpen ? "Close menu" : "Open menu"}
         aria-expanded={isOpen}
