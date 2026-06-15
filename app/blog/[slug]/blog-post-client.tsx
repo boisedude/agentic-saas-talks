@@ -17,9 +17,10 @@ import { getBreadcrumbSchema, getBlogPostSchema, SITE_URL } from "@/lib/seo"
 interface BlogPostClientProps {
   post: BlogPost
   author: Host | undefined
+  relatedPosts?: BlogPost[]
 }
 
-export function BlogPostClient({ post, author }: BlogPostClientProps) {
+export function BlogPostClient({ post, author, relatedPosts = [] }: BlogPostClientProps) {
   const prefersReducedMotion = useReducedMotion()
 
   // Strip leading H1 from markdown if it matches the post title (avoids duplicate heading)
@@ -184,6 +185,38 @@ export function BlogPostClient({ post, author }: BlogPostClientProps) {
                   </div>
                 </div>
               </div>
+            </>
+          )}
+
+          {/* Related Posts */}
+          {relatedPosts.length > 0 && (
+            <>
+              <Separator />
+              <section aria-labelledby="related-posts">
+                <h2 id="related-posts" className="mb-4 text-2xl font-bold">
+                  Related Posts
+                </h2>
+                <ul className="space-y-3">
+                  {relatedPosts.map((related) => (
+                    <li key={related.slug}>
+                      <Link
+                        href={`/blog/${related.slug}`}
+                        className="group flex items-baseline justify-between gap-4"
+                      >
+                        <span className="font-medium group-hover:text-primary group-hover:underline">
+                          {related.title}
+                        </span>
+                        <time
+                          dateTime={related.date}
+                          className="shrink-0 text-sm text-muted-foreground"
+                        >
+                          {formatDate(related.date)}
+                        </time>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </section>
             </>
           )}
         </motion.article>

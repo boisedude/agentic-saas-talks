@@ -20,6 +20,7 @@ import { Card } from "@/components/ui/card"
 import type { Episode } from "@/data/episodes"
 import { ImageWithLoading } from "@/components/image-with-loading"
 import { ScrollToTop } from "@/components/scroll-to-top"
+import { EpisodeGrid } from "@/components/episode-grid"
 import { useReducedMotion } from "@/lib/use-reduced-motion"
 import { Breadcrumb } from "@/components/breadcrumb"
 import {
@@ -27,9 +28,16 @@ import {
   getVideoSchema,
   getWebPageSchema,
   getPodcastEpisodeSchema,
+  getEpisodeFAQSchema,
 } from "@/lib/seo"
 import { SITE_URL } from "@/lib/seo"
-import { getYouTubeVideoId, formatDate, getTimestampUrl } from "@/lib/helpers"
+import {
+  getYouTubeVideoId,
+  formatDate,
+  getTimestampUrl,
+  slugify,
+  getRelatedEpisodes,
+} from "@/lib/helpers"
 import Link from "next/link"
 
 interface EpisodeDetailClientProps {
@@ -103,6 +111,8 @@ export function EpisodeDetailClient({ episode }: EpisodeDetailClientProps) {
 
   const videoSchema = getVideoSchema(episode)
   const podcastEpisodeSchema = getPodcastEpisodeSchema(episode)
+  const faqSchema = getEpisodeFAQSchema(episode)
+  const relatedEpisodes = getRelatedEpisodes(episode)
 
   const webPageSchema = getWebPageSchema({
     title: `Episode ${episode.id}: ${episode.title}`,
@@ -128,6 +138,10 @@ export function EpisodeDetailClient({ episode }: EpisodeDetailClientProps) {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(podcastEpisodeSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
       <div className="min-h-screen">
@@ -199,9 +213,11 @@ export function EpisodeDetailClient({ episode }: EpisodeDetailClientProps) {
                 <div className="mb-3 flex flex-wrap gap-2">
                   <Badge variant="secondary">{episode.duration}</Badge>
                   {episode.tags.map((tag) => (
-                    <Badge key={tag} variant="outline">
-                      {tag}
-                    </Badge>
+                    <Link key={tag} href={`/topics/${slugify(tag)}`}>
+                      <Badge variant="outline" className="transition-colors hover:border-blue-500/50 hover:text-primary">
+                        {tag}
+                      </Badge>
+                    </Link>
                   ))}
                 </div>
 
@@ -262,7 +278,14 @@ export function EpisodeDetailClient({ episode }: EpisodeDetailClientProps) {
                       >
                         <div className="flex items-start justify-between gap-3">
                           <div className="flex-1">
-                            <h3 className="font-semibold">{guest.name}</h3>
+                            <h3 className="font-semibold">
+                              <Link
+                                href={`/guests/${slugify(guest.name)}`}
+                                className="transition-colors hover:text-primary hover:underline"
+                              >
+                                {guest.name}
+                              </Link>
+                            </h3>
                             <p className="mt-1 text-sm text-muted-foreground leading-relaxed">
                               {guest.bio}
                             </p>
@@ -323,6 +346,14 @@ export function EpisodeDetailClient({ episode }: EpisodeDetailClientProps) {
                     ))}
                   </div>
                 </Card>
+              )}
+
+              {/* Related Episodes */}
+              {relatedEpisodes.length > 0 && (
+                <div>
+                  <h2 className="mb-6 text-2xl font-bold">Related Episodes</h2>
+                  <EpisodeGrid episodes={relatedEpisodes} />
+                </div>
               )}
             </motion.div>
           </div>

@@ -6,6 +6,9 @@ export interface Host {
   role?: string
   company?: string
   companyUrl?: string
+  /** Areas of subject-matter expertise — surfaced as schema.org `knowsAbout`
+   *  to strengthen author/entity authority signals for AI answer engines. */
+  expertise?: string[]
 }
 
 export const hosts: Host[] = [
@@ -17,6 +20,7 @@ export const hosts: Host[] = [
     role: "Co-Host",
     company: "Amazon Web Services",
     companyUrl: "https://aws.amazon.com",
+    expertise: ["Generative AI", "Cloud Architecture", "Platform Strategy", "Go-to-Market"],
   },
   {
     name: "Bill Tarr",
@@ -26,6 +30,7 @@ export const hosts: Host[] = [
     role: "Co-Host",
     company: "Amazon Web Services",
     companyUrl: "https://aws.amazon.com",
+    expertise: ["Multi-Tenant SaaS", "Cloud-Native Architecture", "Software Architecture", "AI Platforms"],
   },
   {
     name: "Kamal Gupta",
@@ -35,6 +40,7 @@ export const hosts: Host[] = [
     role: "Co-Host",
     company: "Omnistrate",
     companyUrl: "https://www.omnistrate.com",
+    expertise: ["Distributed Systems", "Cloud Databases", "Amazon Aurora", "Event Streaming", "Control Planes"],
   },
   {
     name: "Markus Kaiser",
@@ -44,6 +50,7 @@ export const hosts: Host[] = [
     role: "Co-Host",
     company: "Amazon Web Services",
     companyUrl: "https://aws.amazon.com",
+    expertise: ["Cloud Architecture", "Startup Scaling", "Agentic SaaS", "AI in Software Development"],
   },
   {
     name: "Michael Cooper",
@@ -53,5 +60,6 @@ export const hosts: Host[] = [
     role: "Co-Host",
     company: "The Tributary AI",
     companyUrl: "https://thetributary.ai",
+    expertise: ["Go-to-Market Strategy", "Strategic Partnerships", "Ecosystem Development", "Cloud & AI Platforms"],
   }
 ]

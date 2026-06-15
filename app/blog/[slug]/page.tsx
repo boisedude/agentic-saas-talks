@@ -1,4 +1,4 @@
-import { getAllBlogSlugs, getBlogPostBySlug } from "@/lib/blog"
+import { getAllBlogSlugs, getBlogPostBySlug, getRelatedBlogPosts } from "@/lib/blog"
 import { notFound } from "next/navigation"
 import { BlogPostClient } from "./blog-post-client"
 import type { Metadata } from "next"
@@ -85,6 +85,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   }
 
   const author = getAuthorInfo(post.author)
+  const relatedPosts = getRelatedBlogPosts(post.slug)
 
-  return <BlogPostClient post={post} author={author} />
+  return <BlogPostClient post={post} author={author} relatedPosts={relatedPosts} />
 }

@@ -57,6 +57,8 @@ export const Footer = memo(() => {
           {/* Links */}
           <nav aria-label="Footer" className="flex flex-wrap gap-x-6 gap-y-1 text-xs text-muted-foreground">
             <Link href="/episodes" className="transition-colors hover:text-foreground">Episodes</Link>
+            <Link href="/topics" className="transition-colors hover:text-foreground">Topics</Link>
+            <Link href="/guests" className="transition-colors hover:text-foreground">Guests</Link>
             <Link href="/hosts" className="transition-colors hover:text-foreground">Hosts</Link>
             <Link href="/blog" className="transition-colors hover:text-foreground">Blog</Link>
             <Link href="/privacy" className="transition-colors hover:text-foreground">Privacy</Link>

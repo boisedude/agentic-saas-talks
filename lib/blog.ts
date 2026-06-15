@@ -82,6 +82,27 @@ export function getBlogPostBySlug(slug: string): BlogPost | null {
   }
 }
 
+/**
+ * Posts related to the given one, ranked by shared tags then recency.
+ * Excludes the post itself.
+ */
+export function getRelatedBlogPosts(slug: string, limit = 3): BlogPost[] {
+  const all = getAllBlogPosts()
+  const current = all.find((p) => p.slug === slug)
+  if (!current) return []
+
+  return all
+    .filter((p) => p.slug !== slug)
+    .map((p) => ({
+      post: p,
+      shared: p.tags.filter((t) => current.tags.includes(t)).length,
+    }))
+    .filter((x) => x.shared > 0)
+    .sort((a, b) => b.shared - a.shared || (a.post.date < b.post.date ? 1 : -1))
+    .slice(0, limit)
+    .map((x) => x.post)
+}
+
 export function getAllBlogSlugs(): string[] {
   if (!fs.existsSync(contentDirectory)) {
     return []

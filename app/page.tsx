@@ -22,7 +22,7 @@ import {
   getFAQSchema,
 } from "@/lib/seo"
 import { getYouTubeVideoId, formatDate } from "@/lib/helpers"
-import { EXTERNAL_LINKS } from "@/lib/constants"
+import { EXTERNAL_LINKS, EPISODE_COUNT, SITE_DESCRIPTION } from "@/lib/constants"
 
 export default function HomePage() {
   const prefersReducedMotion = useReducedMotion()
@@ -48,7 +48,7 @@ export default function HomePage() {
     },
     {
       question: "How often are new episodes released?",
-      answer: "New episodes are released regularly, typically every one to two weeks. The series has published 24 episodes since its launch. Subscribe on YouTube or follow the RSS feed to get notified of new episodes.",
+      answer: `New episodes are released regularly, typically every one to two weeks. The series has published ${EPISODE_COUNT} episodes since its launch. Subscribe on YouTube or follow the RSS feed to get notified of new episodes.`,
     },
   ]
 
@@ -61,7 +61,7 @@ export default function HomePage() {
     latestVideoSchema: getVideoSchema(latestEpisode),
     webPageSchema: getWebPageSchema({
       title: "Agentic SaaS Talks - Exploring the Future of AI Applications",
-      description: "Agentic SaaS Talks is a technology webcast series with 24 episodes covering AI applications, agentic architectures, and SaaS platform evolution. Hosted by technology leaders from AWS, Omnistrate, and The Tributary AI.",
+      description: SITE_DESCRIPTION,
       url: "https://agentic-saas-talks.com",
       datePublished: episodes[episodes.length - 1]?.date ?? new Date().toISOString(),
       dateModified: latestEpisode.date,

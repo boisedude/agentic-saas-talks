@@ -11,6 +11,7 @@ import { ScrollToTop } from "@/components/scroll-to-top"
 import { useReducedMotion } from "@/lib/use-reduced-motion"
 import { Breadcrumb } from "@/components/breadcrumb"
 import { getBreadcrumbSchema, getWebPageSchema, getPersonSchema } from "@/lib/seo"
+import { slugify } from "@/lib/helpers"
 import { EXTERNAL_LINKS } from "@/lib/constants"
 import Image from "next/image"
 import { useState, useCallback, useMemo } from "react"
@@ -135,7 +136,12 @@ export default function HostsPage() {
                       <div className="mb-4 flex items-start justify-between">
                         <div className="flex-1">
                           <h3 className="mb-1 text-2xl font-bold leading-tight">
-                            {host.name}
+                            <Link
+                              href={`/hosts/${slugify(host.name)}`}
+                              className="transition-colors hover:text-primary"
+                            >
+                              {host.name}
+                            </Link>
                           </h3>
                           {host.role && (
                             <Badge variant="outline" className="mb-3">
@@ -164,6 +170,21 @@ export default function HostsPage() {
                       <p className="mb-4 text-muted-foreground leading-relaxed">
                         {host.bio}
                       </p>
+
+                      {/* Full profile link */}
+                      <Button
+                        variant="default"
+                        size="sm"
+                        className="mb-2 w-full"
+                        asChild
+                      >
+                        <Link
+                          href={`/hosts/${slugify(host.name)}`}
+                          aria-label={`View ${host.name}'s full profile`}
+                        >
+                          View Full Profile
+                        </Link>
+                      </Button>
 
                       {/* LinkedIn Link */}
                       <Button

@@ -1,7 +1,8 @@
 import { Episode } from "@/data/episodes"
 import type { BlogPost } from "@/lib/blog"
 import type { Host } from "@/data/hosts"
-import { getYouTubeVideoId } from "@/lib/helpers"
+import { getYouTubeVideoId, slugify } from "@/lib/helpers"
+import { hosts } from "@/data/hosts"
 import { SITE_URL, SITE_NAME, SITE_DESCRIPTION } from "@/lib/constants"
 
 export { SITE_URL, SITE_NAME, SITE_DESCRIPTION }
@@ -19,6 +20,16 @@ export const getOrganizationSchema = () => ({
     "height": 600,
   },
   "description": SITE_DESCRIPTION,
+  "knowsAbout": [
+    "Agentic AI",
+    "AI Agents",
+    "Model Context Protocol",
+    "SaaS Architecture",
+    "Multi-Tenant Platforms",
+    "Cloud Infrastructure",
+    "Control Planes",
+    "AI Product Development",
+  ],
   "sponsor": {
     "@type": "Organization",
     "name": "Omnistrate",
@@ -180,6 +191,7 @@ export const getBlogPostSchema = (post: BlogPost, author?: Host) => {
     "headline": post.title,
     "description": post.excerpt,
     "datePublished": post.date,
+    "dateModified": post.date,
     "author": author
       ? {
           "@type": "Person",
@@ -243,14 +255,19 @@ export const getVideoSeriesSchema = (episodes: Episode[]) => ({
   })),
 })
 
-// Person Schema for hosts
-export const getPersonSchema = (host: Host) => ({
+// Person Schema for hosts.
+// `id` lets other schema nodes (PodcastSeries author, episode actors) reference
+// the canonical host entity on its own detail page instead of duplicating it.
+export const getPersonSchema = (host: Host, withId = true) => ({
   "@context": "https://schema.org",
   "@type": "Person",
+  ...(withId ? { "@id": `${SITE_URL}/hosts/${slugify(host.name)}#person` } : {}),
   "name": host.name,
+  "url": `${SITE_URL}/hosts/${slugify(host.name)}`,
   "description": host.bio,
   ...(host.role ? { "jobTitle": host.role } : {}),
   ...(host.photo ? { "image": `${SITE_URL}${host.photo}` } : {}),
+  ...(host.expertise && host.expertise.length > 0 ? { "knowsAbout": host.expertise } : {}),
   ...(host.company ? {
     "worksFor": {
       "@type": "Organization",
@@ -270,14 +287,106 @@ export const getPodcastSeriesSchema = (episodes: Episode[]) => ({
   "url": SITE_URL,
   "webFeed": `${SITE_URL}/feed.xml`,
   "numberOfEpisodes": episodes.length,
-  "author": [
-    { "@type": "Person", "name": "Ermin Dzinic" },
-    { "@type": "Person", "name": "Bill Tarr" },
-    { "@type": "Person", "name": "Kamal Gupta" },
-    { "@type": "Person", "name": "Markus Kaiser" },
-    { "@type": "Person", "name": "Michael Cooper" },
-  ],
+  "author": hosts.map((host) => ({
+    "@type": "Person",
+    "@id": `${SITE_URL}/hosts/${slugify(host.name)}#person`,
+    "name": host.name,
+    "url": `${SITE_URL}/hosts/${slugify(host.name)}`,
+    ...(host.role ? { "jobTitle": host.role } : {}),
+    ...(host.photo ? { "image": `${SITE_URL}${host.photo}` } : {}),
+    "sameAs": [host.linkedIn],
+  })),
 })
+
+// ItemList of blog posts for the /blog listing page
+export const getBlogListingSchema = (posts: BlogPost[]) => ({
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "itemListElement": posts.map((post, index) => ({
+    "@type": "ListItem",
+    "position": index + 1,
+    "item": {
+      "@type": "BlogPosting",
+      "headline": post.title,
+      "description": post.excerpt,
+      "url": `${SITE_URL}/blog/${post.slug}`,
+      "datePublished": post.date,
+      "author": { "@type": "Person", "name": post.author },
+      ...(post.featuredImage
+        ? {
+            "image": post.featuredImage.startsWith("http")
+              ? post.featuredImage
+              : `${SITE_URL}${post.featuredImage}`,
+          }
+        : {}),
+    },
+  })),
+})
+
+// CollectionPage schema for topic / guest / author archive pages, wrapping an
+// ItemList of episodes so AI engines see the page as an organized collection.
+export const getCollectionPageSchema = (props: {
+  title: string
+  description: string
+  url: string
+  episodes: Episode[]
+}) => ({
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": props.title,
+  "description": props.description,
+  "url": props.url,
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": SITE_NAME,
+    "url": SITE_URL,
+  },
+  "mainEntity": {
+    "@type": "ItemList",
+    "numberOfItems": props.episodes.length,
+    "itemListElement": props.episodes.map((episode, index) => ({
+      "@type": "ListItem",
+      "position": index + 1,
+      "item": {
+        "@type": "VideoObject",
+        "name": episode.title,
+        "url": `${SITE_URL}/episodes/${episode.id}`,
+        "description": episode.description,
+        "thumbnailUrl": `https://i.ytimg.com/vi/${getYouTubeVideoId(episode.videoUrl)}/maxresdefault.jpg`,
+        "uploadDate": `${episode.date}T00:00:00Z`,
+      },
+    })),
+  },
+})
+
+// Per-episode FAQPage — synthesized from episode data into answer-first Q&A,
+// the format AI answer engines cite most readily (GEO).
+export const getEpisodeFAQSchema = (episode: Episode) => {
+  const guestNames = episode.guests?.map((g) => g.name) ?? []
+  const faqs: { question: string; answer: string }[] = [
+    {
+      question: `What is Episode ${episode.id} of Agentic SaaS Talks about?`,
+      answer: episode.description,
+    },
+    {
+      question: `What topics does Episode ${episode.id} cover?`,
+      answer: `Episode ${episode.id} covers ${episode.tags.join(", ")}.`,
+    },
+    {
+      question: `How long is Episode ${episode.id} of Agentic SaaS Talks?`,
+      answer: `Episode ${episode.id}, "${episode.title}", runs ${episode.duration} and was published on ${episode.date}.`,
+    },
+  ]
+  if (guestNames.length > 0) {
+    faqs.push({
+      question: `Who is featured in Episode ${episode.id}?`,
+      answer: `Episode ${episode.id} features ${guestNames.join(", ")}${
+        guestNames.length === 1 ? " as a guest" : " as guests"
+      }, in conversation with the Agentic SaaS Talks hosts.`,
+    })
+  }
+  return getFAQSchema(faqs)
+}
 
 // PodcastEpisode Schema
 export const getPodcastEpisodeSchema = (episode: Episode) => ({
