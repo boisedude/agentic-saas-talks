@@ -60,6 +60,12 @@ Add new episode at the **TOP** of the `episodes` array (newest first):
 }
 ```
 
+> **Auto-generated pages:** you only edit `data/episodes.ts`. The build derives the rest
+> from it — every `tag` mints/updates a `/topics/<slug>` archive, every external `guest`
+> mints/updates a `/guests/<slug>` profile, and the episode count shown across the site
+> (`EPISODE_COUNT` in `lib/constants.ts`) is computed from the array length. There are no
+> counts or topic/guest lists to update by hand. See the **SEO / GEO Architecture** section.
+
 ### Step 4: Validate and Build
 
 ```bash
@@ -78,10 +84,19 @@ npm run dev
 # Verify timestamps link correctly
 ```
 
-Or run Playwright tests:
+Run the test suites:
 ```bash
-npx playwright test
+npm run test:unit        # Vitest unit tests
+npm run test:e2e         # Playwright E2E (builds, then serves out/ on :3000 + :3001)
 ```
+
+**Important:** run E2E via `npm run test:e2e`, **not** bare `npx playwright test`. The
+suite runs against the **static export** (`out/`), not the dev server — the dev server
+emits dev-only console errors (CSP/eval) and holds an HMR socket open so `networkidle`
+never settles, which produces dozens of false failures. `npm run test:e2e` builds `out/`
+first, then `playwright.config.ts` serves it via `test-server.js` on `:3000` (most
+suites) and `:3001` (the Apache/.htaccess routing suite, `tests/06`). Bare
+`npx playwright test` only works if `out/` is already built.
 
 ### Step 6: Deploy to Hostinger
 
@@ -142,23 +157,37 @@ Common tags used in this project:
 |------|---------|
 | **Data** | |
 | `data/episodes.ts` | Episode data — **ADD NEW EPISODES HERE** |
-| `data/hosts.ts` | Host information (names, bios, photos, LinkedIn, company) |
+| `data/hosts.ts` | Host info (names, bios, photos, LinkedIn, company, `expertise[]`) |
 | **Pages** | |
-| `app/page.tsx` | Homepage (shows latest episode, hero, topics) |
-| `app/episodes/page.tsx` | Episodes archive with search/filter |
+| `app/page.tsx` | Homepage (latest episode, hero, topics, FAQ) |
+| `app/episodes/page.tsx` | Episodes archive with client search/filter |
+| `app/episodes/[id]/page.tsx` | Episode detail (server) + `episode-detail-client.tsx` |
+| `app/topics/page.tsx` | Topics index (all tags) — **auto-generated from episode tags** |
+| `app/topics/[tag]/page.tsx` | Per-topic episode archive — **auto-generated** |
+| `app/guests/page.tsx` | Guests index — **auto-generated from episode guests** |
+| `app/guests/[slug]/page.tsx` | Guest profile + their episodes — **auto-generated** |
 | `app/hosts/page.tsx` | Hosts page with photos and bios |
+| `app/hosts/[slug]/page.tsx` | Host profile (expertise, authored posts) |
+| `app/search/page.tsx` | Combined episode+article search (`noindex`; `search-client.tsx`) |
 | `app/blog/page.tsx` | Blog listing page |
 | `app/blog/[slug]/page.tsx` | Individual blog post page |
-| `app/layout.tsx` | Root layout (metadata, fonts, nav, footer) |
+| `app/layout.tsx` | Root layout (metadata, CSP, fonts, analytics, nav, footer) |
+| **SEO / GEO routes** | |
+| `app/sitemap.ts` | XML sitemap (pages, episodes, topics, guests, hosts, blog + image entries) |
+| `app/robots.ts` | robots.txt — allows AI crawlers (GPTBot, ClaudeBot, PerplexityBot, …) |
+| `app/llms.txt/route.ts` | `llms.txt` for AI engines (episodes/topics/guests/hosts + URLs) |
+| `app/feed.xml/route.ts` | RSS feed |
 | **Components** | |
-| `components/navbar.tsx` | Navigation bar |
+| `components/navigation.tsx` | Desktop nav bar (+ `mobile-nav.tsx`, `nav-link.tsx`) |
 | `components/footer.tsx` | Site footer |
+| `components/episode-grid.tsx` | Shared static episode-card grid (topic/guest/related) |
+| `components/breadcrumb.tsx` | Breadcrumb nav (server-safe) |
 | `components/ui/` | Reusable UI components (button, card, badge, etc.) |
 | **Config & Utilities** | |
-| `lib/constants.ts` | Site URL, external links, nav links, animation config |
-| `lib/seo.ts` | Schema.org structured data generators (Video, Podcast, Person, FAQ, etc.) |
-| `lib/helpers.ts` | Utility functions (date formatting, YouTube ID extraction) |
-| `lib/blog.ts` | Blog post loading from markdown files |
+| `lib/constants.ts` | Site URL/name/description, `EPISODE_COUNT` (derived), nav links |
+| `lib/seo.ts` | Schema.org JSON-LD generators (Video, Podcast, Person, FAQ, CollectionPage, …) |
+| `lib/helpers.ts` | Dates, YouTube IDs, `slugify`, taxonomy lookups, related-episodes |
+| `lib/blog.ts` | Blog post loading + related posts (markdown via gray-matter) |
 | **Scripts** | |
 | `scripts/find-new-episodes.ts` | **Preferred** — RSS-based: diff playlist vs data, dump ready-to-paste details (no browser) |
 | `scripts/scrape-playlist.ts` | Legacy (Playwright) — scrape playlist for all video URLs |
@@ -169,7 +198,41 @@ Common tags used in this project:
 | **Build Output** | |
 | `out/` | Static export files for deployment |
 | **Tests** | |
-| `tests/` | Playwright E2E tests |
+| `tests/` | Playwright E2E tests (run via `npm run test:e2e`) |
+| `test-server.js` | Zero-dep static server (clean URLs + 404) used by the E2E harness |
+| `playwright.config.ts` | Serves `out/` on `:3000` + `:3001`; 1 local retry, 2 in CI |
+
+---
+
+## SEO / GEO Architecture
+
+The site is optimized for both traditional search and **GEO** (generative-engine
+optimization — getting cited by ChatGPT, Claude, Perplexity, Google AI Overviews).
+Guiding principle from current research: **AI engines parse HTML + structured data
+directly** (they almost never fetch `llms.txt`), and **FAQ schema + answer-first content**
+drive citations. So the weight is on schema and crawlable pages, not `llms.txt`.
+
+**Everything derives from `data/episodes.ts` + `data/hosts.ts` — never hand-maintain counts or lists.**
+
+- **Dynamic count:** `EPISODE_COUNT` in `lib/constants.ts` = `episodes.length`. `SITE_DESCRIPTION`
+  and all metadata interpolate it. Do **not** hardcode an episode count anywhere.
+- **Structured data** (`lib/seo.ts`, injected as JSON-LD `<script>` per page): Organization,
+  WebSite, VideoObject, ItemList, BreadcrumbList, FAQPage, WebPage, BlogPosting, VideoSeries,
+  Person (with `knowsAbout` from host `expertise`), PodcastSeries/Episode, CollectionPage
+  (topic/guest archives), `getBlogListingSchema`, and `getEpisodeFAQSchema` (synthesizes
+  answer-first Q&A per episode — the highest-leverage GEO signal).
+- **Auto-generated crawlable pages** (all via `generateStaticParams`): `/topics`, `/topics/[tag]`,
+  `/guests`, `/guests/[slug]`, `/hosts/[slug]`. Slugs come from `slugify()` in `lib/helpers.ts`
+  (taxonomy helpers: `getAllTags`, `getTagBySlug`, `getEpisodesByTag`, `getAllGuests`,
+  `getGuestBySlug`, `getHostBySlug`, `getRelatedEpisodes`).
+- **Internal linking:** episode tags link to `/topics/[tag]`, guests to `/guests/[slug]`;
+  episode pages show related episodes (shared tags), blog posts show related posts.
+- **`llms.txt`, `sitemap.xml` (with image entries), `feed.xml`, `robots.txt`** all regenerate
+  from data on build. `robots.ts` explicitly allows the major AI crawlers.
+- **`/search`** is `noindex, follow` (search-results pages shouldn't be indexed).
+
+When adding episode/host data, these all update automatically on the next build — just verify
+the new `/topics/<slug>` or `/guests/<slug>` pages render.
 
 ---
 
@@ -237,10 +300,13 @@ npx tsx scripts/scrape-playlist.ts       # List all playlist videos
 npx tsx scripts/scrape-videos.ts         # Scrape video details
 
 # Testing
-npx playwright test      # Run all E2E tests
+npm run test:unit        # Vitest unit tests
+npm run test:e2e         # Playwright E2E (builds, serves out/ on :3000 + :3001)
+#                          NOT bare `npx playwright test` — that uses the dev
+#                          server and produces false failures. See Step 5.
 
 # Deployment
-npm run deploy           # Build + deploy via SSH/rsync
+npm run deploy           # Build + rsync + IndexNow ping + Cloudflare purge
 npm run deploy:skip-build # Deploy without rebuilding
 npm run deploy:dry       # Preview (no changes)
 ```
@@ -255,8 +321,8 @@ npm run deploy:dry       # Preview (no changes)
 - **Animation:** Framer Motion
 - **UI Components:** Radix UI primitives + shadcn/ui pattern
 - **Linting:** ESLint 9 with eslint-config-next
-- **Testing:** Playwright
-- **Deployment:** Static files via SSH/rsync to Hostinger
+- **Testing:** Vitest (unit) + Playwright (E2E, against the static export)
+- **Deployment:** Static files via SSH/rsync to Hostinger, fronted by Cloudflare
 
 ---
 

@@ -19,12 +19,13 @@ See [DEPLOYMENT.md](DEPLOYMENT.md) for detailed deployment instructions.
 ## 🎯 Features
 
 - **Modern Design**: Sleek grey/blue (slate) color scheme with glassmorphism backgrounds, gradient overlays, and smooth animations
-- **17 Episodes**: Complete archive of all Agentic SaaS Talks episodes with featured YouTube thumbnails
-- **Interactive Timestamps**: Episode 17 includes 10 clickable timestamps that link to specific YouTube video times
-- **Hosts Page**: Dedicated page featuring all 5 hosts with LinkedIn profiles and bios
-- **Guest Support**: Episodes can feature special guests with their LinkedIn profiles and information
+- **Full Episode Archive**: Every Agentic SaaS Talks episode with featured YouTube thumbnails, individually crawlable detail pages, and clickable timestamps
+- **Auto-generated taxonomy**: `/topics/<tag>`, `/guests/<name>`, and `/hosts/<name>` pages are derived from the episode/host data — no manual maintenance
+- **Search**: Combined episode + article keyword search at `/search`
+- **Hosts & Guests**: Host profiles with areas of expertise; guest profiles linking the episodes they appeared in
+- **Blog**: Markdown-driven blog with related-posts linking
 - **Responsive Design**: Mobile-first approach with hamburger navigation menu
-- **SEO Optimized**: Meta tags, Open Graph, Twitter Cards, and Schema.org structured data (25+ JSON-LD schemas)
+- **SEO + GEO Optimized**: Meta/OG/Twitter tags, rich Schema.org JSON-LD (incl. per-episode FAQ), image sitemap, `llms.txt`, and AI-crawler-friendly `robots.txt` — see [SEO / GEO Architecture in CLAUDE.md](CLAUDE.md#seo--geo-architecture)
 - **Accessibility**: ARIA labels, keyboard navigation, and WCAG 2.1 AA compliant
 - **Performance**: Static site generation for fast page loads
 - **UX Enhanced**: Image loading states, scroll-to-top button, enhanced hover effects, and active navigation states
@@ -33,13 +34,14 @@ See [DEPLOYMENT.md](DEPLOYMENT.md) for detailed deployment instructions.
 
 ## 🛠️ Tech Stack
 
-- **Framework**: Next.js 15 (App Router with Static Export)
+- **Framework**: Next.js 16 (App Router with Static Export)
 - **Language**: TypeScript
-- **Styling**: Tailwind CSS
-- **Components**: shadcn/ui
+- **Styling**: Tailwind CSS 4
+- **Components**: shadcn/ui (Radix UI primitives)
 - **Animations**: Framer Motion
 - **Icons**: Lucide React
-- **Deployment**: Hostinger SSH/rsync
+- **Testing**: Vitest (unit) + Playwright (E2E)
+- **Deployment**: Hostinger SSH/rsync, fronted by Cloudflare
 
 ---
 
@@ -48,46 +50,44 @@ See [DEPLOYMENT.md](DEPLOYMENT.md) for detailed deployment instructions.
 ```
 agentic-saas-talks/
 ├── app/
-│   ├── layout.tsx              # Root layout with navigation and footer
-│   ├── page.tsx                # Homepage with hero and featured episode
+│   ├── layout.tsx              # Root layout (metadata, CSP, analytics, nav, footer)
+│   ├── page.tsx                # Homepage (hero, featured episode, topics, FAQ)
 │   ├── episodes/
-│   │   └── page.tsx            # All episodes archive page with YouTube thumbnails
-│   ├── hosts/
-│   │   └── page.tsx            # Hosts page featuring all 5 hosts
-│   └── globals.css             # Global styles with slate/blue color scheme
+│   │   ├── page.tsx            # Episodes archive (client search/filter)
+│   │   └── [id]/page.tsx       # Episode detail (+ episode-detail-client.tsx)
+│   ├── topics/                 # Topic index + /topics/[tag] (auto-generated)
+│   ├── guests/                 # Guest index + /guests/[slug] (auto-generated)
+│   ├── hosts/                  # Hosts page + /hosts/[slug] profiles
+│   ├── blog/                   # Blog listing + /blog/[slug] posts
+│   ├── search/                 # Combined episode+article search (noindex)
+│   ├── sitemap.ts              # XML sitemap (+ image entries)
+│   ├── robots.ts               # robots.txt (allows AI crawlers)
+│   ├── llms.txt/route.ts       # llms.txt for AI engines
+│   ├── feed.xml/route.ts       # RSS feed
+│   └── globals.css             # Global styles (slate/blue scheme)
 ├── components/
-│   ├── ui/                     # shadcn/ui components
-│   │   ├── button.tsx          # Enhanced with scale animations
-│   │   ├── card.tsx
-│   │   ├── badge.tsx
-│   │   ├── separator.tsx
-│   │   ├── skeleton.tsx        # Loading states
-│   │   └── sheet.tsx           # Mobile menu panel
-│   ├── navigation.tsx          # Desktop/mobile navigation with Hosts link
-│   ├── mobile-nav.tsx          # Mobile hamburger menu
-│   ├── nav-link.tsx            # Active state navigation link
+│   ├── ui/                     # shadcn/ui components (button, card, badge, …)
+│   ├── navigation.tsx          # Desktop nav  (+ mobile-nav.tsx, nav-link.tsx)
 │   ├── footer.tsx              # Site footer
-│   ├── scroll-to-top.tsx       # Floating scroll button
+│   ├── episode-grid.tsx        # Shared static episode-card grid
+│   ├── breadcrumb.tsx          # Breadcrumb nav
 │   └── image-with-loading.tsx  # Images with loading states
 ├── data/
-│   ├── episodes.ts             # All 17 episodes with metadata and Guest interface
-│   └── hosts.ts                # All 5 hosts with LinkedIn and bio info
+│   ├── episodes.ts             # Episode data + Episode/Guest/Timestamp types
+│   └── hosts.ts                # Host data (+ expertise[])
 ├── lib/
-│   ├── utils.ts                # Utility functions
-│   └── seo.ts                  # SEO schema generators (25+ schemas)
-├── public/
-│   ├── logo.jpg                # Channel logo
-│   ├── sitemap.xml             # Complete sitemap with video metadata
-│   └── robots.txt              # Search engine directives
-├── deploy.sh                   # SSH/rsync deployment script
-├── README.md                   # This file
-├── CHANGELOG.md                # Version history and recent changes
-├── DEPLOYMENT_GUIDE.md         # Detailed deployment instructions
-├── DEPLOYMENT_READY.md         # Pre-deployment checklist
-├── DEPLOYMENT_STATUS.md        # Current deployment status
-├── PLAYWRIGHT_TEST_REPORT.md   # Test results (50+ validations)
-├── UX_IMPROVEMENTS_SUMMARY.md  # UX enhancements documentation
-├── SEO_OPTIMIZATION_REPORT.md  # SEO implementation details
+│   ├── constants.ts            # Site config + EPISODE_COUNT (derived)
+│   ├── seo.ts                  # Schema.org JSON-LD generators
+│   ├── helpers.ts              # Dates, slugify, taxonomy + related-episode lookups
+│   ├── blog.ts                 # Markdown blog loading + related posts
+│   └── utils.ts                # cn() and misc utilities
+├── content/blog/               # Markdown blog posts
+├── tests/                      # Playwright E2E specs
+├── test-server.js              # Zero-dep static server for the E2E harness
+├── playwright.config.ts        # E2E config (serves out/ on :3000 + :3001)
+├── deploy.sh                   # Build + rsync + IndexNow + Cloudflare purge
+├── CLAUDE.md                   # Agent guide (start here)
+├── DEPLOYMENT.md / TESTING.md / SEO.md   # Detailed guides
 └── package.json
 ```
 
@@ -207,6 +207,9 @@ interface Host {
   bio: string
   photo?: string
   role?: string             // e.g., "Co-Host"
+  company?: string
+  companyUrl?: string
+  expertise?: string[]      // surfaced as schema.org knowsAbout
 }
 ```
 
@@ -216,6 +219,10 @@ interface Host {
 2. Add new episode at beginning of array
 3. Optionally add guests array for special guests
 4. Run `./deploy.sh`
+
+> Topic and guest pages, the episode count, sitemap, and `llms.txt` all regenerate
+> automatically from the data on build — nothing else to touch. For the full workflow
+> (fetching episode details from YouTube, validation, deploy), see **[CLAUDE.md](CLAUDE.md)**.
 
 Example:
 ```typescript
@@ -279,17 +286,17 @@ Example:
 
 ## 🧪 Testing
 
-Comprehensive Playwright testing has been performed:
+```bash
+npm run test:unit        # Vitest unit tests
+npm run test:e2e         # Playwright E2E (chromium / mobile / tablet)
+```
 
-- ✅ **50+ automated tests** - All passing
-- ✅ **Desktop viewport** (1280x720) - Fully functional
-- ✅ **Mobile viewport** (375x667) - Fully responsive
-- ✅ **All 17 episodes** displaying correctly
-- ✅ **Timestamp conversion** working (mm:ss → seconds)
-- ✅ **Navigation** working on both desktop and mobile
-- ✅ **Hover effects** animating smoothly
-
-See [PLAYWRIGHT_TEST_REPORT.md](PLAYWRIGHT_TEST_REPORT.md) for full test results.
+**Run E2E via `npm run test:e2e`, not bare `npx playwright test`.** The suite runs against the
+**static export** (`out/`), served by `test-server.js` on `:3000` (most suites) and `:3001`
+(the Apache/.htaccess routing suite). `npm run test:e2e` builds `out/` first. Running against
+the dev server produces false failures (dev-only CSP/eval console errors + an HMR socket that
+keeps `networkidle` from settling). See [TESTING.md](TESTING.md) and the testing notes in
+[CLAUDE.md](CLAUDE.md).
 
 ---
 
@@ -346,8 +353,12 @@ Edit `app/layout.tsx` to modify site structure or navigation.
 
 Current routes:
 - `/` - Homepage
-- `/episodes` - All episodes archive
-- `/hosts` - Meet the hosts page
+- `/episodes` - Episodes archive; `/episodes/[id]` - episode detail
+- `/topics` + `/topics/[tag]` - topic archives (auto-generated from tags)
+- `/guests` + `/guests/[slug]` - guest profiles (auto-generated)
+- `/hosts` + `/hosts/[slug]` - hosts page + profiles
+- `/blog` + `/blog/[slug]` - blog
+- `/search` - combined search
 
 To add new routes, create folders under `app/` with a `page.tsx` file.
 
@@ -364,9 +375,10 @@ To add new routes, create folders under `app/` with a `page.tsx` file.
 ## 📄 Documentation
 
 - **README.md** - This file - project overview and quick start
+- **CLAUDE.md** - Agent guide: adding episodes, file map, SEO/GEO architecture, testing
 - **CHANGELOG.md** - Version history and recent changes
 - **DEPLOYMENT.md** - Complete deployment guide
-- **TESTING.md** - Comprehensive testing documentation
+- **TESTING.md** - Testing documentation
 - **SEO.md** - SEO optimization details and maintenance
 - **PROJECT_SUMMARY.md** - Complete project summary
 - **UX_IMPROVEMENTS_SUMMARY.md** - UX enhancements details
@@ -397,6 +409,10 @@ npm start                # Test production build
 ./deploy.sh              # Build and deploy to Hostinger
 ./deploy.sh --skip-build # Quick deploy (no build)
 ./deploy.sh --dry        # Preview changes (no deploy)
+
+# Testing
+npm run test:unit        # Vitest unit tests
+npm run test:e2e         # Playwright E2E against the static export
 
 # Code Quality
 npm run lint             # Check for errors
