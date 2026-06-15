@@ -177,6 +177,19 @@ Common tags used in this project:
 - **SSH Key:** `~/.ssh/id_ed25519`
 - **Remote Path:** `/home/u951885034/domains/agentic-saas-talks.com/public_html`
 
+### Cloudflare (added 2026-06-15)
+
+The site is fronted by Cloudflare (zone `ad15899b816fb724b67ab95c75c3891e`), matching the other content zones: cache-everything rule (4h edge TTL), Smart Tiered Cache, and a User-Agent transform toward origin (Hostinger's shared-server WAF 403/429s crawler UAs — the transform bypasses it so GPTBot et al. reach the origin). Because of the 4h edge cache, **every deploy must purge the zone** — `deploy.sh` does this automatically in step [4/4] using `~/.cloudflare-token`. Manual purge:
+
+```bash
+CF_TOKEN=$(cat ~/.cloudflare-token)
+curl -s -X POST "https://api.cloudflare.com/client/v4/zones/ad15899b816fb724b67ab95c75c3891e/purge_cache" \
+  -H "Authorization: Bearer $CF_TOKEN" -H "Content-Type: application/json" \
+  --data '{"purge_everything":true}'
+```
+
+Cookieless Cloudflare Web Analytics beacon (`site_token: de98f84e9b2c4b4fac16c1ac9e29ee50`) is in `app/layout.tsx` alongside Google Analytics; both `static.cloudflareinsights.com` (script-src) and `cloudflareinsights.com` (connect-src) are allowlisted in the CSP there.
+
 ---
 
 ## Common Issues

@@ -53,7 +53,7 @@ echo ""
 
 # Step 1: Build (unless skipped)
 if [ "$SKIP_BUILD" = false ]; then
-    echo "[1/3] Building Next.js static site..."
+    echo "[1/4] Building Next.js static site..."
     npm run build
 
     if [ $? -ne 0 ]; then
@@ -61,7 +61,7 @@ if [ "$SKIP_BUILD" = false ]; then
         exit 1
     fi
 else
-    echo "[1/3] Skipping build (--skip-build)"
+    echo "[1/4] Skipping build (--skip-build)"
 fi
 
 # Verify build output exists
@@ -73,7 +73,7 @@ fi
 
 # Step 2: Deploy with rsync
 echo ""
-echo "[2/3] Deploying to ${SSH_HOST}..."
+echo "[2/4] Deploying to ${SSH_HOST}..."
 echo "      Local:  ${LOCAL_DIR}/"
 echo "      Remote: ${SSH_USER}@${SSH_HOST}:${REMOTE_DIR}/"
 echo ""
@@ -98,7 +98,7 @@ fi
 # Step 3: Notify IndexNow (skip on dry run)
 if [ -z "$DRY_RUN" ]; then
     echo ""
-    echo "[3/3] Notifying IndexNow..."
+    echo "[3/4] Notifying IndexNow..."
 
     SITEMAP="${LOCAL_DIR}/sitemap.xml"
     if [ -f "$SITEMAP" ]; then
@@ -129,6 +129,30 @@ if [ -z "$DRY_RUN" ]; then
         fi
     else
         echo "      Sitemap not found at ${SITEMAP}, skipping IndexNow"
+    fi
+fi
+
+# Step 4: Purge Cloudflare cache (skip on dry run)
+# The zone has a cache-everything rule (4h edge TTL), so deploys are stale
+# for up to 4h unless we purge. Token lives at ~/.cloudflare-token.
+if [ -z "$DRY_RUN" ]; then
+    echo ""
+    echo "[4/4] Purging Cloudflare cache..."
+    CF_ZONE="ad15899b816fb724b67ab95c75c3891e"
+    if [ -f "$HOME/.cloudflare-token" ]; then
+        CF_TOKEN=$(cat "$HOME/.cloudflare-token")
+        CF_RESP=$(curl -s -o /dev/null -w "%{http_code}" -X POST \
+            "https://api.cloudflare.com/client/v4/zones/${CF_ZONE}/purge_cache" \
+            -H "Authorization: Bearer ${CF_TOKEN}" \
+            -H "Content-Type: application/json" \
+            --data '{"purge_everything":true}')
+        if [ "$CF_RESP" = "200" ]; then
+            echo "      Cloudflare cache purged (HTTP ${CF_RESP})"
+        else
+            echo "      Cloudflare purge returned HTTP ${CF_RESP} (non-fatal)"
+        fi
+    else
+        echo "      ~/.cloudflare-token not found, skipping purge"
     fi
 fi
 
