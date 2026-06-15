@@ -256,6 +256,14 @@ curl -s -X POST "https://api.cloudflare.com/client/v4/zones/ad15899b816fb724b67a
   --data '{"purge_everything":true}'
 ```
 
+**www → apex redirect (added 2026-06-15):** a Cloudflare dynamic-redirect rule (`http_request_dynamic_redirect` entrypoint ruleset, rule id `9c4dc01a12cf47c28bb434a3942fb66a`) 301s `www.agentic-saas-talks.com/*` → `https://agentic-saas-talks.com/*`, preserving path + query. This consolidates both hostnames onto the canonical apex (the static export hardcodes apex in canonical/og tags) and prevents the apex/www cache keys from drifting (Cloudflare caches each hostname separately — after a Cloudflare switch the www key can otherwise serve a stale copy while apex is fresh). This rule lives **only in Cloudflare**, not in the repo or `deploy.sh`. Inspect/recreate via:
+
+```bash
+CF_TOKEN=$(cat ~/.cloudflare-token)
+curl -s "https://api.cloudflare.com/client/v4/zones/ad15899b816fb724b67ab95c75c3891e/rulesets/phases/http_request_dynamic_redirect/entrypoint" \
+  -H "Authorization: Bearer $CF_TOKEN" | python3 -m json.tool
+```
+
 Cookieless Cloudflare Web Analytics beacon (`site_token: de98f84e9b2c4b4fac16c1ac9e29ee50`) is in `app/layout.tsx` alongside Google Analytics; both `static.cloudflareinsights.com` (script-src) and `cloudflareinsights.com` (connect-src) are allowlisted in the CSP there.
 
 ---
