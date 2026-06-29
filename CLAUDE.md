@@ -301,7 +301,8 @@ npm run episodes:validate   # Validate episode data integrity
 # Development
 npm run dev              # Start local server at http://localhost:3000
 npm run build            # Build static export for production
-npm run lint             # Run ESLint
+npm run lint             # ESLint (app/components/lib/data) + content lint
+npm run lint:content     # Prose linter: AI-slop + typography tells (see below)
 
 # Scraping (legacy Playwright fallback — prefer episodes:check)
 npx tsx scripts/scrape-playlist.ts       # List all playlist videos
@@ -318,6 +319,37 @@ npm run deploy           # Build + rsync + IndexNow ping + Cloudflare purge
 npm run deploy:skip-build # Deploy without rebuilding
 npm run deploy:dry       # Preview (no changes)
 ```
+
+---
+
+## Content Style & the Prose Linter
+
+All public prose (blog posts in `content/**/*.md` + the human-readable strings in
+`data/episodes.ts`, `data/hosts.ts`, `data/blog.ts`) is checked by
+`scripts/lint-content.ts` (`npm run lint:content`, also chained into `npm run lint`).
+It flags "written-by-AI" tells so copy reads as hand-written.
+
+- **House rule: no em/en dashes.** An em dash (`—`) isn't an easy keyboard motion, so
+  it reads as machine-generated. Use commas, colons, parentheses, or two sentences.
+  Same for en dashes (use "1 to 5" or a hyphen) and the Unicode ellipsis (use `...`).
+- **ERROR (fails the gate):** em/en dash, non-breaking space, Unicode ellipsis, emoji
+  in headings/bullets, decorative glyph bullets, chatbot generation leaks, and the
+  durable rhetorical tells — contrastive negation ("it's not just X, it's Y"),
+  "a testament to", "plays a crucial role", scene-setting openers ("in today's …
+  world", "in a world where"), "navigating the complexities", plus the lexical
+  tells `delve`, `tapestry`/`treasure trove`/`bustling`/`nestled`/`symphony`,
+  `meticulous`, and `underscore` (verb).
+- **WARN (advisory, never fails):** "it's worth noting", "seamless(ly)", "boasts",
+  "when it comes to", "not only … but also", sentence-initial signposting
+  (Moreover/Furthermore/…), formulaic conclusions, copula avoidance, trailing
+  "-ing" pseudo-analysis clauses, vague attribution, audience-spanning templates,
+  and **density** checks for SaaS-native vocab (leverage/robust/comprehensive/…)
+  and power-verbs (unlock/empower/harness/…) — those words are fine in moderation,
+  so they only warn when over-concentrated (≥3 per 500 words).
+
+The lexical blocklist decays (labs train these words out); the **structural** rules
+age better. Review hit-rates periodically and prefer adding structural patterns over
+single words. Fenced code blocks in markdown are skipped.
 
 ---
 

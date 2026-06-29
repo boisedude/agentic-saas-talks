@@ -76,7 +76,7 @@ If the job has changed, the hiring rubric has to change with it. GitHub's Octove
 1. **Hire for judgment and communication over raw syntax recall.** The candidate who can clearly specify a problem, decompose it, and critique a flawed solution is worth more than the one who can reproduce an algorithm from memory. The agent will write the algorithm.
 2. **Value the ability to design feedback loops.** Engineers who instinctively reach for tests, types, and acceptance criteria are the ones who can let agents run fast without letting them run wild.
 3. **Blur the PM/engineer line, deliberately.** When implementation is cheap, the scarce skill is deciding *what's worth building*, a product muscle. The strongest agentic builders carry both: enough product sense to choose the right thing, enough engineering rigor to verify it was built right. Humanloop's Raza Habib frames the convergence well: ["prompt engineering makes product managers more like engineers and AI assistants make engineers more like product managers."](https://humanloop.com/blog/ai-is-blurring-the-lines-between-pms-and-engineers)
-4. **Look for people who run experiments.** In a world where a first draft is nearly free, the instinct to try several approaches and measure, rather than defend one, is a competitive advantage.
+4. **Look for people who run experiments.** When a first draft is nearly free, the instinct to try several approaches and measure, rather than defend one, is a competitive advantage.
 
 ## The bottom line
 
