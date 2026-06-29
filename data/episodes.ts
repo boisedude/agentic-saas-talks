@@ -79,7 +79,7 @@ export const episodes: Episode[] = [
       {
         name: "John Lorance",
         linkedIn: "https://www.linkedin.com/in/jlorance/",
-        bio: "Sr. Manager, Partner Solutions Architecture at AWS SaaS Factory, helping partners build and scale SaaS on AWS."
+        bio: "SaaS and cloud architecture leader; previously Sr. Manager, Partner Solutions Architecture at AWS SaaS Factory, helping partners build and scale SaaS on AWS."
       }
     ],
   },
