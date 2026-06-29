@@ -33,7 +33,7 @@ export const episodes: Episode[] = [
   {
     id: 32,
     title: "EP 24: Up a Layer: The Rise of the Agentic Builder and the CAMPstack",
-    description: "The panel unpacks how builders are moving \"up a layer\" — from writing every line of implementation to directing AI agents, composing managed services, and shipping faster on product judgment. They introduce the CAMP stack (Cloud, Agents, Managed services, Platforms) and dig into intent engineering, infrastructure control planes, the token economics of running agents 24/7, and why testing remains the hardest part of AI-generated code.",
+    description: "The panel unpacks how builders are moving \"up a layer\", from writing every line of implementation to directing AI agents, composing managed services, and shipping faster on product judgment. They introduce the CAMP stack (Cloud, Agents, Managed services, Platforms) and dig into intent engineering, infrastructure control planes, the token economics of running agents 24/7, and why testing remains the hardest part of AI-generated code.",
     date: "2026-06-20",
     videoUrl: "https://www.youtube.com/watch?v=zEPL30MXktc",
     duration: "51 min",
@@ -86,7 +86,7 @@ export const episodes: Episode[] = [
   {
     id: 31,
     title: "Building BYOC for Fortune 500: The Real Story of Enterprise AI Deployment",
-    description: "Daniel Chalef, founder and CEO of Zep AI, walks through the brutal technical reality of deploying AI products into Fortune 500 environments — zero-trust architectures, Service Control Policies, no-egress VPCs, and broken image supply chains. He explains why pure SaaS AI products can't meet enterprise security bars and how Bring Your Own Cloud (BYOC) deployments actually get shipped into locked-down customer infrastructure.",
+    description: "Daniel Chalef, founder and CEO of Zep AI, walks through the brutal technical reality of deploying AI products into Fortune 500 environments, zero-trust architectures, Service Control Policies, no-egress VPCs, and broken image supply chains. He explains why pure SaaS AI products can't meet enterprise security bars and how Bring Your Own Cloud (BYOC) deployments actually get shipped into locked-down customer infrastructure.",
     date: "2026-05-23",
     videoUrl: "https://www.youtube.com/watch?v=bxcjIM8PMRo",
     duration: "13 min",
@@ -197,13 +197,13 @@ export const episodes: Episode[] = [
   {
     id: 28,
     title: "Commercializing Open Source: Why Most Founders Get It Wrong",
-    description: "Recorded at the AWS re:Invent SaaS Summit, four open-source veterans from Percona, Couchbase, and Omnistrate break down what actually works when commercializing open source — and the expensive mistakes founders make. The panel covers open core vs. foundation models, avoiding MongoDB-style license backlash, and partnering with hyperscalers without getting 'Amazon'd'.",
+    description: "Recorded at the AWS re:Invent SaaS Summit, four open-source veterans from Percona, Couchbase, and Omnistrate break down what actually works when commercializing open source, and the expensive mistakes founders make. The panel covers open core vs. foundation models, avoiding MongoDB-style license backlash, and partnering with hyperscalers without getting 'Amazon'd'.",
     date: "2026-04-21",
     videoUrl: "https://www.youtube.com/watch?v=JZSYDpv2vjs",
     duration: "37 min",
     tags: ["Open Source", "Founder Stories", "SaaS Strategy"],
     timestamps: [
-      { time: "00:00", title: "Intro: Commercializing Open Source — Paths & Trade-offs" },
+      { time: "00:00", title: "Intro: Commercializing Open Source, Paths & Trade-offs" },
       { time: "00:53", title: "Panelist Introductions (Couchbase, Percona, Omnistrate)" },
       { time: "06:46", title: "Founder Story: Open Source or Proprietary?" },
       { time: "08:11", title: "Why Percona Chose 100% Open Source" },
@@ -285,7 +285,7 @@ export const episodes: Episode[] = [
   {
     id: 26,
     title: "Ep 21: The Future of DBaaS in an AI World: Industry Trends & Access Patterns",
-    description: "As SaaS evolves for AI, so must the database. AWS's Subbu Ramarao joins the panel to examine how AI-native workloads and agentic access patterns — vector search, hybrid retrieval, and unpredictable agent-generated queries — are reshaping the DBaaS landscape, plus the resurgence of Postgres and how BYOC and pricing pressures are changing managed data services.",
+    description: "As SaaS evolves for AI, so must the database. AWS's Subbu Ramarao joins the panel to examine how AI-native workloads and agentic access patterns, vector search, hybrid retrieval, and unpredictable agent-generated queries, are reshaping the DBaaS landscape, plus the resurgence of Postgres and how BYOC and pricing pressures are changing managed data services.",
     date: "2026-03-24",
     videoUrl: "https://www.youtube.com/watch?v=ZXcPPYXcqXg",
     duration: "29 min",
@@ -351,14 +351,14 @@ export const episodes: Episode[] = [
       {
         name: "Sergey Pronin",
         linkedIn: "https://www.linkedin.com/in/sergeypronin/",
-        bio: "Founder of Solanica and former Percona engineer, building Open Everest — a Kubernetes-native platform for running databases as portable, self-service infrastructure."
+        bio: "Founder of Solanica and former Percona engineer, building Open Everest, a Kubernetes-native platform for running databases as portable, self-service infrastructure."
       }
     ],
   },
   {
     id: 24,
-    title: "Agentic SaaS Talks — 2025 Year in Review",
-    description: "The first show of the new year as the hosts look back on a full year of conversations from the podcast. Bill Tarr, Markus Kaiser, Ermin Dzinic, Kamal Gupta, and host Michael Cooper share the most important lessons learned from founders, operators, and cloud leaders across SaaS, AI, and modern cloud platforms — and what those lessons mean heading into 2026.",
+    title: "Agentic SaaS Talks, 2025 Year in Review",
+    description: "The first show of the new year as the hosts look back on a full year of conversations from the podcast. Bill Tarr, Markus Kaiser, Ermin Dzinic, Kamal Gupta, and host Michael Cooper share the most important lessons learned from founders, operators, and cloud leaders across SaaS, AI, and modern cloud platforms, and what those lessons mean heading into 2026.",
     date: "2026-01-09",
     videoUrl: "https://www.youtube.com/watch?v=-nOw7Gr07S4",
     duration: "56 min",
@@ -522,7 +522,7 @@ export const episodes: Episode[] = [
   {
     id: 17,
     title: "Agentic Architectures: Building AI Apps that Think and Scale",
-    description: "AI applications are evolving from simple prompt-driven tools into agentic systems — intelligent applications that can reason, act, and adapt. But as builders race to bring these apps to market, the same questions keep coming up: What should we build ourselves? What should we leverage from the ecosystem? And how do we operate these apps as a managed service at scale? In this session, our guests unpack the architectural patterns, design choices, and deployment models shaping the next wave of agentic innovation. From front-end frameworks like Vercel + Next.js, to AWS-native AI services, to control planes that automate everything between — this is a blueprint for taking your Agentic App from prototype to managed platform.",
+    description: "AI applications are evolving from simple prompt-driven tools into agentic systems, intelligent applications that can reason, act, and adapt. But as builders race to bring these apps to market, the same questions keep coming up: What should we build ourselves? What should we leverage from the ecosystem? And how do we operate these apps as a managed service at scale? In this session, our guests unpack the architectural patterns, design choices, and deployment models shaping the next wave of agentic innovation. From front-end frameworks like Vercel + Next.js, to AWS-native AI services, to control planes that automate everything between, this is a blueprint for taking your Agentic App from prototype to managed platform.",
     date: "2025-01-20",
     videoUrl: "https://www.youtube.com/watch?v=g3L5RVtQb4s",
     duration: "57 min",
@@ -543,7 +543,7 @@ export const episodes: Episode[] = [
   {
     id: 16,
     title: "From SaaS to Agentic SaaS: Autonomy, Orchestration & Opportunity",
-    description: "Welcome to Agentic SaaS Talks! For the past 16 episodes this series has been known as SaaS Monday, Live on Friday — our deep dives with AWS and some amazing founders and builders on how to design, build and scale great SaaS products. Today we're rebranding to reflect a massive shift in the industry: the rise of agentic systems — AI-driven software that acts autonomously, collaborates intelligently and continuously improves itself.",
+    description: "Welcome to Agentic SaaS Talks! For the past 16 episodes this series has been known as SaaS Monday, Live on Friday, our deep dives with AWS and some amazing founders and builders on how to design, build and scale great SaaS products. Today we're rebranding to reflect a massive shift in the industry: the rise of agentic systems, AI-driven software that acts autonomously, collaborates intelligently and continuously improves itself.",
     date: "2024-12-16",
     videoUrl: "https://www.youtube.com/watch?v=5v5BWl9l4OY",
     duration: "51 min",
@@ -564,7 +564,7 @@ export const episodes: Episode[] = [
   {
     id: 15,
     title: "Evolution of DBaaS with Xata Founder",
-    description: "Tudor Golubenco – CTO of Xata and co-founder of Packetbeat joins us to explore how DBaaS for Postgres has matured, what Builders need today, and where the next wave of innovation is headed. Postgres has long been a cornerstone open-source database. What's changed dramatically is how it's delivered as a managed service (DBaaS) — from the early days of AWS RDS to today's serverless, developer-first platforms like Xata.",
+    description: "Tudor Golubenco, CTO of Xata and co-founder of Packetbeat joins us to explore how DBaaS for Postgres has matured, what Builders need today, and where the next wave of innovation is headed. Postgres has long been a cornerstone open-source database. What's changed dramatically is how it's delivered as a managed service (DBaaS), from the early days of AWS RDS to today's serverless, developer-first platforms like Xata.",
     date: "2024-12-02",
     videoUrl: "https://www.youtube.com/watch?v=reDzpXynnEw",
     duration: "67 min",
@@ -592,7 +592,7 @@ export const episodes: Episode[] = [
   {
     id: 14,
     title: "Accelerating Dev Experience & SaaS Testing",
-    description: "Exploring the future of SaaS Anywhere — how testing, virtualization, and cloud abstraction continue to move up the stack. Our guest of honor is Eli Aleyner, now Head of Technology Alliances at Docker and co-founder of AtomicJar, the team behind Testcontainers. Eli's career spans Pivotal, VMware Tanzu, AtomicJar, and now Docker, giving him a front-row seat to how infrastructure has evolved from virtualization to containerization to developer testing.",
+    description: "Exploring the future of SaaS Anywhere, how testing, virtualization, and cloud abstraction continue to move up the stack. Our guest of honor is Eli Aleyner, now Head of Technology Alliances at Docker and co-founder of AtomicJar, the team behind Testcontainers. Eli's career spans Pivotal, VMware Tanzu, AtomicJar, and now Docker, giving him a front-row seat to how infrastructure has evolved from virtualization to containerization to developer testing.",
     date: "2024-11-25",
     videoUrl: "https://www.youtube.com/watch?v=UaPP1X6LpiY",
     duration: "64 min",
@@ -620,7 +620,7 @@ export const episodes: Episode[] = [
   {
     id: 13,
     title: "From Chaos to Control with Omnistrate's Founders",
-    description: "How do SaaS companies move from chaos to control? The answer: SaaS control planes — the mission control that powers scale, speed, and security across multi-tenant systems. Join the Omnistrate founders as they discuss building control planes for modern SaaS.",
+    description: "How do SaaS companies move from chaos to control? The answer: SaaS control planes, the mission control that powers scale, speed, and security across multi-tenant systems. Join the Omnistrate founders as they discuss building control planes for modern SaaS.",
     date: "2024-10-28",
     videoUrl: "https://www.youtube.com/watch?v=Wp1iEZnhJ-o",
     duration: "62 min",
@@ -643,7 +643,7 @@ export const episodes: Episode[] = [
   {
     id: 12,
     title: "Founders, Fraud, and the Future of AI with Joshua Mckenty",
-    description: "Joshua McKenty—legendary cloud architect, OpenStack co-founder, and now CEO of Polyguard—joins us for a no-fluff, high-impact conversation on innovating inside NASA, scaling SaaS from scratch (and from the edge), fighting synthetic identity fraud with AI, and why trust, privacy, and infrastructure are converging in 2025.",
+    description: "Joshua McKenty, legendary cloud architect, OpenStack co-founder, and now CEO of Polyguard, joins us for a no-fluff, high-impact conversation on innovating inside NASA, scaling SaaS from scratch (and from the edge), fighting synthetic identity fraud with AI, and why trust, privacy, and infrastructure are converging in 2025.",
     date: "2024-10-21",
     videoUrl: "https://www.youtube.com/watch?v=VVMJdjrx7Fw",
     duration: "68 min",
@@ -675,7 +675,7 @@ export const episodes: Episode[] = [
   {
     id: 11,
     title: "From Prompt to Product AI with OriginAI CEO",
-    description: "This episode explores how Generative AI is transforming application development—making it faster, more accessible, and more modular. We focus on how platforms like Origin AI are helping founders and product leaders move from idea to working application logic using natural language and structured prompts.",
+    description: "This episode explores how Generative AI is transforming application development, making it faster, more accessible, and more modular. We focus on how platforms like Origin AI are helping founders and product leaders move from idea to working application logic using natural language and structured prompts.",
     date: "2024-09-16",
     videoUrl: "https://www.youtube.com/watch?v=OcLtP30pRhI",
     duration: "65 min",
@@ -723,7 +723,7 @@ export const episodes: Episode[] = [
   {
     id: 9,
     title: "Inside the AI Agent Swarm with Rox CTO",
-    description: "We dive into how Rox is pioneering the world's first enterprise-ready AI Agent Swarm—built to transform how revenue teams operate. Join us as we speak with Shriram Sridharan, co-founder of Rox, about his journey from scaling cloud infrastructure at Confluent and Amazon Aurora to launching a new kind of SaaS platform powered by agent-based AI.",
+    description: "We dive into how Rox is pioneering the world's first enterprise-ready AI Agent Swarm, built to transform how revenue teams operate. Join us as we speak with Shriram Sridharan, co-founder of Rox, about his journey from scaling cloud infrastructure at Confluent and Amazon Aurora to launching a new kind of SaaS platform powered by agent-based AI.",
     date: "2024-08-26",
     videoUrl: "https://www.youtube.com/watch?v=oHH2Nmv-h28",
     duration: "57 min",
@@ -755,7 +755,7 @@ export const episodes: Episode[] = [
   {
     id: 8,
     title: "Pricing and Packaging for SaaS Companies",
-    description: "In this episode of SaaS Mondays Live, we dive into one of the most critical—and often most challenging—aspects of SaaS growth: Pricing and Packaging. Flynn Glover (Founder & CEO of Schematic) and Akshay Patel (SaaS/AI Product Strategist at AWS) unpack proven pricing strategies, innovative packaging models, and the latest trends shaping how SaaS companies monetize.",
+    description: "In this episode of SaaS Mondays Live, we dive into one of the most critical, and often most challenging, aspects of SaaS growth: Pricing and Packaging. Flynn Glover (Founder & CEO of Schematic) and Akshay Patel (SaaS/AI Product Strategist at AWS) unpack proven pricing strategies, innovative packaging models, and the latest trends shaping how SaaS companies monetize.",
     date: "2024-08-19",
     videoUrl: "https://www.youtube.com/watch?v=7s_CmfUqWQY",
     duration: "61 min",
@@ -783,7 +783,7 @@ export const episodes: Episode[] = [
   {
     id: 7,
     title: "The Spine AI Story with Ashwin Raman",
-    description: "A special Notes from a Founder edition featuring Ashwin Raman, Co-founder and CTO of Spine AI—the world's first iterative deep research platform, built for speed, scale, and substance. Ashwin shares his journey building AI research tools from the ground up.",
+    description: "A special Notes from a Founder edition featuring Ashwin Raman, Co-founder and CTO of Spine AI, the world's first iterative deep research platform, built for speed, scale, and substance. Ashwin shares his journey building AI research tools from the ground up.",
     date: "2024-08-12",
     videoUrl: "https://www.youtube.com/watch?v=d5FfOJoYcDc",
     duration: "60 min",
@@ -832,7 +832,7 @@ export const episodes: Episode[] = [
   {
     id: 5,
     title: "From Idea to Launch: The AutoBlocks Journey with Adam Nolte",
-    description: "Adam Nolte, Co-Founder & CTO of AutoBlocks.ai — the OS for AI Product Teams — shares the real-world journey of building AutoBlocks from the ground up: how the idea was born, the challenges faced while building for AI product teams, key lessons from turning vision into a launched product, and insights on the future of AI tooling and infrastructure.",
+    description: "Adam Nolte, Co-Founder & CTO of AutoBlocks.ai, the OS for AI Product Teams, shares the real-world journey of building AutoBlocks from the ground up: how the idea was born, the challenges faced while building for AI product teams, key lessons from turning vision into a launched product, and insights on the future of AI tooling and infrastructure.",
     date: "2024-07-29",
     videoUrl: "https://www.youtube.com/watch?v=TEFW1zesu2k",
     duration: "56 min",
@@ -864,7 +864,7 @@ export const episodes: Episode[] = [
   {
     id: 4,
     title: "From Startup to Scale-up with Confluent",
-    description: "The Head of Global Partnerships at Confluent discusses the transition from startup to scale-up phase. You've landed your first customers—now what? Scaling your SaaS business means more than just adding infrastructure. It means building repeatable onboarding, managing support without burning out your team, and delivering consistent experiences across multiple clouds and SaaS Deployment Models.",
+    description: "The Head of Global Partnerships at Confluent discusses the transition from startup to scale-up phase. You've landed your first customers, now what? Scaling your SaaS business means more than just adding infrastructure. It means building repeatable onboarding, managing support without burning out your team, and delivering consistent experiences across multiple clouds and SaaS Deployment Models.",
     date: "2024-07-22",
     videoUrl: "https://www.youtube.com/watch?v=eu94ja61HKM",
     duration: "61 min",
@@ -872,8 +872,8 @@ export const episodes: Episode[] = [
   },
   {
     id: 3,
-    title: "SaaS Deployment Models — From Fully Hosted to BYOC",
-    description: "AWS and Omnistrate experts explore various SaaS deployment models including fully hosted, BYOC (Bring Your Own Cloud), and hybrid approaches. A candid, technical discussion on the spectrum of SaaS deployment models—from fully hosted, to Private VPC, to BYOA/BYOC. We cover architecture patterns, real-world challenges, and the native cloud services that can (or can't) help you scale.",
+    title: "SaaS Deployment Models, From Fully Hosted to BYOC",
+    description: "AWS and Omnistrate experts explore various SaaS deployment models including fully hosted, BYOC (Bring Your Own Cloud), and hybrid approaches. A candid, technical discussion on the spectrum of SaaS deployment models, from fully hosted, to Private VPC, to BYOA/BYOC. We cover architecture patterns, real-world challenges, and the native cloud services that can (or can't) help you scale.",
     date: "2024-07-15",
     videoUrl: "https://www.youtube.com/watch?v=GBnflK7Dnfo",
     duration: "61 min",

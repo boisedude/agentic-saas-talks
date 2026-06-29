@@ -34,7 +34,7 @@ Our blog will feature:
 
 ## Why Now?
 
-The shift from traditional SaaS to Agentic SaaS is more than just an incremental evolution—it's a fundamental reimagining of how software operates, scales, and delivers value. As autonomous AI agents become the new interface layer, the underlying infrastructure, deployment models, and operational patterns all need to evolve.
+The shift from traditional SaaS to Agentic SaaS is more than just an incremental evolution, it's a fundamental reimagining of how software operates, scales, and delivers value. As autonomous AI agents become the new interface layer, the underlying infrastructure, deployment models, and operational patterns all need to evolve.
 
 Through our weekly episodes, we've had incredible conversations with founders, engineers, and industry leaders who are navigating this transition firsthand. This blog gives us the space to explore these topics in greater depth and build a knowledge base for the community.
 

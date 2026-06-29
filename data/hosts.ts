@@ -6,7 +6,7 @@ export interface Host {
   role?: string
   company?: string
   companyUrl?: string
-  /** Areas of subject-matter expertise — surfaced as schema.org `knowsAbout`
+  /** Areas of subject-matter expertise, surfaced as schema.org `knowsAbout`
    *  to strengthen author/entity authority signals for AI answer engines. */
   expertise?: string[]
 }

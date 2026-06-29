@@ -16,7 +16,7 @@ tags:
   - GitHub Spec Kit
   - BMAD-METHOD
   - Kiro IDE
-excerpt: "AI-assisted “vibe coding” is fast and exciting—but it often leads to
+excerpt: "AI-assisted “vibe coding” is fast and exciting, but it often leads to
   brittle, insecure, and unmaintainable code. This article breaks down the rise
   of Spec-Driven Development and compares the three leading approaches shaping
   the future of disciplined AI software engineering: GitHub Spec Kit,
@@ -25,7 +25,7 @@ featuredImage: /uploads/vibe-coding-vs-spec-driven-development.png
 ---
 # **Beyond Vibe Coding: A Guide to Spec Kit, BMAD, and Kiro**
 
-We've all done it — that exhilarating, chaotic 2 AM loop of prompt → code → run → repeat. It’s “vibe coding”: programming by conversational instinct. It’s fast, creative, and, as of this year, so mainstream that “vibe coding” was named Collins Dictionary’s 2025 Word of the Year.
+We've all done it, that exhilarating, chaotic 2 AM loop of prompt → code → run → repeat. It’s “vibe coding”: programming by conversational instinct. It’s fast, creative, and, as of this year, so mainstream that “vibe coding” was named Collins Dictionary’s 2025 Word of the Year.
 
 But the vibe has a **dark** side: the *hangover*.
 
@@ -45,11 +45,11 @@ But “Spec-Driven” isn’t one thing. The market has already split into three
 • BMAD-METHOD: The Specialized AI Team powered by expansion packs
 • Kiro: The Proactive AI-Native IDE driven by automated agent hooks
 
-Choosing the right one is more than picking a tool — it’s choosing the future of your craft. Here’s how they compare.
+Choosing the right one is more than picking a tool, it’s choosing the future of your craft. Here’s how they compare.
 
 ## **1. GitHub Spec Kit: The “Disciplined Toolkit”**
 
-  Philosophy: “Bring your own AI — but make it follow the rules.”
+  Philosophy: “Bring your own AI, but make it follow the rules.”
 
   Spec Kit exists to fix the #1 complaint about vibe coding: “The AI is smart, but it lacks discipline.”
 
@@ -57,7 +57,7 @@ Choosing the right one is more than picking a tool — it’s choosing the futur
 
 ###  ** Killer Feature: constitution.md**
 
-  This file defines your non-negotiable project principles — your stack, patterns, security rules, testing standards, and architectural constraints. Every AI action is governed by the constitution.
+  This file defines your non-negotiable project principles, your stack, patterns, security rules, testing standards, and architectural constraints. Every AI action is governed by the constitution.
 
   Example rules include:
 
@@ -74,9 +74,9 @@ Choosing the right one is more than picking a tool — it’s choosing the futur
 
 ## **2. BMAD-METHOD: The “Specialized AI Team”**
 
-Philosophy: “Don’t just guide an AI — orchestrate a whole AI team.”
+Philosophy: “Don’t just guide an AI, orchestrate a whole AI team.”
 
-BMAD is not a rules engine. It is a multi-agent orchestration framework — essentially an autonomous software team in a box. It includes agents such as:
+BMAD is not a rules engine. It is a multi-agent orchestration framework, essentially an autonomous software team in a box. It includes agents such as:
 
 • Analyst
 
@@ -109,7 +109,7 @@ This makes BMAD the closest thing to “Agent-as-Code.”
   Architect produces arch.md
   PM produces tasks.md
   Developer and QA implement tasks against these specs
-  This structure solves context-loss — the Achilles heel of most multi-agent systems.
+  This structure solves context-loss, the Achilles heel of most multi-agent systems.
 
 **Developer Investment:** High setup cost, massive long-term payoff
 
@@ -117,7 +117,7 @@ This makes BMAD the closest thing to “Agent-as-Code.”
 
 **3. Kiro: The “Proactive AI-Native IDE”**
 
-Philosophy: “Your editor shouldn’t just have an AI — your editor should be the AI.”
+Philosophy: “Your editor shouldn’t just have an AI, your editor should be the AI.”
 
 Kiro (from Amazon) is a fork of VS Code built around deep AI integration. It supports:
 
@@ -125,7 +125,7 @@ Kiro (from Amazon) is a fork of VS Code built around deep AI integration. It sup
 
 • Spec Mode (requirements, design, tasks)
 
-It is the direct evolution of terminal-based AI coding tools like Claude Code — but fully visual and proactive.
+It is the direct evolution of terminal-based AI coding tools like Claude Code, but fully visual and proactive.
 
 **Killer Feature: Agent Hooks**
 
@@ -189,7 +189,7 @@ Kiro
 
 **Conclusion: Choosing Your Spec-Driven Future**
 
-Vibe coding is fast — but unstable. Spec-Driven Development is the next evolution for teams that value reliability, security, and maintainability.
+Vibe coding is fast, but unstable. Spec-Driven Development is the next evolution for teams that value reliability, security, and maintainability.
 
 Choose GitHub Spec Kit if you want discipline and consistency with minimal friction.
 
@@ -207,4 +207,4 @@ Right now, each system is siloed:
 
 • Kiro’s Agent Hooks are locked inside its IDE
 
-The next frontier must be an open, vendor-neutral “Spec Standard” — an OpenSpec — that makes software intent as portable as source code.
+The next frontier must be an open, vendor-neutral “Spec Standard”, an OpenSpec, that makes software intent as portable as source code.
