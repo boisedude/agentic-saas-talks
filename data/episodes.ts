@@ -41,7 +41,7 @@ export const episodes: Episode[] = [
     timestamps: [
       { time: "00:00", title: "Introduction: Agentic SaaS Talks Episode 24" },
       { time: "01:19", title: "How AI Is Changing Software Engineering Roles" },
-      { time: "02:16", title: "What Is the CAM Stack? Cloud, Agents, Managed Services and Platforms" },
+      { time: "02:16", title: "What Is the CAMP Stack? Cloud, Agents, Managed Services and Platforms" },
       { time: "03:53", title: "From Vibe Coding to Agentic Engineering" },
       { time: "04:37", title: "How AI Coding Tools Are Changing Developers, Founders and Product Teams" },
       { time: "07:02", title: "Developers as Shepherds of AI Agents" },
@@ -55,7 +55,7 @@ export const episodes: Episode[] = [
       { time: "21:36", title: "Why AI Helps Teams Run More Experiments Faster" },
       { time: "23:55", title: "What Is an Agentic Builder?" },
       { time: "24:50", title: "Control Planes: The New Workflow for AI Coding Agents" },
-      { time: "26:55", title: "How Omnistrate Fits Into the CAM Stack" },
+      { time: "26:55", title: "How Omnistrate Fits Into the CAMP Stack" },
       { time: "27:34", title: "Infrastructure Control Planes for SaaS and AI-Native Companies" },
       { time: "28:35", title: "Spec-Driven Infrastructure: From Intent to Deployment" },
       { time: "30:55", title: "Why Managed Services Matter More in the Agentic AI Era" },
