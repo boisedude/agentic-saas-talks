@@ -36,7 +36,7 @@ export default function HomePage() {
     },
     {
       question: "Who hosts Agentic SaaS Talks?",
-      answer: "The show is hosted by five technology leaders: Ermin Dzinic (Architect at AWS), Bill Tarr (Principal Partner Solutions Architect at AWS), Kamal Gupta (Founder and CEO of Omnistrate), Markus Kaiser (Amazon Web Services), and Michael Cooper (Founder of The Tributary AI).",
+      answer: "The show is hosted by five technology leaders: Ermin Dzinic (Architect at AWS), Bill Tarr (Principal Partner Solutions Architect at AWS), Kamal Gupta (Founder and CEO of Omnistrate), Markus Kaiser (Amazon Web Services), and Michael Cooper (Founder of AGLedger.ai).",
     },
     {
       question: "What topics does Agentic SaaS Talks cover?",

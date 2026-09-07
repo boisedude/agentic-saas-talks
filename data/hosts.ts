@@ -55,11 +55,11 @@ export const hosts: Host[] = [
   {
     name: "Michael Cooper",
     linkedIn: "https://www.linkedin.com/in/michaeldc/",
-    bio: "Seasoned strategist who empowers technical founders to build, scale, and win in competitive markets. Specializes in strategic partnerships, ecosystem development, and go-to-market strategy for cloud and AI platforms. Former Global Sales leader for Microsoft Cloud and author. Founder of The Tributary AI, based in the United States.",
+    bio: "Seasoned strategist who empowers technical founders to build, scale, and win in competitive markets. Specializes in strategic partnerships, ecosystem development, and go-to-market strategy for cloud and AI platforms. Former Global Sales leader for Microsoft Cloud and author. Founder of AGLedger.ai, based in the United States.",
     photo: "/michael-cooper.jpg",
     role: "Co-Host",
-    company: "The Tributary AI",
-    companyUrl: "https://thetributary.ai",
+    company: "AGLedger.ai",
+    companyUrl: "https://agledger.ai",
     expertise: ["Go-to-Market Strategy", "Strategic Partnerships", "Ecosystem Development", "Cloud & AI Platforms"],
   }
 ]

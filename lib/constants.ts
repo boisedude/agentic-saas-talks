@@ -9,7 +9,7 @@ export const SITE_NAME = "Agentic SaaS Talks"
 export const EPISODE_COUNT = episodes.length
 
 export const SITE_DESCRIPTION =
-  `Agentic SaaS Talks is a technology webcast series with ${EPISODE_COUNT} episodes covering AI applications, agentic architectures, and SaaS platform evolution. Hosted by technology leaders from AWS, Omnistrate, and The Tributary AI.`
+  `Agentic SaaS Talks is a technology webcast series with ${EPISODE_COUNT} episodes covering AI applications, agentic architectures, and SaaS platform evolution. Hosted by technology leaders from AWS, Omnistrate, and AGLedger.ai.`
 
 // External links
 export const EXTERNAL_LINKS = {
