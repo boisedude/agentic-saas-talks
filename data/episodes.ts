@@ -31,6 +31,93 @@ export function getEpisodeById(id: number): Episode | undefined {
 // All episodes from the Agentic SaaS Talks playlist (newest first)
 export const episodes: Episode[] = [
   {
+    id: 38,
+    title: "EP 26: The Last Mile of AI-SDLC: When Agents Build What Customers Want",
+    description: "Productmind co-founders Steen Brahe and Alessio Nobile take on the last mile of the AI software development lifecycle: getting from a real customer conversation to shipped code without losing the original intent. They demo how a customer call becomes a feature request, then a living specification, then agent-ready tasks running against an existing codebase, with full lineage preserved from feedback to release. The panel also digs into how AI is redrawing product and engineering roles, what governance of human-agent collaboration looks like in the enterprise, and how the founders cleared 20+ bugs with parallel agents while building Productmind with Productmind.",
+    date: "2026-08-11",
+    videoUrl: "https://www.youtube.com/watch?v=5u0lpHdUHmk",
+    duration: "57 min",
+    tags: ["AI & Agents", "Developer Experience", "Founder Stories"],
+    timestamps: [
+      { time: "00:00", title: "Introduction" },
+      { time: "01:25", title: "Episode 26 and the European Takeover" },
+      { time: "02:21", title: "Meet the Founders of Productmind" },
+      { time: "06:29", title: "Why Steen and Alessio Built Productmind" },
+      { time: "08:58", title: "From Customer Feedback to Agentic Product Development" },
+      { time: "13:05", title: "How AI Is Changing Product and Engineering Roles" },
+      { time: "19:12", title: "Who Is Productmind Built For?" },
+      { time: "24:11", title: "Human-Agent Collaboration and Enterprise Governance" },
+      { time: "28:43", title: "Productmind Demo Begins" },
+      { time: "31:20", title: "Turning a Customer Conversation Into a Feature Request" },
+      { time: "32:57", title: "Creating a Living Feature Specification" },
+      { time: "34:54", title: "Breaking Features Into Agent-Ready Tasks" },
+      { time: "36:22", title: "Starting a Coding Session on an Existing Codebase" },
+      { time: "37:08", title: "Complete Lineage From Customer Feedback to Code" },
+      { time: "38:16", title: "Previewing an AI-Built Feature" },
+      { time: "39:12", title: "Fixing Bugs With Agents" },
+      { time: "40:05", title: "Orchestration, Agent Harnesses, and Context Management" },
+      { time: "43:24", title: "Why Context Matters for Humans and Agents" },
+      { time: "45:33", title: "Productmind's Built-In Product Chat Agent" },
+      { time: "47:14", title: "One Workspace for the Product Development Lifecycle" },
+      { time: "47:34", title: "Managing 100x More Information With AI" },
+      { time: "50:13", title: "The Hardest Technical Problem the Founders Solved" },
+      { time: "51:43", title: "Using Productmind to Build Productmind" },
+      { time: "52:26", title: "Resolving 20+ Bugs With Parallel Agents" },
+      { time: "54:17", title: "Why Clean Orchestration Matters as Teams Scale" },
+      { time: "55:45", title: "Tools the Founders Cannot Live Without" },
+      { time: "57:17", title: "Closing Remarks" },
+    ],
+    guests: [
+      {
+        name: "Steen Brahe",
+        linkedIn: "https://www.linkedin.com/in/steenbrahe/",
+        bio: "Co-founder of Productmind; software entrepreneur with a PhD in software engineering, previously in the AWS startups organization."
+      },
+      {
+        name: "Alessio Nobile",
+        linkedIn: "https://www.linkedin.com/in/alessionobile/",
+        bio: "Co-founder of Productmind, based in Amsterdam; AWS-certified solutions architect and startup mentor."
+      }
+    ],
+  },
+  {
+    id: 37,
+    title: "EP 25: BYOC Anywhere",
+    description: "Paul Paliychuk of Zep AI and Omnistrate co-founder Alok Nikhil lay out ten principles for secure Bring Your Own Cloud deployment: keep the data plane in the customer's account, connect without exposing it, swap static credentials for short-lived identity, and make vendor access revocable by design. They walk through the four levels of BYOC, what changes inside air-gapped environments, and why AI products hit the enterprise security bar far earlier in their life than previous generations of SaaS did. The episode closes with a live demo that turns a Helm chart into a BYOC offering with a self-service customer portal.",
+    date: "2026-07-29",
+    videoUrl: "https://www.youtube.com/watch?v=KUJpv2GjUtg",
+    duration: "50 min",
+    tags: ["Cloud Infrastructure", "Security & Identity", "AI Architecture"],
+    timestamps: [
+      { time: "00:00", title: "Why AI Products Need Flexible Cloud Deployment" },
+      { time: "01:49", title: "How Zep AI Builds Context for AI Agents" },
+      { time: "03:05", title: "Zep AI's Journey to Scalable BYOC Deployments" },
+      { time: "04:51", title: "The 10 Principles of Secure BYOC" },
+      { time: "07:16", title: "Zero Trust Between Vendors and Customers" },
+      { time: "11:58", title: "How Zep AI Protects Sensitive Customer Data" },
+      { time: "15:32", title: "Choosing Deployment Models for Different Enterprises" },
+      { time: "17:21", title: "The Four Levels of BYOC Deployment" },
+      { time: "20:47", title: "Managing Software in Air-Gapped Environments" },
+      { time: "25:42", title: "Why AI Is Making BYOC an Early Requirement" },
+      { time: "29:20", title: "Data and Tenant Isolation in Zep AI" },
+      { time: "30:27", title: "Graphiti and Zep AI's Enterprise Graph Database" },
+      { time: "32:18", title: "From Open Source to Enterprise-Grade Software" },
+      { time: "35:37", title: "Live Demo: Turning a Helm Chart Into a BYOC Offering" },
+      { time: "40:18", title: "Configuring the Customer's Cloud Deployment" },
+      { time: "42:14", title: "How the Deployment Architecture Works" },
+      { time: "45:29", title: "Building a Self-Service BYOC Portal" },
+      { time: "48:17", title: "Using the Same Process for Other Software Products" },
+      { time: "49:33", title: "Final Takeaways" },
+    ],
+    guests: [
+      {
+        name: "Alok Nikhil",
+        linkedIn: "https://www.linkedin.com/in/nikhilalok/",
+        bio: "Co-founder and CTO of Omnistrate; previously at AWS, where he was the original technical author of Aurora Serverless."
+      }
+    ],
+  },
+  {
     id: 36,
     title: "Removing Data Consistency Bottlenecks : Building High Margin Scalable AI Business on Cloud",
     description: "Joe McCunney, CEO of Scalar Labs, makes the case that reliable, consistent data across environments is the hidden bottleneck for enterprise AI, especially in large organizations juggling 300+ database types. He explains how ScalarDB acts as a database-agnostic binder that connects multiple data sources and treats them as a single database, and how the company's open source refactoring agent generates architecture docs and migration plans that cut enterprise design time by up to 85%.",
