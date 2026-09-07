@@ -35,10 +35,7 @@ describe("getYouTubeVideoId", () => {
 
 describe("formatDate", () => {
   it("formats a valid ISO date string", () => {
-    const result = formatDate("2025-01-15")
-    // Date parsing may shift by timezone, so just check it contains year and a month name
-    expect(result).toMatch(/January|February/)
-    expect(result).toContain("2025")
+    expect(formatDate("2025-01-15")).toBe("January 15, 2025")
   })
 
   it("returns original string for invalid date", () => {
@@ -48,6 +45,18 @@ describe("formatDate", () => {
   it("returns a formatted date with month name", () => {
     const result = formatDate("2024-06-15")
     expect(result).toMatch(/\w+ \d{1,2}, \d{4}/)
+  })
+
+  it("does not shift the day in timezones west of UTC", () => {
+    // A bare YYYY-MM-DD parses as UTC midnight; formatting that in a negative
+    // UTC offset used to render the previous day.
+    expect(formatDate("2026-08-11")).toBe("August 11, 2026")
+    expect(formatDate("2026-01-01")).toBe("January 1, 2026")
+  })
+
+  it("rejects a date-only string whose parts would roll over", () => {
+    expect(formatDate("2025-13-01")).toBe("2025-13-01")
+    expect(formatDate("2025-02-30")).toBe("2025-02-30")
   })
 })
 

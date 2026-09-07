@@ -119,7 +119,22 @@ export function getYouTubeVideoId(url: string): string {
  */
 export function formatDate(dateString: string): string {
   try {
-    const date = new Date(dateString)
+    // A bare YYYY-MM-DD parses as UTC midnight, which then renders as the
+    // previous day for any timezone west of UTC (the build machine included).
+    // Build date-only strings in local time so the date shown is the date given.
+    const dateOnly = /^(\d{4})-(\d{2})-(\d{2})$/.exec(dateString)
+    let date: Date
+    if (dateOnly) {
+      const [, y, m, d] = dateOnly.map(Number)
+      date = new Date(y, m - 1, d)
+      // The Date constructor rolls overflow over (month 13 becomes January of
+      // the next year), so reject anything that did not survive the round trip.
+      if (date.getFullYear() !== y || date.getMonth() !== m - 1 || date.getDate() !== d) {
+        return dateString
+      }
+    } else {
+      date = new Date(dateString)
+    }
     if (isNaN(date.getTime())) return dateString
     return date.toLocaleDateString("en-US", {
       month: "long",

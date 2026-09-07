@@ -207,7 +207,7 @@ export default function HomePage() {
                 style={{ transition: 'transform 0.8s ease-in-out, opacity 0.5s ease-in-out' }} />
               <div className="grid gap-6 lg:grid-cols-2">
                 {/* Video Thumbnail */}
-                <div className="relative aspect-video overflow-hidden bg-gradient-to-br from-blue-500/20 to-slate-500/20 lg:aspect-auto lg:h-full">
+                <div className="relative aspect-video overflow-hidden bg-gradient-to-br from-blue-500/20 to-slate-500/20 lg:self-center">
                   <a
                     href={latestEpisode.videoUrl}
                     target="_blank"
