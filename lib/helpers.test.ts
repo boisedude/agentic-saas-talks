@@ -5,7 +5,32 @@ import {
   timestampToSeconds,
   getTimestampUrl,
   getAuthorInfo,
+  toMetaDescription,
 } from "./helpers"
+
+describe("toMetaDescription", () => {
+  it("keeps short text as is", () => {
+    expect(toMetaDescription("A short line.")).toBe("A short line.")
+  })
+
+  it("keeps whole sentences that fit", () => {
+    const first = "First sentence runs long enough to count as a real description of the page."
+    const text = `${first} ${"Second sentence pushes it well past the limit. ".repeat(3)}`
+    expect(toMetaDescription(text)).toBe(`${first} Second sentence pushes it well past the limit.`)
+  })
+
+  it("does not end on an abbreviation", () => {
+    const text =
+      "Watch John Lorance on Agentic SaaS Talks: Up a Layer and the CAMPstack. SaaS and cloud architecture leader; previously Sr. Manager at AWS and a long career before that."
+    expect(toMetaDescription(text)).toBe("Watch John Lorance on Agentic SaaS Talks: Up a Layer and the CAMPstack.")
+  })
+
+  it("cuts at a word boundary when one sentence is too long", () => {
+    const out = toMetaDescription("word ".repeat(60))
+    expect(out.length).toBeLessThanOrEqual(160)
+    expect(out.endsWith("word...")).toBe(true)
+  })
+})
 
 describe("getYouTubeVideoId", () => {
   it("extracts video ID from standard YouTube URL", () => {

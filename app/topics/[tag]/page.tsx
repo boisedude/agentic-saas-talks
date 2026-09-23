@@ -5,7 +5,7 @@ import { Tag } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Breadcrumb } from "@/components/breadcrumb"
 import { EpisodeGrid } from "@/components/episode-grid"
-import { getAllTags, getTagBySlug, getEpisodesByTag } from "@/lib/helpers"
+import { getAllTags, getTagBySlug, getEpisodesByTag, toMetaDescription } from "@/lib/helpers"
 import {
   getBreadcrumbSchema,
   getCollectionPageSchema,
@@ -27,9 +27,10 @@ export async function generateMetadata({ params }: TopicPageProps): Promise<Meta
   if (!tag) return { title: "Topic Not Found" }
 
   const count = getEpisodesByTag(tag).length
-  const description =
+  const description = toMetaDescription(
     topicCopy[tag]?.intro ??
     `All ${count} Agentic SaaS Talks episode${count !== 1 ? "s" : ""} about ${tag}, with industry experts, founders, and technologists.`
+  )
 
   return {
     title: topicCopy[tag]?.title ?? `${tag} Episodes`,

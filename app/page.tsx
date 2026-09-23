@@ -32,7 +32,7 @@ export default function HomePage() {
   const faqItems = [
     {
       question: "What is Agentic SaaS Talks?",
-      answer: "Agentic SaaS Talks is a technology webcast series exploring the future of AI applications, agentic architectures, and the evolution of SaaS platforms. The series features deep dives into topics like Model Context Protocol (MCP), data sovereignty, AI product development, and cloud-native design patterns.",
+      answer: "Agentic SaaS Talks is a video podcast exploring the future of AI applications, agentic architectures, and the evolution of SaaS platforms. The series features deep dives into topics like Model Context Protocol (MCP), data sovereignty, AI product development, and cloud-native design patterns.",
     },
     {
       question: "Who hosts Agentic SaaS Talks?",
@@ -315,7 +315,7 @@ export default function HomePage() {
           >
             <h2 className="mb-4 text-4xl font-bold">What We Discuss</h2>
             <p className="text-xl text-muted-foreground">
-              Topics we explore in our webcast series
+              Topics we explore on the podcast
             </p>
           </motion.div>
 

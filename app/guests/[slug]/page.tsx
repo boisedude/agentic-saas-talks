@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Breadcrumb } from "@/components/breadcrumb"
 import { EpisodeGrid } from "@/components/episode-grid"
-import { getAllGuests, getGuestBySlug } from "@/lib/helpers"
+import { getAllGuests, getGuestBySlug, toMetaDescription } from "@/lib/helpers"
 import { getBreadcrumbSchema, getCollectionPageSchema } from "@/lib/seo"
 import { SITE_URL } from "@/lib/constants"
 
@@ -31,7 +31,9 @@ export async function generateMetadata({ params }: GuestPageProps): Promise<Meta
     episodes.length === 1 && onEpisode.length <= 38
       ? onEpisode
       : `${guest.name}: Interview${episodes.length > 1 ? "s" : ""}`
-  const description = `${guest.bio} Watch ${guest.name} on Agentic SaaS Talks: ${episodes.map((e) => e.title).join("; ")}.`
+  const description = toMetaDescription(
+    `Watch ${guest.name} on Agentic SaaS Talks: ${episodes.map((e) => e.title).join("; ")}. ${guest.bio}`
+  )
 
   return {
     title,

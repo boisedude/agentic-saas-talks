@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: `${SITE_URL}/terms`,
   },
+  openGraph: { url: `${SITE_URL}/terms` },
 }
 
 export default function TermsPage() {

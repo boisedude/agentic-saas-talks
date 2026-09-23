@@ -187,3 +187,30 @@ export function getTimestampUrl(baseUrl: string, timestamp: string): string {
     return baseUrl
   }
 }
+
+/**
+ * Shorten prose to a meta description Google will show whole (~160 chars):
+ * whole sentences when they fit, else a word boundary with "...".
+ */
+export function toMetaDescription(text: string, max = 160): string {
+  const clean = text.replace(/\s+/g, " ").trim()
+  if (clean.length <= max) return clean
+  // Rejoin splits after abbreviations ("Sr. Manager") so they stay one sentence.
+  const sentences = (clean.match(/[^.!?]+[.!?]+(\s|$)/g) ?? []).reduce<string[]>(
+    (acc, part) => {
+      const prev = acc[acc.length - 1]
+      if (prev && /\b(Sr|Jr|Dr|Mr|Mrs|Ms|Inc|Co|vs|St)\.\s*$/.test(prev)) acc[acc.length - 1] = prev + part
+      else acc.push(part)
+      return acc
+    },
+    []
+  )
+  let out = ""
+  for (const sentence of sentences) {
+    if ((out + sentence).trim().length > max) break
+    out += sentence
+  }
+  if (out.trim().length >= 70) return out.trim()
+  const cut = clean.slice(0, max - 3)
+  return cut.slice(0, cut.lastIndexOf(" ")).replace(/[,;:]$/, "") + "..."
+}

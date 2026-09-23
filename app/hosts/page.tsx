@@ -223,7 +223,7 @@ export default function HostsPage() {
                   <Users className="mx-auto mb-4 h-12 w-12 text-muted-foreground" />
                   <h3 className="mb-4 text-2xl font-semibold">About Agentic SaaS Talks</h3>
                   <p className="mb-6 text-lg text-muted-foreground leading-relaxed">
-                    Agentic SaaS Talks is a webcast series exploring the intersection of AI,
+                    Agentic SaaS Talks is a video podcast exploring the intersection of AI,
                     agentic architectures, and SaaS platforms. Our hosts bring together industry
                     experts, founders, and technologists to discuss the future of intelligent
                     applications and the evolution of software-as-a-service.

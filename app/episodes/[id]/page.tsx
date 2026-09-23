@@ -2,7 +2,7 @@ import { episodes, getEpisodeById } from "@/data/episodes"
 import { notFound } from "next/navigation"
 import { EpisodeDetailClient } from "./episode-detail-client"
 import type { Metadata } from "next"
-import { getYouTubeVideoId } from "@/lib/helpers"
+import { getYouTubeVideoId, toMetaDescription } from "@/lib/helpers"
 import { SITE_URL } from "@/lib/constants"
 
 interface EpisodePageProps {
@@ -20,16 +20,17 @@ export async function generateMetadata({ params }: EpisodePageProps): Promise<Me
   }
 
   const videoId = getYouTubeVideoId(episode.videoUrl)
+  const metaDescription = toMetaDescription(episode.description)
 
   return {
     title: episode.title,
-    description: episode.description,
+    description: metaDescription,
     alternates: {
       canonical: `${SITE_URL}/episodes/${episode.id}`,
     },
     openGraph: {
       title: episode.title,
-      description: episode.description,
+      description: metaDescription,
       url: `${SITE_URL}/episodes/${episode.id}`,
       type: "video.episode",
       images: [
@@ -45,7 +46,7 @@ export async function generateMetadata({ params }: EpisodePageProps): Promise<Me
     twitter: {
       card: "summary_large_image",
       title: episode.title,
-      description: episode.description,
+      description: metaDescription,
       images: [`https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`],
     },
   }

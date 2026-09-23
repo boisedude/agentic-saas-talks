@@ -1,28 +1,28 @@
 RewriteEngine On
 
-# Handle specific routes FIRST (before directory check)
-# These routes have both .html files AND directories with the same name
+# Missing pages get the exported 404 page WITH a 404 status. (A RewriteRule to
+# /404.html answers 200, which Google treats as a soft 404.)
+ErrorDocument 404 /404.html
+
+# One URL per page: drop a trailing slash (except the root) with a 301, so
+# /episodes/5/ and /episodes/5 are not two indexable copies of the same page.
+RewriteCond %{REQUEST_URI} ^(.+)/$
+RewriteRule ^ https://agentic-saas-talks.com%1 [R=301,L]
 
 # Handle root path
 RewriteRule ^$ /index.html [L]
 
-# Redirect /episodes to episodes.html
-RewriteRule ^episodes/?$ /episodes.html [L]
-
-# Redirect /hosts to hosts.html
-RewriteRule ^hosts/?$ /hosts.html [L]
-
-# Redirect /blog to blog.html (must come before directory check)
-RewriteRule ^blog/?$ /blog.html [L]
+# Routes that have both an .html file AND a directory with the same name
+RewriteRule ^episodes$ /episodes.html [L]
+RewriteRule ^hosts$ /hosts.html [L]
+RewriteRule ^blog$ /blog.html [L]
 
 # Serve existing files as-is (but NOT directories to avoid 403)
 RewriteCond %{REQUEST_FILENAME} -f
 RewriteRule ^ - [L]
 
-# Fallback: try to serve .html version of any path
+# Clean URLs: serve the .html version of any path
 RewriteCond %{REQUEST_FILENAME}.html -f
-RewriteRule ^(.+?)/?$ /$1.html [L]
+RewriteRule ^(.+)$ /$1.html [L]
 
-# If nothing matches, serve 404.html
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^ /404.html [L]
+# Anything else falls through to Apache's 404 (ErrorDocument above).

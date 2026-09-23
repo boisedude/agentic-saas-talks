@@ -1,7 +1,7 @@
 import { Episode } from "@/data/episodes"
 import type { BlogPost } from "@/lib/blog"
 import type { Host } from "@/data/hosts"
-import { getYouTubeVideoId, slugify } from "@/lib/helpers"
+import { getYouTubeVideoId, slugify, timestampToSeconds } from "@/lib/helpers"
 import { hosts } from "@/data/hosts"
 import { SITE_URL, SITE_NAME, SITE_DESCRIPTION } from "@/lib/constants"
 
@@ -95,9 +95,6 @@ export const getVideoSchema = (episode: Episode) => {
 }
 
 // Key moments: one Clip per timestamp, each ending where the next begins.
-const timestampToSeconds = (time: string) =>
-  time.split(":").reduce((total, part) => total * 60 + Number(part), 0)
-
 const getClips = (episode: Episode) => {
   const videoId = getYouTubeVideoId(episode.videoUrl)
   // Durations are stored as whole minutes, so the video can run up to 59s past them.

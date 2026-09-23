@@ -59,7 +59,7 @@ export function GET() {
 
 ## About
 
-${SITE_NAME} is a technology webcast series exploring AI applications, agentic architectures, and the evolution of SaaS platforms. The series features deep technical discussions with industry experts, founders, and technologists. Sponsored by Omnistrate.
+${SITE_NAME} is a video podcast exploring AI applications, agentic architectures, and the evolution of SaaS platforms. The series features deep technical discussions with industry experts, founders, and technologists. Sponsored by Omnistrate.
 
 ## Hosts
 
