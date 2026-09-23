@@ -158,6 +158,7 @@ Common tags used in this project:
 | **Data** | |
 | `data/episodes.ts` | Episode data — **ADD NEW EPISODES HERE** |
 | `data/hosts.ts` | Host info (names, bios, photos, LinkedIn, company, `expertise[]`) |
+| `data/topics.ts` | Per-topic page title + intro, keyed by tag (a new tag falls back to generic copy) |
 | **Pages** | |
 | `app/page.tsx` | Homepage (latest episode, hero, topics, FAQ) |
 | `app/episodes/page.tsx` | Episodes archive with client search/filter |
@@ -195,6 +196,7 @@ Common tags used in this project:
 | `scripts/scrape-full-episodes.ts` | Legacy (Playwright) — detailed scraping of specific video URLs |
 | `scripts/validate-episodes.ts` | Validate episode data integrity |
 | `deploy.sh` | SSH/rsync deployment script (--dry, --skip-build flags) |
+| `scripts/submit-sitemap.py` | Resubmit the sitemap to Google Search Console (deploy step 5) |
 | **Build Output** | |
 | `out/` | Static export files for deployment |
 | **Tests** | |

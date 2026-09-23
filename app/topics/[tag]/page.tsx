@@ -11,6 +11,7 @@ import {
   getCollectionPageSchema,
 } from "@/lib/seo"
 import { SITE_URL } from "@/lib/constants"
+import { topicCopy } from "@/data/topics"
 
 interface TopicPageProps {
   params: Promise<{ tag: string }>
@@ -26,10 +27,12 @@ export async function generateMetadata({ params }: TopicPageProps): Promise<Meta
   if (!tag) return { title: "Topic Not Found" }
 
   const count = getEpisodesByTag(tag).length
-  const description = `All ${count} Agentic SaaS Talks episode${count !== 1 ? "s" : ""} about ${tag} — deep technical discussions on ${tag} with industry experts, founders, and technologists.`
+  const description =
+    topicCopy[tag]?.intro ??
+    `All ${count} Agentic SaaS Talks episode${count !== 1 ? "s" : ""} about ${tag}, with industry experts, founders, and technologists.`
 
   return {
-    title: `${tag} Episodes`,
+    title: topicCopy[tag]?.title ?? `${tag} Episodes`,
     description,
     alternates: { canonical: `${SITE_URL}/topics/${slug}` },
     openGraph: {
@@ -51,7 +54,8 @@ export default async function TopicPage({ params }: TopicPageProps) {
 
   const episodes = getEpisodesByTag(tag)
   const url = `${SITE_URL}/topics/${slug}`
-  const description = `All ${episodes.length} Agentic SaaS Talks episode${episodes.length !== 1 ? "s" : ""} about ${tag}.`
+  const countLine = `All ${episodes.length} Agentic SaaS Talks episode${episodes.length !== 1 ? "s" : ""} about ${tag}.`
+  const description = topicCopy[tag]?.intro ?? countLine
 
   const breadcrumbSchema = getBreadcrumbSchema([
     { name: "Home", url: SITE_URL },
@@ -59,7 +63,7 @@ export default async function TopicPage({ params }: TopicPageProps) {
     { name: tag, url },
   ])
   const collectionSchema = getCollectionPageSchema({
-    title: `${tag} Episodes`,
+    title: topicCopy[tag]?.title ?? `${tag} Episodes`,
     description,
     url,
     episodes,
@@ -92,6 +96,7 @@ export default async function TopicPage({ params }: TopicPageProps) {
               <p className="mb-2 text-xl text-muted-foreground md:text-2xl">
                 {description}
               </p>
+              {topicCopy[tag] && <p className="text-muted-foreground">{countLine}</p>}
             </div>
           </div>
         </section>

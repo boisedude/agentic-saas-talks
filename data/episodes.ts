@@ -33,7 +33,7 @@ export const episodes: Episode[] = [
   {
     id: 38,
     title: "The Last Mile of AI-SDLC: When Agents Build What Customers Want",
-    description: "Productmind co-founders Steen Brahe and Alessio Nobile take on the last mile of the AI software development lifecycle: getting from a real customer conversation to shipped code without losing the original intent. They demo how a customer call becomes a feature request, then a living specification, then agent-ready tasks running against an existing codebase, with full lineage preserved from feedback to release. The panel also digs into how AI is redrawing product and engineering roles, what governance of human-agent collaboration looks like in the enterprise, and how the founders cleared 20+ bugs with parallel agents while building Productmind with Productmind.",
+    description: "Productmind co-founders Steen Brahe and Alessio Nobile take on the last mile of the AI software development lifecycle: getting from a real customer conversation to shipped code without losing the original intent. They demo how a customer call becomes a feature request, then a living specification, then agent-ready tasks running against an existing codebase, with full lineage preserved from feedback to release. The panel also digs into how AI is redrawing product and engineering roles, what governance of human-agent collaboration looks like in the enterprise, and how the founders cleared 20+ bugs with parallel agents while building Productmind with Productmind. For product managers it doubles as a working example of AI for product management: customer feedback turned into specs that coding agents can act on.",
     date: "2026-08-11",
     videoUrl: "https://www.youtube.com/watch?v=5u0lpHdUHmk",
     duration: "57 min",
@@ -82,8 +82,8 @@ export const episodes: Episode[] = [
   },
   {
     id: 37,
-    title: "BYOC Anywhere",
-    description: "Paul Paliychuk of Zep AI and Omnistrate co-founder Alok Nikhil lay out ten principles for secure Bring Your Own Cloud deployment: keep the data plane in the customer's account, connect without exposing it, swap static credentials for short-lived identity, and make vendor access revocable by design. They walk through the four levels of BYOC, what changes inside air-gapped environments, and why AI products hit the enterprise security bar far earlier in their life than previous generations of SaaS did. The episode closes with a live demo that turns a Helm chart into a BYOC offering with a self-service customer portal.",
+    title: "BYOC Anywhere: 10 Principles for Secure Bring Your Own Cloud Deployment",
+    description: "Paul Paliychuk of Zep AI and Omnistrate co-founder Alok Nikhil lay out ten principles for secure Bring Your Own Cloud deployment: keep the data plane in the customer's account, connect without exposing it, swap static credentials for short-lived identity, and make vendor access revocable by design. They walk through the four levels of BYOC, what changes inside air-gapped environments, and why AI products hit the enterprise security bar far earlier in their life than previous generations of SaaS did. The episode closes with a live demo that turns a Helm chart into a BYOC offering with a self-service customer portal. If you are asking what BYOC means in practice, this is the checklist: the software runs in the customer's cloud account, the vendor operates it, and the customer keeps control of access.",
     date: "2026-07-29",
     videoUrl: "https://www.youtube.com/watch?v=KUJpv2GjUtg",
     duration: "50 min",
@@ -119,7 +119,7 @@ export const episodes: Episode[] = [
   },
   {
     id: 36,
-    title: "Removing Data Consistency Bottlenecks : Building High Margin Scalable AI Business on Cloud",
+    title: "Data Consistency for AI: How ScalarDB Unifies Databases and Speeds Migration",
     description: "Joe McCunney, CEO of Scalar Labs, makes the case that reliable, consistent data across environments is the hidden bottleneck for enterprise AI, especially in large organizations juggling 300+ database types. He explains how ScalarDB acts as a database-agnostic binder that connects multiple data sources and treats them as a single database, and how the company's open source refactoring agent generates architecture docs and migration plans that cut enterprise design time by up to 85%.",
     date: "2026-07-10",
     videoUrl: "https://www.youtube.com/watch?v=KfhAUiHSsZE",
@@ -200,7 +200,7 @@ export const episodes: Episode[] = [
   },
   {
     id: 34,
-    title: "How to Govern & Monetize Agentic AI | DataRobot Agent Workforce Platform",
+    title: "Agentic AI Governance in Production: Inside DataRobot's Agent Workforce Platform",
     description: "Romi Datta, VP and Head of Product Management at DataRobot, explains why enterprise AI is moving past chatbots and copilots toward full agent workforces, and why 95% of agentic AI pilots still fail to deliver measurable ROI. He walks through production use cases from insurance claims processing to industrial safety at Chevron (with NVIDIA edge AI), then breaks down the governance, observability, secure context management, and agent memory an enterprise platform needs to run agents in cloud, hybrid, on-prem, and air-gapped environments.",
     date: "2026-07-10",
     videoUrl: "https://www.youtube.com/watch?v=VOuMYUrpK_0",
@@ -258,7 +258,7 @@ export const episodes: Episode[] = [
   },
   {
     id: 33,
-    title: "Open Source Survival in the Age of AI: Joshua Drake on Licensing, Governance & Monetization",
+    title: "Open Source Licensing and Survival in the Age of AI, with Joshua Drake",
     description: "Joshua Drake, President and CTO of Command Prompt with nearly 30 years in the PostgreSQL community, lays out the risks AI creates for open source: extraction without attribution, model collapse, AI-generated security holes, and legal exposure from derivative work. He argues that proof of human contribution, signed origins, and governance with humans in the loop matter more than ever, and shows how commercial open source companies can adopt AI without losing community trust.",
     date: "2026-07-09",
     videoUrl: "https://www.youtube.com/watch?v=TkbB9tQHltk",
@@ -304,7 +304,7 @@ export const episodes: Episode[] = [
   {
     id: 32,
     title: "Up a Layer: The Rise of the Agentic Builder and the CAMPstack",
-    description: "The panel unpacks how builders are moving \"up a layer\", from writing every line of implementation to directing AI agents, composing managed services, and shipping faster on product judgment. They introduce the CAMP stack (Cloud, Agents, Managed services, Platforms) and dig into intent engineering, infrastructure control planes, the token economics of running agents 24/7, and why testing remains the hardest part of AI-generated code.",
+    description: "The panel unpacks how builders are moving \"up a layer\", from writing every line of implementation to directing AI agents, composing managed services, and shipping faster on product judgment. They introduce the CAMP stack (Cloud, Agents, Managed services, Platforms) and dig into intent engineering, infrastructure control planes, the token economics of running agents 24/7, and why testing remains the hardest part of AI-generated code. Along the way they trace the shift from vibe coding to agentic engineering and ask whether AI will replace software engineers, junior ones in particular.",
     date: "2026-06-20",
     videoUrl: "https://www.youtube.com/watch?v=zEPL30MXktc",
     duration: "51 min",
@@ -357,7 +357,7 @@ export const episodes: Episode[] = [
   {
     id: 31,
     title: "Building BYOC for Fortune 500: The Real Story of Enterprise AI Deployment",
-    description: "Daniel Chalef, founder and CEO of Zep AI, walks through the brutal technical reality of deploying AI products into Fortune 500 environments, zero-trust architectures, Service Control Policies, no-egress VPCs, and broken image supply chains. He explains why pure SaaS AI products can't meet enterprise security bars and how Bring Your Own Cloud (BYOC) deployments actually get shipped into locked-down customer infrastructure.",
+    description: "Daniel Chalef, founder and CEO of Zep AI, walks through the brutal technical reality of deploying AI products into Fortune 500 environments, zero-trust architectures, Service Control Policies, no-egress VPCs, and broken image supply chains. He explains why pure SaaS AI products can't meet enterprise security bars and how Bring Your Own Cloud (BYOC) deployments actually get shipped into locked-down customer infrastructure. For vendors taking private AI into regulated customers, it shows what near air-gapped, no-egress environments demand.",
     date: "2026-05-23",
     videoUrl: "https://www.youtube.com/watch?v=bxcjIM8PMRo",
     duration: "13 min",
@@ -515,7 +515,7 @@ export const episodes: Episode[] = [
   {
     id: 27,
     title: "LLM Tokenomics: New Economics Making 'Cheap' Engineers Expensive",
-    description: "From token leaderboards and LLM FinOps to the rise of the 'Agent Shepherd', the panel unpacks what LLM Tokenomics means for engineering teams and developer productivity. They debate whether tokens are replacing developer time, why AI productivity gains are so inconsistent, and what makes a great engineer when English becomes the new programming language.",
+    description: "From token leaderboards and LLM FinOps to the rise of the 'Agent Shepherd', the panel unpacks what LLM Tokenomics means for engineering teams and developer productivity. They debate whether tokens are replacing developer time, why AI productivity gains are so inconsistent, and what makes a great engineer when English becomes the new programming language. They also look at what AI token costs do to engineering budgets, and whether SaaS is dead.",
     date: "2026-04-13",
     videoUrl: "https://www.youtube.com/watch?v=pwCyMbfZKAY",
     duration: "54 min",
@@ -555,7 +555,7 @@ export const episodes: Episode[] = [
   },
   {
     id: 26,
-    title: "The Future of DBaaS in an AI World: Industry Trends & Access Patterns",
+    title: "The Future of DBaaS in an AI World: Vector Search, Hybrid Retrieval and Postgres",
     description: "As SaaS evolves for AI, so must the database. AWS's Subbu Ramarao joins the panel to examine how AI-native workloads and agentic access patterns, vector search, hybrid retrieval, and unpredictable agent-generated queries, are reshaping the DBaaS landscape, plus the resurgence of Postgres and how BYOC and pricing pressures are changing managed data services.",
     date: "2026-03-24",
     videoUrl: "https://www.youtube.com/watch?v=ZXcPPYXcqXg",
@@ -592,7 +592,7 @@ export const episodes: Episode[] = [
   },
   {
     id: 25,
-    title: "Future of Cloud-Native Data Services with AI and Agents",
+    title: "Cloud-Native Databases on Kubernetes for AI Agents, with Sergey Pronin",
     description: "Sergey Pronin, founder of Solanica and former Percona engineer, joins the panel to discuss why the SaaS-only data model is fracturing. The conversation covers 'Dark Matter Data' trapped inside enterprises, treating databases like cattle on Kubernetes, API-driven self-service provisioning, and why donating Open Everest to the CNCF matters for license-stable infrastructure.",
     date: "2026-02-19",
     videoUrl: "https://www.youtube.com/watch?v=npuYMJHyYKw",
@@ -834,7 +834,7 @@ export const episodes: Episode[] = [
   },
   {
     id: 15,
-    title: "Evolution of DBaaS with Xata Founder",
+    title: "The Evolution of Postgres as a Service (DBaaS) with Xata's Founder",
     description: "Tudor Golubenco, CTO of Xata and co-founder of Packetbeat joins us to explore how DBaaS for Postgres has matured, what Builders need today, and where the next wave of innovation is headed. Postgres has long been a cornerstone open-source database. What's changed dramatically is how it's delivered as a managed service (DBaaS), from the early days of AWS RDS to today's serverless, developer-first platforms like Xata.",
     date: "2024-12-02",
     videoUrl: "https://www.youtube.com/watch?v=reDzpXynnEw",
@@ -890,7 +890,7 @@ export const episodes: Episode[] = [
   },
   {
     id: 13,
-    title: "From Chaos to Control with Omnistrate's Founders",
+    title: "What Is a SaaS Control Plane? From Chaos to Control with Omnistrate's Founders",
     description: "How do SaaS companies move from chaos to control? The answer: SaaS control planes, the mission control that powers scale, speed, and security across multi-tenant systems. Join the Omnistrate founders as they discuss building control planes for modern SaaS.",
     date: "2024-10-28",
     videoUrl: "https://www.youtube.com/watch?v=Wp1iEZnhJ-o",
@@ -968,7 +968,7 @@ export const episodes: Episode[] = [
   },
   {
     id: 10,
-    title: "Mastering Growth Through Subscription with AWS Experts",
+    title: "Growing a SaaS Subscription Business Model, with AWS Experts",
     description: "This episode focuses on turning SaaS growth strategy into scalable revenue using proven frameworks from subscription leaders. AWS experts and Capgemini Director discuss subscription-based growth models and strategies for SaaS businesses.",
     date: "2024-09-09",
     videoUrl: "https://www.youtube.com/watch?v=XL8kWY_QuQw",
@@ -993,7 +993,7 @@ export const episodes: Episode[] = [
   },
   {
     id: 9,
-    title: "Inside the AI Agent Swarm with Rox CTO",
+    title: "Inside Rox's AI Agent Swarm for Sales Teams, with the CTO",
     description: "We dive into how Rox is pioneering the world's first enterprise-ready AI Agent Swarm, built to transform how revenue teams operate. Join us as we speak with Shriram Sridharan, co-founder of Rox, about his journey from scaling cloud infrastructure at Confluent and Amazon Aurora to launching a new kind of SaaS platform powered by agent-based AI.",
     date: "2024-08-26",
     videoUrl: "https://www.youtube.com/watch?v=oHH2Nmv-h28",
@@ -1025,7 +1025,7 @@ export const episodes: Episode[] = [
   },
   {
     id: 8,
-    title: "Pricing and Packaging for SaaS Companies",
+    title: "SaaS Pricing Models and Packaging Strategy, with Schematic and AWS",
     description: "In this episode of SaaS Mondays Live, we dive into one of the most critical, and often most challenging, aspects of SaaS growth: Pricing and Packaging. Flynn Glover (Founder & CEO of Schematic) and Akshay Patel (SaaS/AI Product Strategist at AWS) unpack proven pricing strategies, innovative packaging models, and the latest trends shaping how SaaS companies monetize.",
     date: "2024-08-19",
     videoUrl: "https://www.youtube.com/watch?v=7s_CmfUqWQY",
@@ -1152,7 +1152,7 @@ export const episodes: Episode[] = [
   },
   {
     id: 2,
-    title: "The Importance of Cloud Marketplaces with Labra's CEO",
+    title: "Selling SaaS on AWS Marketplace and Other Cloud Marketplaces, with Labra's CEO",
     description: "Sridhar Adusumilli, CEO of Labra.io, discusses why Cloud Marketplaces matter for SaaS growth, the role of AWS Marketplace in SaaS success (EMEA vs USA), technical considerations for integrating SaaS with Cloud Marketplaces, and go-to-market strategies for SaaS on Cloud Marketplaces.",
     date: "2024-07-08",
     videoUrl: "https://www.youtube.com/watch?v=pK9_l1eAvRk",

@@ -11,7 +11,7 @@ import { SITE_URL } from "@/lib/constants"
 export const metadata: Metadata = {
   title: "Topics",
   description:
-    "Browse Agentic SaaS Talks episodes by topic — agentic AI, SaaS architecture, control planes, Model Context Protocol, cloud infrastructure, and more.",
+    "Browse Agentic SaaS Talks episodes by topic: agentic AI, SaaS architecture, control planes, Model Context Protocol, cloud infrastructure, and more.",
   alternates: { canonical: `${SITE_URL}/topics` },
   openGraph: {
     title: "Topics | Agentic SaaS Talks",
@@ -53,7 +53,7 @@ export default function TopicsPage() {
                 Browse by Topic
               </h1>
               <p className="mb-8 text-xl text-muted-foreground md:text-2xl">
-                Explore the Agentic SaaS Talks catalog by subject — {tags.length} topics across every episode
+                Explore the Agentic SaaS Talks catalog by subject: {tags.length} topics across every episode
               </p>
             </div>
           </div>

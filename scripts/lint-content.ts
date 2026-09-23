@@ -32,7 +32,7 @@ interface Finding {
   snippet: string
 }
 
-const DATA_FILES = ['data/episodes.ts', 'data/hosts.ts', 'data/blog.ts']
+const DATA_FILES = ['data/episodes.ts', 'data/hosts.ts', 'data/blog.ts', 'data/topics.ts']
 
 function walk(dir: string, out: string[] = []): string[] {
   for (const entry of readdirSync(dir)) {
