@@ -1,7 +1,8 @@
 /**
  * find-new-episodes.ts — browser-free episode discovery
  *
- * Lists the YouTube playlist via its RSS feed, diffs against data/episodes.ts,
+ * Lists the YouTube playlist via its RSS feed (falling back to the playlist page
+ * when the feed 404s, as it did through Sep 2026), diffs against data/episodes.ts,
  * and for every video not yet on the site fetches the watch page and extracts
  * full details (title, duration, publish date, description, timestamps) from the
  * embedded `ytInitialPlayerResponse` JSON. Prints ready-to-paste Episode objects.
@@ -20,6 +21,13 @@ import { EXTERNAL_LINKS } from '../lib/constants'
 
 const PLAYLIST_ID =
   new URL(EXTERNAL_LINKS.youtubePlaylist).searchParams.get('list') ?? ''
+
+// Short clips (8-32 min, Jul-Oct 2025) that sit in the playlist but were left
+// off the site on purpose; without this they show up as "new" on every run.
+const SKIPPED_VIDEO_IDS = new Set([
+  'pL9U6m7JuV8', 'C8kF-5SD_6E', 'LE6UWptt5bo', 'mlzpqCwzyRc',
+  'so23GV4hl70', 'uh_T1FnpPhA', 'X-6sXEDsBW4',
+])
 
 const UA =
   'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36'
@@ -61,6 +69,40 @@ async function fetchPlaylistFeed(): Promise<FeedVideo[]> {
     const published = entry.match(/<published>([^<]+)<\/published>/)?.[1] ?? ''
     return { videoId, title, published }
   })
+}
+
+/**
+ * Fallback: read the playlist page's embedded ytInitialData. Returns every video
+ * (not just the latest ~15), newest first, but without publish dates; the
+ * per-video fetch fills those in.
+ */
+async function fetchPlaylistPage(): Promise<FeedVideo[]> {
+  const url = `https://www.youtube.com/playlist?list=${PLAYLIST_ID}`
+  const res = await fetch(url, {
+    headers: { 'User-Agent': UA, 'Accept-Language': 'en-US' },
+  })
+  if (!res.ok) throw new Error(`Playlist page fetch failed: HTTP ${res.status}`)
+  const html = await res.text()
+  const json = html.match(/var ytInitialData = (\{[\s\S]*?\});<\/script>/)?.[1]
+  if (!json) throw new Error('Playlist page: ytInitialData not found')
+
+  const videos: FeedVideo[] = []
+  const walk = (node: unknown): void => {
+    if (Array.isArray(node)) return node.forEach(walk)
+    if (!node || typeof node !== 'object') return
+    const o = node as Record<string, any>
+    const lockup = o.lockupViewModel
+    const legacy = o.playlistVideoRenderer
+    if (lockup?.contentId) {
+      const title = lockup.metadata?.lockupMetadataViewModel?.title?.content ?? ''
+      videos.push({ videoId: lockup.contentId, title, published: '' })
+    } else if (legacy?.videoId) {
+      videos.push({ videoId: legacy.videoId, title: legacy.title?.runs?.[0]?.text ?? '', published: '' })
+    }
+    Object.values(o).forEach(walk)
+  }
+  walk(JSON.parse(json))
+  return videos
 }
 
 /** Decode the handful of XML/HTML entities YouTube emits in titles. */
@@ -162,8 +204,16 @@ async function main() {
   }
 
   console.log(`Fetching playlist RSS (${PLAYLIST_ID})...`)
-  const feed = await fetchPlaylistFeed()
-  console.log(`Feed returned ${feed.length} videos (RSS shows the latest ~15).\n`)
+  let feed: FeedVideo[]
+  try {
+    feed = await fetchPlaylistFeed()
+    console.log(`Feed returned ${feed.length} videos (RSS shows the latest ~15).\n`)
+  } catch (err) {
+    console.log(`${(err as Error).message}; reading the playlist page instead.`)
+    feed = await fetchPlaylistPage()
+    console.log(`Playlist page returned ${feed.length} videos.\n`)
+  }
+  feed = feed.filter((v) => !SKIPPED_VIDEO_IDS.has(v.videoId))
 
   const haveIds = new Set(episodes.map((e) => videoIdFromUrl(e.videoUrl)))
   const candidates = all ? feed : feed.filter((v) => !haveIds.has(v.videoId))
@@ -192,9 +242,10 @@ async function main() {
   console.log('='.repeat(78) + '\n')
 
   // Oldest first so id assignment is chronological, matching existing convention.
-  const ordered = [...candidates].sort((a, b) =>
-    a.published.localeCompare(b.published)
-  )
+  // The playlist-page fallback has no dates but lists newest first.
+  const ordered = candidates.every((v) => v.published)
+    ? [...candidates].sort((a, b) => a.published.localeCompare(b.published))
+    : [...candidates].reverse()
   for (const v of ordered) {
     try {
       const d = await fetchVideoDetails(v.videoId)

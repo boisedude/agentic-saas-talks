@@ -18,6 +18,8 @@ npm run episodes:check       # or: npx tsx scripts/find-new-episodes.ts
 
 This does **not** capture guest LinkedIn URLs — find/verify those manually (a wrong URL is worse than none; omit a guest rather than guess). Remember the recurring **hosts** (in `data/hosts.ts`: Kamal Gupta, Michael Cooper, Bill Tarr, Markus Kaiser, Ermin Dzinic) are **not** guests — only list external panelists.
 
+**Fallback:** when the RSS feed fails (it returned 404 through Sep 2026), the script reads the playlist page instead, which lists every video. Seven short 2025 clips in the playlist are deliberately not on the site; they are in `SKIPPED_VIDEO_IDS` in the script.
+
 **Caveat:** the RSS feed only returns the latest ~15 videos. That's plenty for routine "what's new" checks, but to backfill older videos pass `--all` or fall back to the Playwright scripts below.
 
 **Legacy (Playwright — flaky):** `scripts/scrape-playlist.ts`, `scripts/scrape-videos.ts`, `scripts/scrape-full-episodes.ts`. These depend on a Chromium download (`npx playwright install chromium`) that stalls in some environments; prefer the RSS script above. If you do use them and a new video isn't in the playlist yet, add its URL directly to `scripts/scrape-videos.ts`.
