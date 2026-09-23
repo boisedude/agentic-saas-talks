@@ -53,7 +53,7 @@ echo ""
 
 # Step 1: Build (unless skipped)
 if [ "$SKIP_BUILD" = false ]; then
-    echo "[1/5] Building Next.js static site..."
+    echo "[1/6] Building Next.js static site..."
     npm run build
 
     if [ $? -ne 0 ]; then
@@ -61,7 +61,7 @@ if [ "$SKIP_BUILD" = false ]; then
         exit 1
     fi
 else
-    echo "[1/5] Skipping build (--skip-build)"
+    echo "[1/6] Skipping build (--skip-build)"
 fi
 
 # Verify build output exists
@@ -73,7 +73,7 @@ fi
 
 # Step 2: Deploy with rsync
 echo ""
-echo "[2/5] Deploying to ${SSH_HOST}..."
+echo "[2/6] Deploying to ${SSH_HOST}..."
 echo "      Local:  ${LOCAL_DIR}/"
 echo "      Remote: ${SSH_USER}@${SSH_HOST}:${REMOTE_DIR}/"
 echo ""
@@ -98,7 +98,7 @@ fi
 # Step 3: Notify IndexNow (skip on dry run)
 if [ -z "$DRY_RUN" ]; then
     echo ""
-    echo "[3/5] Notifying IndexNow..."
+    echo "[3/6] Notifying IndexNow..."
 
     SITEMAP="${LOCAL_DIR}/sitemap.xml"
     if [ -f "$SITEMAP" ]; then
@@ -137,7 +137,7 @@ fi
 # for up to 4h unless we purge. Token lives at ~/.cloudflare-token.
 if [ -z "$DRY_RUN" ]; then
     echo ""
-    echo "[4/5] Purging Cloudflare cache..."
+    echo "[4/6] Purging Cloudflare cache..."
     CF_ZONE="ad15899b816fb724b67ab95c75c3891e"
     if [ -f "$HOME/.cloudflare-token" ]; then
         CF_TOKEN=$(cat "$HOME/.cloudflare-token")
@@ -156,11 +156,27 @@ if [ -z "$DRY_RUN" ]; then
     fi
 fi
 
-# Step 5: Resubmit the sitemap to Google (skip on dry run)
+# Step 5: Warm the edge cache (skip on dry run)
+# Hostinger's shared WAF 403s some origin fetches it cannot be told to allow
+# (in Sep 2026 about 1 in 10 for Bingbot and GPTBot). After a purge every page
+# is an origin fetch for whoever asks first, so we ask first: once a page is
+# cached, crawlers get Cloudflare's copy for the 4h TTL.
+if [ -z "$DRY_RUN" ] && [ -f "${LOCAL_DIR}/sitemap.xml" ]; then
+    echo ""
+    echo "[5/6] Warming Cloudflare cache..."
+    WARM_OK=0; WARM_FAIL=""
+    for url in $(grep -oP '<loc>\K[^<]+' "${LOCAL_DIR}/sitemap.xml") "https://${SITE_HOST}/sitemap.xml" "https://${SITE_HOST}/robots.txt"; do
+        code=$(curl -s -o /dev/null -w "%{http_code}" "$url")
+        if [ "$code" = "200" ]; then WARM_OK=$((WARM_OK + 1)); else WARM_FAIL="${WARM_FAIL} ${code}:${url}"; fi
+    done
+    echo "      ${WARM_OK} URLs cached${WARM_FAIL:+, not cached:${WARM_FAIL}}"
+fi
+
+# Step 6: Resubmit the sitemap to Google (skip on dry run)
 # IndexNow reaches Bing and Yandex only; Google re-reads a sitemap when it is resubmitted.
 if [ -z "$DRY_RUN" ]; then
     echo ""
-    echo "[5/5] Resubmitting sitemap to Google Search Console..."
+    echo "[6/6] Resubmitting sitemap to Google Search Console..."
     if [ -f "$HOME/.gsc-credentials.json" ]; then
         GSC_OUT=$(python3 "$(dirname "$0")/scripts/submit-sitemap.py" 2>&1 | tail -1)
         echo "      ${GSC_OUT}"
