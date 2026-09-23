@@ -50,7 +50,6 @@ test.describe('Episodes Validation Tests', () => {
 
     // Check title heading
     const heading = page.getByRole('heading', { level: 1 });
-    await expect(heading).toContainText('Episode 18');
     await expect(heading).toContainText('Deploying Agentic Applications');
 
     // Check timestamps section

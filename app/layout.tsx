@@ -4,13 +4,13 @@ import Script from "next/script";
 import "./globals.css";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
-import { SITE_DESCRIPTION } from "@/lib/constants";
+import { SITE_DESCRIPTION, SITE_TITLE } from "@/lib/constants";
 const inter = Inter({ subsets: ["latin"], display: "swap" });
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://agentic-saas-talks.com"),
   title: {
-    default: "Agentic SaaS Talks - Exploring the Future of AI Applications",
+    default: SITE_TITLE,
     template: "%s | Agentic SaaS Talks",
   },
   description: SITE_DESCRIPTION,
@@ -29,6 +29,7 @@ export const metadata: Metadata = {
     "AI Applications",
     "SaaS",
     "Agentic Architectures",
+    "Podcast",
     "Webcast",
     "YouTube",
     "Technology",
@@ -49,7 +50,7 @@ export const metadata: Metadata = {
   publisher: "Agentic SaaS Talks",
   category: "Technology",
   openGraph: {
-    title: "Agentic SaaS Talks - Exploring the Future of AI Applications",
+    title: SITE_TITLE,
     description: SITE_DESCRIPTION,
     url: "https://agentic-saas-talks.com",
     siteName: "Agentic SaaS Talks",
@@ -58,7 +59,7 @@ export const metadata: Metadata = {
         url: "/opengraph-image.png",
         width: 1200,
         height: 630,
-        alt: "Agentic SaaS Talks - Exploring the Future of AI Applications",
+        alt: SITE_TITLE,
       },
     ],
     locale: "en_US",
@@ -66,7 +67,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Agentic SaaS Talks - Exploring the Future of AI Applications",
+    title: SITE_TITLE,
     description: SITE_DESCRIPTION,
     images: ["/twitter-image.png"],
     creator: "@omnistrate",

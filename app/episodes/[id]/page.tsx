@@ -22,13 +22,13 @@ export async function generateMetadata({ params }: EpisodePageProps): Promise<Me
   const videoId = getYouTubeVideoId(episode.videoUrl)
 
   return {
-    title: `Episode ${episode.id}: ${episode.title}`,
+    title: episode.title,
     description: episode.description,
     alternates: {
       canonical: `${SITE_URL}/episodes/${episode.id}`,
     },
     openGraph: {
-      title: `Episode ${episode.id}: ${episode.title}`,
+      title: episode.title,
       description: episode.description,
       url: `${SITE_URL}/episodes/${episode.id}`,
       type: "video.episode",
@@ -44,7 +44,7 @@ export async function generateMetadata({ params }: EpisodePageProps): Promise<Me
     },
     twitter: {
       card: "summary_large_image",
-      title: `Episode ${episode.id}: ${episode.title}`,
+      title: episode.title,
       description: episode.description,
       images: [`https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`],
     },

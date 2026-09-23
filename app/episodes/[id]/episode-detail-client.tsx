@@ -106,7 +106,7 @@ export function EpisodeDetailClient({ episode }: EpisodeDetailClientProps) {
   const breadcrumbSchema = getBreadcrumbSchema([
     { name: "Home", url: SITE_URL },
     { name: "Episodes", url: `${SITE_URL}/episodes` },
-    { name: `Episode ${episode.id}: ${episode.title}`, url: episodeUrl },
+    { name: episode.title, url: episodeUrl },
   ])
 
   const videoSchema = getVideoSchema(episode)
@@ -115,7 +115,7 @@ export function EpisodeDetailClient({ episode }: EpisodeDetailClientProps) {
   const relatedEpisodes = getRelatedEpisodes(episode)
 
   const webPageSchema = getWebPageSchema({
-    title: `Episode ${episode.id}: ${episode.title}`,
+    title: episode.title,
     description: episode.description,
     url: episodeUrl,
     datePublished: episode.date,
@@ -222,7 +222,7 @@ export function EpisodeDetailClient({ episode }: EpisodeDetailClientProps) {
                 </div>
 
                 <h1 className="mb-4 text-3xl font-bold leading-tight sm:text-4xl md:text-5xl">
-                  Episode {episode.id}: {episode.title}
+                  {episode.title}
                 </h1>
 
                 <div className="mb-6 flex flex-wrap items-center gap-4 text-sm text-muted-foreground">

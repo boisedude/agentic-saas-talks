@@ -60,8 +60,23 @@ describe("getVideoSchema", () => {
     expect(schema.description).toBe("A test episode description.")
     expect(schema.uploadDate).toBe("2025-01-15T00:00:00Z")
     expect(schema.duration).toBe("PT57M")
-    expect(schema.contentUrl).toBe(mockEpisode.videoUrl)
+    expect(schema).not.toHaveProperty("contentUrl")
     expect(schema.embedUrl).toContain("abc123")
+  })
+
+  it("marks each timestamp as a Clip ending where the next begins", () => {
+    const schema = getVideoSchema({
+      ...mockEpisode,
+      timestamps: [
+        { time: "00:00", title: "Intro" },
+        { time: "05:30", title: "Topic" },
+        { time: "1:05:00", title: "Past the end" },
+      ],
+    })
+    expect(schema.hasPart).toEqual([
+      { "@type": "Clip", name: "Intro", startOffset: 0, endOffset: 330, url: "https://www.youtube.com/watch?v=abc123&t=0s" },
+      { "@type": "Clip", name: "Topic", startOffset: 330, endOffset: 3900, url: "https://www.youtube.com/watch?v=abc123&t=330s" },
+    ])
   })
 
   it("includes thumbnail URLs", () => {

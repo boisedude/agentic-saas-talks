@@ -24,14 +24,21 @@ export async function generateMetadata({ params }: GuestPageProps): Promise<Meta
   if (!entry) return { title: "Guest Not Found" }
 
   const { guest, episodes } = entry
-  const description = `${guest.name} on Agentic SaaS Talks. ${guest.bio} Featured in ${episodes.length} episode${episodes.length !== 1 ? "s" : ""}.`
+  // Name searches are most of this page's impressions: lead with what they talked about.
+  // Kept under ~60 characters with the site suffix, the length Google rewrites least.
+  const onEpisode = `${guest.name} on ${episodes[0].title}`
+  const title =
+    episodes.length === 1 && onEpisode.length <= 38
+      ? onEpisode
+      : `${guest.name}: Interview${episodes.length > 1 ? "s" : ""}`
+  const description = `${guest.bio} Watch ${guest.name} on Agentic SaaS Talks: ${episodes.map((e) => e.title).join("; ")}.`
 
   return {
-    title: guest.name,
+    title,
     description,
     alternates: { canonical: `${SITE_URL}/guests/${slug}` },
     openGraph: {
-      title: `${guest.name} | Agentic SaaS Talks`,
+      title: `${title} | Agentic SaaS Talks`,
       description,
       url: `${SITE_URL}/guests/${slug}`,
       type: "profile",

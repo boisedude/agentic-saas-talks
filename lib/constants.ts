@@ -3,13 +3,14 @@ import { episodes } from "@/data/episodes"
 // Site information
 export const SITE_URL = "https://agentic-saas-talks.com"
 export const SITE_NAME = "Agentic SaaS Talks"
+export const SITE_TITLE = "Agentic SaaS Talks Podcast: The Future of SaaS in the Agentic Era"
 
 // Live episode count — derived from the data file so descriptions, schema, and
 // metadata never drift out of sync with the catalog as new episodes are added.
 export const EPISODE_COUNT = episodes.length
 
 export const SITE_DESCRIPTION =
-  `Agentic SaaS Talks is a technology webcast series with ${EPISODE_COUNT} episodes covering AI applications, agentic architectures, and SaaS platform evolution. Hosted by technology leaders from AWS, Omnistrate, and AGLedger.ai.`
+  `Agentic SaaS Talks is a video podcast with ${EPISODE_COUNT} episodes covering AI applications, agentic architectures, and SaaS platform evolution. Hosted by technology leaders from AWS, Omnistrate, and AGLedger.ai.`
 
 // External links
 export const EXTERNAL_LINKS = {

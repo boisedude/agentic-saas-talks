@@ -32,7 +32,7 @@ export function getEpisodeById(id: number): Episode | undefined {
 export const episodes: Episode[] = [
   {
     id: 38,
-    title: "EP 26: The Last Mile of AI-SDLC: When Agents Build What Customers Want",
+    title: "The Last Mile of AI-SDLC: When Agents Build What Customers Want",
     description: "Productmind co-founders Steen Brahe and Alessio Nobile take on the last mile of the AI software development lifecycle: getting from a real customer conversation to shipped code without losing the original intent. They demo how a customer call becomes a feature request, then a living specification, then agent-ready tasks running against an existing codebase, with full lineage preserved from feedback to release. The panel also digs into how AI is redrawing product and engineering roles, what governance of human-agent collaboration looks like in the enterprise, and how the founders cleared 20+ bugs with parallel agents while building Productmind with Productmind.",
     date: "2026-08-11",
     videoUrl: "https://www.youtube.com/watch?v=5u0lpHdUHmk",
@@ -82,7 +82,7 @@ export const episodes: Episode[] = [
   },
   {
     id: 37,
-    title: "EP 25: BYOC Anywhere",
+    title: "BYOC Anywhere",
     description: "Paul Paliychuk of Zep AI and Omnistrate co-founder Alok Nikhil lay out ten principles for secure Bring Your Own Cloud deployment: keep the data plane in the customer's account, connect without exposing it, swap static credentials for short-lived identity, and make vendor access revocable by design. They walk through the four levels of BYOC, what changes inside air-gapped environments, and why AI products hit the enterprise security bar far earlier in their life than previous generations of SaaS did. The episode closes with a live demo that turns a Helm chart into a BYOC offering with a self-service customer portal.",
     date: "2026-07-29",
     videoUrl: "https://www.youtube.com/watch?v=KUJpv2GjUtg",
@@ -303,7 +303,7 @@ export const episodes: Episode[] = [
   },
   {
     id: 32,
-    title: "EP 24: Up a Layer: The Rise of the Agentic Builder and the CAMPstack",
+    title: "Up a Layer: The Rise of the Agentic Builder and the CAMPstack",
     description: "The panel unpacks how builders are moving \"up a layer\", from writing every line of implementation to directing AI agents, composing managed services, and shipping faster on product judgment. They introduce the CAMP stack (Cloud, Agents, Managed services, Platforms) and dig into intent engineering, infrastructure control planes, the token economics of running agents 24/7, and why testing remains the hardest part of AI-generated code.",
     date: "2026-06-20",
     videoUrl: "https://www.youtube.com/watch?v=zEPL30MXktc",
@@ -422,7 +422,7 @@ export const episodes: Episode[] = [
   },
   {
     id: 29,
-    title: "Ep 23: BYOC or Bust: Why Enterprise Customers Want You in Their Cloud",
+    title: "BYOC or Bust: Why Enterprise Customers Want You in Their Cloud",
     description: "BYOC has shifted from a deployment option to a buying requirement. AWS solutions architects and Omnistrate's Kamal Gupta break down why enterprises now demand software in their own cloud, the security building blocks that make it work, and how agentic AI and data gravity are accelerating the move toward Bring Your Own Cloud.",
     date: "2026-05-07",
     videoUrl: "https://www.youtube.com/watch?v=-5X2VOr-Spc",
@@ -514,7 +514,7 @@ export const episodes: Episode[] = [
   },
   {
     id: 27,
-    title: "Ep 22: LLM Tokenomics: New Economics Making 'Cheap' Engineers Expensive",
+    title: "LLM Tokenomics: New Economics Making 'Cheap' Engineers Expensive",
     description: "From token leaderboards and LLM FinOps to the rise of the 'Agent Shepherd', the panel unpacks what LLM Tokenomics means for engineering teams and developer productivity. They debate whether tokens are replacing developer time, why AI productivity gains are so inconsistent, and what makes a great engineer when English becomes the new programming language.",
     date: "2026-04-13",
     videoUrl: "https://www.youtube.com/watch?v=pwCyMbfZKAY",
@@ -555,7 +555,7 @@ export const episodes: Episode[] = [
   },
   {
     id: 26,
-    title: "Ep 21: The Future of DBaaS in an AI World: Industry Trends & Access Patterns",
+    title: "The Future of DBaaS in an AI World: Industry Trends & Access Patterns",
     description: "As SaaS evolves for AI, so must the database. AWS's Subbu Ramarao joins the panel to examine how AI-native workloads and agentic access patterns, vector search, hybrid retrieval, and unpredictable agent-generated queries, are reshaping the DBaaS landscape, plus the resurgence of Postgres and how BYOC and pricing pressures are changing managed data services.",
     date: "2026-03-24",
     videoUrl: "https://www.youtube.com/watch?v=ZXcPPYXcqXg",
@@ -592,7 +592,7 @@ export const episodes: Episode[] = [
   },
   {
     id: 25,
-    title: "Ep 20: Future of Cloud-Native Data Services with AI and Agents",
+    title: "Future of Cloud-Native Data Services with AI and Agents",
     description: "Sergey Pronin, founder of Solanica and former Percona engineer, joins the panel to discuss why the SaaS-only data model is fracturing. The conversation covers 'Dark Matter Data' trapped inside enterprises, treating databases like cattle on Kubernetes, API-driven self-service provisioning, and why donating Open Everest to the CNCF matters for license-stable infrastructure.",
     date: "2026-02-19",
     videoUrl: "https://www.youtube.com/watch?v=npuYMJHyYKw",

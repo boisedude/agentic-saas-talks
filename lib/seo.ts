@@ -78,8 +78,9 @@ export const getVideoSchema = (episode: Episode) => {
     ],
     "uploadDate": `${episode.date}T00:00:00Z`,
     "duration": convertDurationToISO8601(episode.duration),
-    "contentUrl": episode.videoUrl,
+    // No contentUrl: Google wants the media file there, and a YouTube watch page is not one.
     "embedUrl": `https://www.youtube.com/embed/${videoId}`,
+    ...(episode.timestamps?.length ? { "hasPart": getClips(episode) } : {}),
     "publisher": {
       "@type": "Organization",
       "name": "Omnistrate",
@@ -91,6 +92,26 @@ export const getVideoSchema = (episode: Episode) => {
     },
     "keywords": episode.tags.join(", "),
   }
+}
+
+// Key moments: one Clip per timestamp, each ending where the next begins.
+const timestampToSeconds = (time: string) =>
+  time.split(":").reduce((total, part) => total * 60 + Number(part), 0)
+
+const getClips = (episode: Episode) => {
+  const videoId = getYouTubeVideoId(episode.videoUrl)
+  // Durations are stored as whole minutes, so the video can run up to 59s past them.
+  const totalSeconds = (parseInt(episode.duration, 10) + 1) * 60
+  const starts = (episode.timestamps ?? []).map((t) => timestampToSeconds(t.time))
+  return (episode.timestamps ?? [])
+    .map((t, i) => ({
+      "@type": "Clip",
+      "name": t.title,
+      "startOffset": starts[i],
+      "endOffset": starts[i + 1] ?? totalSeconds,
+      "url": `https://www.youtube.com/watch?v=${videoId}&t=${starts[i]}s`,
+    }))
+    .filter((clip) => clip.endOffset > clip.startOffset)
 }
 
 // ItemList Schema for episodes collection

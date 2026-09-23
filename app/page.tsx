@@ -22,7 +22,7 @@ import {
   getFAQSchema,
 } from "@/lib/seo"
 import { getYouTubeVideoId, formatDate } from "@/lib/helpers"
-import { EXTERNAL_LINKS, EPISODE_COUNT, SITE_DESCRIPTION } from "@/lib/constants"
+import { EXTERNAL_LINKS, EPISODE_COUNT, SITE_DESCRIPTION, SITE_TITLE } from "@/lib/constants"
 
 export default function HomePage() {
   const prefersReducedMotion = useReducedMotion()
@@ -60,7 +60,7 @@ export default function HomePage() {
     faqSchema: getFAQSchema(faqItems),
     latestVideoSchema: getVideoSchema(latestEpisode),
     webPageSchema: getWebPageSchema({
-      title: "Agentic SaaS Talks - Exploring the Future of AI Applications",
+      title: SITE_TITLE,
       description: SITE_DESCRIPTION,
       url: "https://agentic-saas-talks.com",
       datePublished: episodes[episodes.length - 1]?.date ?? new Date().toISOString(),
@@ -132,13 +132,13 @@ export default function HomePage() {
           >
             <Badge className="mb-6 bg-gradient-to-r from-blue-500 to-slate-600 text-lg">
               <Video className="mr-2 h-4 w-4" aria-hidden="true" />
-              Webcast Series
+              Video Podcast
             </Badge>
             <h1 className="mb-6 text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight">
               Agentic SaaS Talks
             </h1>
             <p className="mb-8 text-xl text-muted-foreground md:text-2xl">
-              Exploring the future of AI applications, agentic architectures, and the evolution of SaaS platforms
+              The podcast on the future of SaaS in the agentic era: AI applications, agentic architectures, and how SaaS platforms are changing
             </p>
             <div className="flex flex-wrap items-center justify-center gap-4 text-muted-foreground">
               <a
@@ -398,7 +398,7 @@ export default function HomePage() {
           >
             <h2 className="mb-6 text-4xl font-bold">About the Series</h2>
             <p className="mb-6 text-lg text-muted-foreground">
-              Agentic SaaS Talks is a webcast series exploring the intersection of AI, SaaS, and
+              Agentic SaaS Talks is a video podcast exploring the intersection of AI, SaaS, and
               agentic systems. We dive deep into architectural patterns, design choices, and
               deployment models that are shaping the next generation of intelligent applications.
             </p>
