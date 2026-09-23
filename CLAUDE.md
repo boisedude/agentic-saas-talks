@@ -249,7 +249,9 @@ the new `/topics/<slug>` or `/guests/<slug>` pages render.
 
 ### Cloudflare (added 2026-06-15)
 
-The site is fronted by Cloudflare (zone `ad15899b816fb724b67ab95c75c3891e`), matching the other content zones: cache-everything rule (4h edge TTL), Smart Tiered Cache, and a User-Agent transform toward origin (Hostinger's shared-server WAF 403/429s crawler UAs — the transform bypasses it so GPTBot et al. reach the origin). Because of the 4h edge cache, **every deploy must purge the zone** — `deploy.sh` does this automatically in step [4/6], then re-warms the cache in step [5/6] using `~/.cloudflare-token`. Manual purge:
+The site is fronted by Cloudflare (zone `ad15899b816fb724b67ab95c75c3891e`), matching the other content zones: cache-everything rule (4h edge TTL), Smart Tiered Cache, and a User-Agent transform toward origin (Hostinger's shared-server WAF 403/429s crawler UAs — the transform bypasses it so GPTBot et al. reach the origin). **The Hostinger CDN must stay off** (hPanel, Performance, CDN). It was on until 2026-09-23 and was what refused crawlers: with it on, the origin 403'd 20-60% of Cloudflare's page fetches (by client IP; Bingbot and GPTBot included) and 429'd `GPTBot/1.0` and `meta-externalagent/1.0`; with it off, every bot UA tested gets 200 at origin. Its state is not in the API or response headers behind Cloudflare; to check, count origin 403s for page paths in Cloudflare analytics (`httpRequestsAdaptiveGroups`, `originResponseStatus`).
+
+Because of the 4h edge cache, **every deploy must purge the zone** — `deploy.sh` does this automatically in step [4/6], then re-warms the cache in step [5/6] using `~/.cloudflare-token`. Manual purge:
 
 ```bash
 CF_TOKEN=$(cat ~/.cloudflare-token)
