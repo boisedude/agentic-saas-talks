@@ -53,7 +53,7 @@ echo ""
 
 # Step 1: Build (unless skipped)
 if [ "$SKIP_BUILD" = false ]; then
-    echo "[1/4] Building Next.js static site..."
+    echo "[1/5] Building Next.js static site..."
     npm run build
 
     if [ $? -ne 0 ]; then
@@ -61,7 +61,7 @@ if [ "$SKIP_BUILD" = false ]; then
         exit 1
     fi
 else
-    echo "[1/4] Skipping build (--skip-build)"
+    echo "[1/5] Skipping build (--skip-build)"
 fi
 
 # Verify build output exists
@@ -73,7 +73,7 @@ fi
 
 # Step 2: Deploy with rsync
 echo ""
-echo "[2/4] Deploying to ${SSH_HOST}..."
+echo "[2/5] Deploying to ${SSH_HOST}..."
 echo "      Local:  ${LOCAL_DIR}/"
 echo "      Remote: ${SSH_USER}@${SSH_HOST}:${REMOTE_DIR}/"
 echo ""
@@ -98,7 +98,7 @@ fi
 # Step 3: Notify IndexNow (skip on dry run)
 if [ -z "$DRY_RUN" ]; then
     echo ""
-    echo "[3/4] Notifying IndexNow..."
+    echo "[3/5] Notifying IndexNow..."
 
     SITEMAP="${LOCAL_DIR}/sitemap.xml"
     if [ -f "$SITEMAP" ]; then
@@ -137,7 +137,7 @@ fi
 # for up to 4h unless we purge. Token lives at ~/.cloudflare-token.
 if [ -z "$DRY_RUN" ]; then
     echo ""
-    echo "[4/4] Purging Cloudflare cache..."
+    echo "[4/5] Purging Cloudflare cache..."
     CF_ZONE="ad15899b816fb724b67ab95c75c3891e"
     if [ -f "$HOME/.cloudflare-token" ]; then
         CF_TOKEN=$(cat "$HOME/.cloudflare-token")
@@ -153,6 +153,19 @@ if [ -z "$DRY_RUN" ]; then
         fi
     else
         echo "      ~/.cloudflare-token not found, skipping purge"
+    fi
+fi
+
+# Step 5: Resubmit the sitemap to Google (skip on dry run)
+# IndexNow reaches Bing and Yandex only; Google re-reads a sitemap when it is resubmitted.
+if [ -z "$DRY_RUN" ]; then
+    echo ""
+    echo "[5/5] Resubmitting sitemap to Google Search Console..."
+    if [ -f "$HOME/.gsc-credentials.json" ]; then
+        GSC_OUT=$(python3 "$(dirname "$0")/scripts/submit-sitemap.py" 2>&1 | tail -1)
+        echo "      ${GSC_OUT}"
+    else
+        echo "      ~/.gsc-credentials.json not found, skipping"
     fi
 fi
 

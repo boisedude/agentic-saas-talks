@@ -247,7 +247,7 @@ the new `/topics/<slug>` or `/guests/<slug>` pages render.
 
 ### Cloudflare (added 2026-06-15)
 
-The site is fronted by Cloudflare (zone `ad15899b816fb724b67ab95c75c3891e`), matching the other content zones: cache-everything rule (4h edge TTL), Smart Tiered Cache, and a User-Agent transform toward origin (Hostinger's shared-server WAF 403/429s crawler UAs — the transform bypasses it so GPTBot et al. reach the origin). Because of the 4h edge cache, **every deploy must purge the zone** — `deploy.sh` does this automatically in step [4/4] using `~/.cloudflare-token`. Manual purge:
+The site is fronted by Cloudflare (zone `ad15899b816fb724b67ab95c75c3891e`), matching the other content zones: cache-everything rule (4h edge TTL), Smart Tiered Cache, and a User-Agent transform toward origin (Hostinger's shared-server WAF 403/429s crawler UAs — the transform bypasses it so GPTBot et al. reach the origin). Because of the 4h edge cache, **every deploy must purge the zone** — `deploy.sh` does this automatically in step [4/5] using `~/.cloudflare-token`. Manual purge:
 
 ```bash
 CF_TOKEN=$(cat ~/.cloudflare-token)
@@ -315,7 +315,7 @@ npm run test:e2e         # Playwright E2E (builds, serves out/ on :3000 + :3001)
 #                          server and produces false failures. See Step 5.
 
 # Deployment
-npm run deploy           # Build + rsync + IndexNow ping + Cloudflare purge
+npm run deploy           # Build + rsync + IndexNow ping + Cloudflare purge + Google sitemap resubmit
 npm run deploy:skip-build # Deploy without rebuilding
 npm run deploy:dry       # Preview (no changes)
 ```
