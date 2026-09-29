@@ -10,7 +10,12 @@ export const SITE_TITLE = "Agentic SaaS Talks Podcast: The Future of SaaS in the
 export const EPISODE_COUNT = episodes.length
 
 export const SITE_DESCRIPTION =
-  `Agentic SaaS Talks is a video podcast with ${EPISODE_COUNT} episodes covering AI applications, agentic architectures, and SaaS platform evolution. Hosted by technology leaders from AWS, Omnistrate, and AGLedger.ai.`
+  `Agentic SaaS Talks is a video podcast with ${EPISODE_COUNT} episodes on AI agents, agentic architectures, and SaaS, hosted by leaders from AWS, Omnistrate, and AGLedger.ai.`
+
+// A page that sets its own openGraph or twitter block replaces the root one, file-based
+// app/opengraph-image.png included, so such pages must name an image themselves.
+export const DEFAULT_OG_IMAGE = { url: `${SITE_URL}/opengraph-image.png`, width: 1200, height: 630, alt: SITE_TITLE }
+export const DEFAULT_TWITTER_IMAGE = `${SITE_URL}/twitter-image.png`
 
 // External links
 export const EXTERNAL_LINKS = {

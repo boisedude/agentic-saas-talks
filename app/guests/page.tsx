@@ -6,14 +6,15 @@ import { Badge } from "@/components/ui/badge"
 import { Breadcrumb } from "@/components/breadcrumb"
 import { getAllGuests } from "@/lib/helpers"
 import { getBreadcrumbSchema, getWebPageSchema } from "@/lib/seo"
-import { SITE_URL } from "@/lib/constants"
+import { SITE_URL, DEFAULT_OG_IMAGE } from "@/lib/constants"
 
 export const metadata: Metadata = {
   title: "Guests",
   description:
-    "Meet the founders, engineers, and industry experts who have appeared as guests on Agentic SaaS Talks to discuss agentic AI, SaaS architecture, and cloud infrastructure.",
+    "The founders, engineers, and industry experts who have joined Agentic SaaS Talks to discuss agentic AI, SaaS architecture, and cloud infrastructure.",
   alternates: { canonical: `${SITE_URL}/guests` },
   openGraph: {
+    images: [DEFAULT_OG_IMAGE],
     title: "Guests | Agentic SaaS Talks",
     description: "Founders and experts featured on Agentic SaaS Talks.",
     url: `${SITE_URL}/guests`,

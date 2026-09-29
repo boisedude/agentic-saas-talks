@@ -8,7 +8,7 @@ import { Breadcrumb } from "@/components/breadcrumb"
 import { EpisodeGrid } from "@/components/episode-grid"
 import { getAllGuests, getGuestBySlug, toMetaDescription } from "@/lib/helpers"
 import { getBreadcrumbSchema, getCollectionPageSchema } from "@/lib/seo"
-import { SITE_URL } from "@/lib/constants"
+import { SITE_URL, DEFAULT_OG_IMAGE } from "@/lib/constants"
 
 interface GuestPageProps {
   params: Promise<{ slug: string }>
@@ -40,6 +40,7 @@ export async function generateMetadata({ params }: GuestPageProps): Promise<Meta
     description,
     alternates: { canonical: `${SITE_URL}/guests/${slug}` },
     openGraph: {
+      images: [DEFAULT_OG_IMAGE],
       title: `${title} | Agentic SaaS Talks`,
       description,
       url: `${SITE_URL}/guests/${slug}`,

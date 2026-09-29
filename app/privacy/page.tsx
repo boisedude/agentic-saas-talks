@@ -1,5 +1,5 @@
 import type { Metadata } from "next"
-import { SITE_URL } from "@/lib/constants"
+import { SITE_URL, DEFAULT_OG_IMAGE } from "@/lib/constants"
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: `${SITE_URL}/privacy`,
   },
-  openGraph: { url: `${SITE_URL}/privacy` },
+  openGraph: { url: `${SITE_URL}/privacy`, images: [DEFAULT_OG_IMAGE] },
 }
 
 export default function PrivacyPage() {

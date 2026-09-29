@@ -9,7 +9,7 @@ import { Badge } from "@/components/ui/badge"
 import { Breadcrumb } from "@/components/breadcrumb"
 import { hosts } from "@/data/hosts"
 import { getAllBlogPosts } from "@/lib/blog"
-import { getHostBySlug, slugify, formatDate } from "@/lib/helpers"
+import { getHostBySlug, slugify, formatDate, toMetaDescription } from "@/lib/helpers"
 import { getBreadcrumbSchema, getPersonSchema } from "@/lib/seo"
 import { SITE_URL } from "@/lib/constants"
 
@@ -26,14 +26,18 @@ export async function generateMetadata({ params }: HostPageProps): Promise<Metad
   const host = getHostBySlug(slug)
   if (!host) return { title: "Host Not Found" }
 
-  const description = `${host.name}${host.role ? `, ${host.role}` : ""}${host.company ? ` at ${host.company}` : ""}, co-hosts Agentic SaaS Talks. ${host.bio}`
+  const description = toMetaDescription(
+    `${host.name}${host.company ? ` of ${host.company}` : ""} co-hosts Agentic SaaS Talks. ${host.bio}`
+  )
+  // The hosts layout sets a plain title, so no site-name template reaches this page.
+  const title = `${host.name}, Co-Host of Agentic SaaS Talks`
 
   return {
-    title: host.name,
+    title,
     description,
     alternates: { canonical: `${SITE_URL}/hosts/${slug}` },
     openGraph: {
-      title: `${host.name} | Agentic SaaS Talks`,
+      title,
       description,
       url: `${SITE_URL}/hosts/${slug}`,
       type: "profile",

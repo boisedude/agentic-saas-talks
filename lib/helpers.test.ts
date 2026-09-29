@@ -25,6 +25,12 @@ describe("toMetaDescription", () => {
     expect(toMetaDescription(text)).toBe("Watch John Lorance on Agentic SaaS Talks: Up a Layer and the CAMPstack.")
   })
 
+  it("does not split on a dot inside a domain name", () => {
+    const text =
+      "Guest host Michael Cooper, founder of AGLedger.ai, returns with the panel. A second sentence follows here and runs long enough to push the whole text past the limit."
+    expect(toMetaDescription(text)).toBe("Guest host Michael Cooper, founder of AGLedger.ai, returns with the panel.")
+  })
+
   it("cuts at a word boundary when one sentence is too long", () => {
     const out = toMetaDescription("word ".repeat(60))
     expect(out.length).toBeLessThanOrEqual(160)

@@ -1,5 +1,5 @@
 import type { Metadata } from "next"
-import { SITE_URL } from "@/lib/constants"
+import { SITE_URL, DEFAULT_OG_IMAGE } from "@/lib/constants"
 
 export const metadata: Metadata = {
   title: "Terms of Use",
@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: `${SITE_URL}/terms`,
   },
-  openGraph: { url: `${SITE_URL}/terms` },
+  openGraph: { url: `${SITE_URL}/terms`, images: [DEFAULT_OG_IMAGE] },
 }
 
 export default function TermsPage() {

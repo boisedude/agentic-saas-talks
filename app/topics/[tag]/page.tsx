@@ -10,7 +10,7 @@ import {
   getBreadcrumbSchema,
   getCollectionPageSchema,
 } from "@/lib/seo"
-import { SITE_URL } from "@/lib/constants"
+import { SITE_URL, DEFAULT_OG_IMAGE, DEFAULT_TWITTER_IMAGE } from "@/lib/constants"
 import { topicCopy } from "@/data/topics"
 
 interface TopicPageProps {
@@ -37,11 +37,13 @@ export async function generateMetadata({ params }: TopicPageProps): Promise<Meta
     description,
     alternates: { canonical: `${SITE_URL}/topics/${slug}` },
     openGraph: {
+      images: [DEFAULT_OG_IMAGE],
       title: `${tag} | Agentic SaaS Talks`,
       description,
       url: `${SITE_URL}/topics/${slug}`,
     },
     twitter: {
+      images: [DEFAULT_TWITTER_IMAGE],
       title: `${tag} | Agentic SaaS Talks`,
       description,
     },

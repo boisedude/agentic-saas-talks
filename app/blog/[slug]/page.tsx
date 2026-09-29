@@ -2,7 +2,7 @@ import { getAllBlogSlugs, getBlogPostBySlug, getRelatedBlogPosts } from "@/lib/b
 import { notFound } from "next/navigation"
 import { BlogPostClient } from "./blog-post-client"
 import type { Metadata } from "next"
-import { getAuthorInfo } from "@/lib/helpers"
+import { getAuthorInfo, toMetaDescription } from "@/lib/helpers"
 import { SITE_URL } from "@/lib/constants"
 
 interface BlogPostPageProps {
@@ -42,14 +42,14 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
 
   return {
     title: post.title,
-    description: post.excerpt,
+    description: toMetaDescription(post.excerpt),
     alternates: {
       canonical: `${SITE_URL}/blog/${slug}`,
     },
     authors: author ? [{ name: author.name, url: author.linkedIn }] : undefined,
     openGraph: {
       title: post.title,
-      description: post.excerpt,
+      description: toMetaDescription(post.excerpt),
       url: `${SITE_URL}/blog/${slug}`,
       type: "article",
       publishedTime: post.date,
@@ -60,7 +60,7 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
     twitter: {
       card: "summary_large_image",
       title: post.title,
-      description: post.excerpt,
+      description: toMetaDescription(post.excerpt),
       images: [ogImage.url],
     },
   }

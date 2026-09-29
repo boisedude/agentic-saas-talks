@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge"
 import { Breadcrumb } from "@/components/breadcrumb"
 import { getAllTags } from "@/lib/helpers"
 import { getBreadcrumbSchema, getWebPageSchema } from "@/lib/seo"
-import { SITE_URL } from "@/lib/constants"
+import { SITE_URL, DEFAULT_OG_IMAGE } from "@/lib/constants"
 
 export const metadata: Metadata = {
   title: "Topics",
@@ -14,6 +14,7 @@ export const metadata: Metadata = {
     "Browse Agentic SaaS Talks episodes by topic: agentic AI, SaaS architecture, control planes, Model Context Protocol, cloud infrastructure, and more.",
   alternates: { canonical: `${SITE_URL}/topics` },
   openGraph: {
+    images: [DEFAULT_OG_IMAGE],
     title: "Topics | Agentic SaaS Talks",
     description: "Browse episodes by topic across the Agentic SaaS Talks catalog.",
     url: `${SITE_URL}/topics`,

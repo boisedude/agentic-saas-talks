@@ -195,20 +195,19 @@ export function getTimestampUrl(baseUrl: string, timestamp: string): string {
 export function toMetaDescription(text: string, max = 160): string {
   const clean = text.replace(/\s+/g, " ").trim()
   if (clean.length <= max) return clean
-  // Rejoin splits after abbreviations ("Sr. Manager") so they stay one sentence.
-  const sentences = (clean.match(/[^.!?]+[.!?]+(\s|$)/g) ?? []).reduce<string[]>(
-    (acc, part) => {
-      const prev = acc[acc.length - 1]
-      if (prev && /\b(Sr|Jr|Dr|Mr|Mrs|Ms|Inc|Co|vs|St)\.\s*$/.test(prev)) acc[acc.length - 1] = prev + part
-      else acc.push(part)
-      return acc
-    },
-    []
-  )
+  // Split only where punctuation meets whitespace, so "AGLedger.ai" stays one word, and
+  // rejoin splits after abbreviations ("Sr. Manager") so they stay one sentence.
+  const sentences = clean.split(/(?<=[.!?])\s+/).reduce<string[]>((acc, part) => {
+    const prev = acc[acc.length - 1]
+    if (prev && /\b(Sr|Jr|Dr|Mr|Mrs|Ms|Inc|Co|vs|St)\.$/.test(prev)) acc[acc.length - 1] = `${prev} ${part}`
+    else acc.push(part)
+    return acc
+  }, [])
   let out = ""
   for (const sentence of sentences) {
-    if ((out + sentence).trim().length > max) break
-    out += sentence
+    const next = out ? `${out} ${sentence}` : sentence
+    if (next.length > max) break
+    out = next
   }
   if (out.trim().length >= 70) return out.trim()
   const cut = clean.slice(0, max - 3)
