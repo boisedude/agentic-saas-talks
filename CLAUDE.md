@@ -20,6 +20,8 @@ This does **not** capture guest LinkedIn URLs — find/verify those manually (a 
 
 **Fallback:** when the RSS feed fails (it returned 404 through Sep 2026), the script reads the playlist page instead, which lists every video. Seven short 2025 clips in the playlist are deliberately not on the site; they are in `SKIPPED_VIDEO_IDS` in the script.
 
+**Transcripts (for chapters when the YouTube description has none):** the caption URL inside the watch page returns an empty body without a browser token, but `yt-dlp` works: `python3 -m yt_dlp --write-auto-sub --sub-lang en --sub-format json3 --skip-download -o "%(id)s" -- <videoId>` (install with `pip install --user --break-system-packages yt-dlp`). Bucket the json3 events into 30-second lines and have a lesser model write 10 to 16 chapters plus a 550 to 850 character answer-first summary; check speaker names against the YouTube description, since captions misspell them (John Lorance became "John Lawrence"). Done this way for episodes 1 to 4, 19, 20, 24 and 39 on 2026-10-14; episode 30 has no auto-captions.
+
 **Caveat:** the RSS feed only returns the latest ~15 videos. That's plenty for routine "what's new" checks, but to backfill older videos pass `--all` or fall back to the Playwright scripts below.
 
 **Legacy (Playwright — flaky):** `scripts/scrape-playlist.ts`, `scripts/scrape-videos.ts`, `scripts/scrape-full-episodes.ts`. These depend on a Chromium download (`npx playwright install chromium`) that stalls in some environments; prefer the RSS script above. If you do use them and a new video isn't in the playlist yet, add its URL directly to `scripts/scrape-videos.ts`.
