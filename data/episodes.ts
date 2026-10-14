@@ -32,7 +32,7 @@ export function getEpisodeById(id: number): Episode | undefined {
 export const episodes: Episode[] = [
   {
     id: 40,
-    title: "EP 28: Enterprise Adoption of AI - Identity, Guardrails, and Accountability",
+    title: "Enterprise Adoption of AI: Identity, Guardrails, and Accountability",
     description: "Guest host Michael Cooper, founder of AGLedger.ai, returns with Ermin Dzinic and Kamal Gupta to look at what changes when AI agents start taking actions across enterprise systems. Bounded autonomy still rests on familiar principles: identity, least-privilege access, and audit trails that cannot be tampered with. The panel covers why enterprises may favor small, specialized agents, how to record an agent's intent before it acts, how to detect drift, and how structured handoffs between agents keep multi-agent work accountable and cut token costs.",
     date: "2026-09-21",
     videoUrl: "https://www.youtube.com/watch?v=03WQp_eTjuA",
@@ -60,7 +60,7 @@ export const episodes: Episode[] = [
   },
   {
     id: 39,
-    title: "EP 27: Enterprise Adoption of AI: When AI Starts Writing to System of Record",
+    title: "Enterprise Adoption of AI: When AI Starts Writing to the System of Record",
     description: "Guest host Michael Cooper, founder of AGLedger.ai, walks Bill Tarr and Kamal Gupta through the enterprise AI adoption curve: from chat, drafting, search, and coding copilots to workflow automation, supervised action, bounded autonomy, and finally probabilistic decisioning, where AI becomes part of the application logic itself. The turning point is when AI starts writing to systems of record. The panel discusses how enterprises can make that shift while keeping human oversight, control, and accountability over what agents do, and where AGLedger fits in recording it.",
     date: "2026-09-11",
     videoUrl: "https://www.youtube.com/watch?v=jfpCJWKa4pw",

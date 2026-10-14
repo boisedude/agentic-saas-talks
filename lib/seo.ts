@@ -1,7 +1,7 @@
 import { Episode } from "@/data/episodes"
 import type { BlogPost } from "@/lib/blog"
 import type { Host } from "@/data/hosts"
-import { getYouTubeVideoId, slugify, timestampToSeconds } from "@/lib/helpers"
+import { formatDate, getYouTubeVideoId, slugify, timestampToSeconds } from "@/lib/helpers"
 import { hosts } from "@/data/hosts"
 import { SITE_URL, SITE_NAME, SITE_DESCRIPTION } from "@/lib/constants"
 
@@ -379,32 +379,55 @@ export const getCollectionPageSchema = (props: {
 
 // Per-episode FAQPage — synthesized from episode data into answer-first Q&A,
 // the format AI answer engines cite most readily (GEO).
-export const getEpisodeFAQSchema = (episode: Episode) => {
+export interface EpisodeFAQ {
+  question: string
+  answer: string
+}
+
+/**
+ * Answer-first Q&A for an episode. Rendered on the page AND emitted as FAQPage
+ * JSON-LD from the same list, so the schema never claims text the page lacks.
+ * Questions name the episode by title: the numeric id in the URL is not the
+ * show's episode number, so "Episode 40" means nothing to a reader.
+ */
+export const getEpisodeFAQs = (episode: Episode): EpisodeFAQ[] => {
   const guestNames = episode.guests?.map((g) => g.name) ?? []
-  const faqs: { question: string; answer: string }[] = [
+  const faqs: EpisodeFAQ[] = [
     {
-      question: `What is Episode ${episode.id} of Agentic SaaS Talks about?`,
+      question: `What is "${episode.title}" about?`,
       answer: episode.description,
     },
     {
-      question: `What topics does Episode ${episode.id} cover?`,
-      answer: `Episode ${episode.id} covers ${episode.tags.join(", ")}.`,
+      question: "What topics does this episode cover?",
+      answer: `This episode is filed under ${episode.tags.join(", ")} on Agentic SaaS Talks.`,
     },
     {
-      question: `How long is Episode ${episode.id} of Agentic SaaS Talks?`,
-      answer: `Episode ${episode.id}, "${episode.title}", runs ${episode.duration} and was published on ${episode.date}.`,
+      question: "How long is this episode, and when was it published?",
+      answer: `"${episode.title}" runs ${episode.duration} and was published on ${formatDate(episode.date)}.`,
     },
   ]
   if (guestNames.length > 0) {
     faqs.push({
-      question: `Who is featured in Episode ${episode.id}?`,
-      answer: `Episode ${episode.id} features ${guestNames.join(", ")}${
+      question: "Who is featured in this episode?",
+      answer: `This episode features ${guestNames.join(", ")}${
         guestNames.length === 1 ? " as a guest" : " as guests"
       }, in conversation with the Agentic SaaS Talks hosts.`,
     })
   }
-  return getFAQSchema(faqs)
+  const moments = (episode.timestamps ?? [])
+    .map((t) => t.title.trim())
+    .filter((t) => !/^(intro|introduction|welcome|closing|outro|wrap[- ]?up|key takeaways)\b/i.test(t))
+    .slice(0, 8)
+  if (moments.length >= 3) {
+    faqs.push({
+      question: "What are the key moments in this episode?",
+      answer: `Key moments include: ${moments.join("; ")}. The timestamps on this page jump to each one on YouTube.`,
+    })
+  }
+  return faqs
 }
+
+export const getEpisodeFAQSchema = (episode: Episode) => getFAQSchema(getEpisodeFAQs(episode))
 
 // PodcastEpisode Schema
 export const getPodcastEpisodeSchema = (episode: Episode) => ({

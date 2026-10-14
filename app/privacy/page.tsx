@@ -3,7 +3,7 @@ import { SITE_URL, DEFAULT_OG_IMAGE } from "@/lib/constants"
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
-  description: "Privacy policy for Agentic SaaS Talks website.",
+  description: "How the Agentic SaaS Talks website handles analytics, cookies, and the embedded YouTube player, and how to contact us about your data.",
   alternates: {
     canonical: `${SITE_URL}/privacy`,
   },

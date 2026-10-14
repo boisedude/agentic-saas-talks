@@ -13,6 +13,7 @@ import {
   Link2,
   Check,
   ArrowLeft,
+  MessageCircleQuestion,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -29,6 +30,7 @@ import {
   getWebPageSchema,
   getPodcastEpisodeSchema,
   getEpisodeFAQSchema,
+  getEpisodeFAQs,
 } from "@/lib/seo"
 import { SITE_URL } from "@/lib/seo"
 import {
@@ -112,6 +114,7 @@ export function EpisodeDetailClient({ episode }: EpisodeDetailClientProps) {
   const videoSchema = getVideoSchema(episode)
   const podcastEpisodeSchema = getPodcastEpisodeSchema(episode)
   const faqSchema = getEpisodeFAQSchema(episode)
+  const faqs = getEpisodeFAQs(episode)
   const relatedEpisodes = getRelatedEpisodes(episode)
 
   const webPageSchema = getWebPageSchema({
@@ -347,6 +350,24 @@ export function EpisodeDetailClient({ episode }: EpisodeDetailClientProps) {
                   </div>
                 </Card>
               )}
+
+              {/* About this episode: the same Q&A the FAQPage schema carries */}
+              <Card className="border-2 border-slate-500/20 bg-background/50 p-6">
+                <h2 className="mb-4 flex items-center gap-2 text-xl font-bold">
+                  <MessageCircleQuestion className="h-5 w-5" />
+                  About This Episode
+                </h2>
+                <dl className="space-y-4">
+                  {faqs.map((faq) => (
+                    <div key={faq.question}>
+                      <dt className="font-semibold">{faq.question}</dt>
+                      <dd className="mt-1 text-sm leading-relaxed text-muted-foreground">
+                        {faq.answer}
+                      </dd>
+                    </div>
+                  ))}
+                </dl>
+              </Card>
 
               {/* Related Episodes */}
               {relatedEpisodes.length > 0 && (

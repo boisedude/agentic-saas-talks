@@ -5,7 +5,7 @@ import { Tag } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Breadcrumb } from "@/components/breadcrumb"
 import { EpisodeGrid } from "@/components/episode-grid"
-import { getAllTags, getTagBySlug, getEpisodesByTag, toMetaDescription } from "@/lib/helpers"
+import { getAllTags, getTagBySlug, getEpisodesByTag, pageTitle, toMetaDescription } from "@/lib/helpers"
 import {
   getBreadcrumbSchema,
   getCollectionPageSchema,
@@ -33,7 +33,7 @@ export async function generateMetadata({ params }: TopicPageProps): Promise<Meta
   )
 
   return {
-    title: topicCopy[tag]?.title ?? `${tag} Episodes`,
+    title: pageTitle(topicCopy[tag]?.title ?? `${tag} Episodes`),
     description,
     alternates: { canonical: `${SITE_URL}/topics/${slug}` },
     openGraph: {

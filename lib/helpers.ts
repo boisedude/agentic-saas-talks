@@ -213,3 +213,12 @@ export function toMetaDescription(text: string, max = 160): string {
   const cut = clean.slice(0, max - 3)
   return cut.slice(0, cut.lastIndexOf(" ")).replace(/[,;:]$/, "") + "..."
 }
+
+/**
+ * Page <title> for a long name. The root layout appends " | Agentic SaaS Talks"
+ * (21 chars); when the name plus suffix would pass 60 characters Google cuts the
+ * tail anyway, so emit the name alone instead of a truncated brand.
+ */
+export function pageTitle(name: string): string | { absolute: string } {
+  return name.length + 21 > 60 ? { absolute: name } : name
+}

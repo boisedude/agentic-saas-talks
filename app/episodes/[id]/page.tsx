@@ -2,7 +2,7 @@ import { episodes, getEpisodeById } from "@/data/episodes"
 import { notFound } from "next/navigation"
 import { EpisodeDetailClient } from "./episode-detail-client"
 import type { Metadata } from "next"
-import { getYouTubeVideoId, toMetaDescription } from "@/lib/helpers"
+import { getYouTubeVideoId, pageTitle, toMetaDescription } from "@/lib/helpers"
 import { SITE_URL } from "@/lib/constants"
 
 interface EpisodePageProps {
@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: EpisodePageProps): Promise<Me
   const metaDescription = toMetaDescription(episode.description)
 
   return {
-    title: episode.title,
+    title: pageTitle(episode.title),
     description: metaDescription,
     alternates: {
       canonical: `${SITE_URL}/episodes/${episode.id}`,

@@ -3,7 +3,7 @@ import { SITE_URL, DEFAULT_OG_IMAGE } from "@/lib/constants"
 
 export const metadata: Metadata = {
   title: "Terms of Use",
-  description: "Terms of use for the Agentic SaaS Talks website.",
+  description: "Terms of use for the Agentic SaaS Talks website: how you may use the episode summaries, blog posts, and other content published here.",
   alternates: {
     canonical: `${SITE_URL}/terms`,
   },

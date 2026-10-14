@@ -27,7 +27,11 @@ const PLAYLIST_ID =
 const SKIPPED_VIDEO_IDS = new Set([
   'pL9U6m7JuV8', 'C8kF-5SD_6E', 'LE6UWptt5bo', 'mlzpqCwzyRc',
   'so23GV4hl70', 'uh_T1FnpPhA', 'X-6sXEDsBW4',
+  'ZzLCFLh49RY', // 2026-10-14, 3-min clip of EP 28 (id 40)
 ])
+
+/** Under this length a playlist video is a clip of a full episode, not an episode. */
+const CLIP_MAX_SECONDS = 10 * 60
 
 const UA =
   'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36'
@@ -42,6 +46,7 @@ interface VideoDetails {
   videoId: string
   title: string
   duration: string // "X min"
+  lengthSeconds: number
   date: string // YYYY-MM-DD (channel-local)
   description: string
   timestamps: { time: string; title: string }[]
@@ -151,7 +156,7 @@ async function fetchVideoDetails(videoId: string): Promise<VideoDetails> {
   const vd = data.videoDetails ?? {}
   const micro = data.microformat?.playerMicroformatRenderer ?? {}
 
-  const secs = parseInt(vd.lengthSeconds ?? '0', 10)
+  const secs = parseInt(vd.lengthSeconds ?? micro.lengthSeconds ?? '0', 10)
   const publishRaw: string = micro.publishDate ?? micro.uploadDate ?? ''
   // publishDate looks like 2026-05-23T11:00:26-07:00 — take the local date part
   const date = publishRaw.slice(0, 10)
@@ -160,6 +165,7 @@ async function fetchVideoDetails(videoId: string): Promise<VideoDetails> {
     videoId,
     title: vd.title ?? '',
     duration: `${Math.round(secs / 60)} min`,
+    lengthSeconds: secs,
     date,
     description: vd.shortDescription ?? '',
     timestamps: parseTimestamps(vd.shortDescription ?? ''),
@@ -168,6 +174,12 @@ async function fetchVideoDetails(videoId: string): Promise<VideoDetails> {
 
 /** Emit a ready-to-paste Episode skeleton for manual review. */
 function printEpisodeSkeleton(d: VideoDetails, id: number) {
+  if (d.lengthSeconds > 0 && d.lengthSeconds < CLIP_MAX_SECONDS) {
+    console.log(
+      `  // NOTE: ${d.videoId} is ${Math.round(d.lengthSeconds / 60)} min long: a clip, not an episode.\n` +
+        `  // Add it to SKIPPED_VIDEO_IDS instead of the site (its description usually links the full episode).`
+    )
+  }
   const ts = d.timestamps
     .map((t) => `      { time: "${t.time}", title: ${JSON.stringify(t.title)} },`)
     .join('\n')

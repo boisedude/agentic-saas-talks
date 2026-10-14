@@ -1,4 +1,5 @@
 RewriteEngine On
+AddDefaultCharset UTF-8
 
 # Missing pages get the exported 404 page WITH a 404 status. (A RewriteRule to
 # /404.html answers 200, which Google treats as a soft 404.)
