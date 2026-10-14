@@ -199,6 +199,7 @@ Common tags used in this project:
 | `scripts/validate-episodes.ts` | Validate episode data integrity |
 | `deploy.sh` | SSH/rsync deployment script (--dry, --skip-build flags) |
 | `scripts/submit-sitemap.py` | Resubmit the sitemap to Google Search Console (deploy step 6) |
+| `scripts/gsc-coverage.py` | Per-URL Google index status for every sitemap URL (slow: 10 to 30 min) |
 | **Build Output** | |
 | `out/` | Static export files for deployment |
 | **Tests** | |
